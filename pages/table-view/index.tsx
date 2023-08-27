@@ -28,7 +28,7 @@ const TableView = () => {
         return new fabric.Canvas('canvas', {
             height: el?.height,
             width: el?.width,
-            backgroundColor: '#eee',
+            backgroundColor: '#F3F4F6',
         })
     }
 
