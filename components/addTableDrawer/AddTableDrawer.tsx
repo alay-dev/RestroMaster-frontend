@@ -5,7 +5,7 @@ import { fabric } from 'fabric';
 import { Canvas } from 'fabric/fabric-impl';
 
 
-const AddTableDrawer = ({ addTable, setAddDrawer }) => {
+const AddTableDrawer = ({ addTable, setAddDrawer }: AddTableDrawerProps) => {
     const [canvas, setCanvas] = useState<Canvas | null>(null);
     const [topSeat, setTopSeat] = useState([3]);
     const [bottomSeat, setBottomSeat] = useState([3]);
@@ -86,8 +86,8 @@ const AddTableDrawer = ({ addTable, setAddDrawer }) => {
             // cornerSize: 1,
         })
 
-        const x = canvas?.getWidth() / 2 - tableWithSeats.getScaledWidth() / 2;
-        const y = canvas?.getHeight() / 2 - tableWithSeats.getScaledHeight() / 2
+        const x = canvas?.getWidth()! / 2 - tableWithSeats.getScaledWidth() / 2;
+        const y = canvas?.getHeight()! / 2 - tableWithSeats.getScaledHeight() / 2
 
         tableWithSeats.set({ left: x, top: y })
 
@@ -115,7 +115,7 @@ const AddTableDrawer = ({ addTable, setAddDrawer }) => {
     }, [canvas, topSeat, leftSeat, rightSeat, bottomSeat])
 
     const handleAddTable = () => {
-        addTable(100, 300, 300, 100, topSeat, rightSeat, bottomSeat, leftSeat);
+        addTable(100, 300, 300, 100, topSeat[0], rightSeat[0], bottomSeat[0], leftSeat[0]);
         setAddDrawer(false)
     }
 
@@ -170,3 +170,8 @@ const AddTableDrawer = ({ addTable, setAddDrawer }) => {
 }
 
 export default AddTableDrawer
+
+type AddTableDrawerProps = {
+    addTable: (tableLeft: number, tableTop: number, tableWidth: number, tableHeight: number, seatTop: number, seatRight: number, seatBottom: number, seatLeft: number) => void;
+    setAddDrawer: (data: boolean) => void
+}
