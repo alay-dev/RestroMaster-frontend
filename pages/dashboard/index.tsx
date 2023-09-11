@@ -7,7 +7,7 @@ import { Sale, MoneyBag, GraphUp, ArrowRight } from "solar-icon-set"
 const Dashboard = () => {
     return (
         <DashboardLayout>
-            <div className='min-h-screen p-6 bg-gray-100'>
+            <div className='min-h-screen p-6 pb-0 bg-gray-100'>
                 <div className='flex gap-12 overflow-hidden mb-14 h-max' >
                     <div className='w-2/5' >
                         <div className='flex items-center justify-between mb-4' >
@@ -53,14 +53,14 @@ const Dashboard = () => {
 
                             </div>
                         </div>
-                        <div className='relative items-start justify-start w-1/2' >
+                        <div className='relative flex items-center justify-start w-1/2' >
                             <img className='w-[90%]' src="/images/dashboard/tryPremium.svg" />
                             <div className='absolute bottom-0 left-0 flex items-center justify-between w-full gap-3 p-5 bg-white bg-opacity-95 rounded-xl' >
                                 <div>
-                                    <h2 className='text-xl font-medium '>Try premium</h2>
-                                    <p className='text-sm text-gray-400'>You will get more analysis and features.</p>
+                                    <h2 className='mb-1 text-xl font-medium'>Try premium</h2>
+                                    <p className='text-xs text-gray-400'>You will get more analysis and features.</p>
                                 </div>
-                                <div className='flex items-center justify-center bg-orange-300 rounded-full w-14 h-14' >
+                                <div className='flex items-center justify-center bg-orange-300 rounded-full cursor-pointer w-14 h-14' >
                                     <ArrowRight size={30} />
                                 </div>
 

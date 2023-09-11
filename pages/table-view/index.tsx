@@ -199,7 +199,7 @@ const TableView = () => {
                         </SheetHeader>
                     </SheetContent>
                 </Sheet>
-            </div >
+            </div>
         </DashboardLayout>
     )
 }
