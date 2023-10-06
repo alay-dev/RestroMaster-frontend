@@ -28,10 +28,15 @@ export default function App({ Component, pageProps }: AppProps) {
       }, 2000);
     } else {
       loading = setTimeout(() => {
-        router.push("/dashboard").then(() => {
+        if (router.pathname === "/") {
+          router.push("/dashboard").then(() => {
+            store.dispatch(authenticateUser());
+            store.dispatch(setAuthToken(authToken));
+          });
+        } else {
           store.dispatch(authenticateUser());
           store.dispatch(setAuthToken(authToken));
-        });
+        }
       }, 2000);
     }
 

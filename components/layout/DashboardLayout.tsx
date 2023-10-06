@@ -39,7 +39,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
           <div
             className={cn(
               "flex items-center justify-center w-full h-12",
-              router.pathname === "/dashboard" &&
+              router.pathname.includes("/dashboard") &&
                 "border-l-4 border-white bg-blue-400 h-16 [&>*]:scale-125"
             )}
           >
@@ -50,7 +50,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
           <div
             className={cn(
               "flex items-center justify-center w-full h-12",
-              router.pathname === "/table-view" &&
+              router.pathname.includes("/table-view") &&
                 "border-l-4 border-white bg-blue-400 h-16 [&>*]:scale-125"
             )}
           >
@@ -61,7 +61,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
           <div
             className={cn(
               "flex items-center justify-center w-full h-12 transition duration-150",
-              router.pathname === "/dishes" &&
+              router.pathname.includes("/dishes") &&
                 "border-l-4 border-white bg-blue-400 h-16 [&>*]:scale-125"
             )}
           >
@@ -72,7 +72,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
           <div
             className={cn(
               "flex items-center justify-center w-full h-12",
-              router.pathname === "/settings" &&
+              router.pathname.includes("/settings") &&
                 "border-l-4 border-white bg-blue-400 h-16 [&>*]:scale-125"
             )}
           >
@@ -81,7 +81,12 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
             </Link>
           </div>
         </ul>
-        <Logout onClick={handleLogout} iconStyle="BoldDuotone" size={30} />
+        <Logout
+          className="cursor-pointer"
+          onClick={handleLogout}
+          iconStyle="BoldDuotone"
+          size={30}
+        />
       </nav>
       <div className="flex-1 bg-gray-100">
         <header className="flex items-center justify-between w-full h-16 px-4 border-b">
@@ -98,7 +103,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                         <p>Adam </p> */}
           </div>
         </header>
-        {children}
+        <div className="min-h-screen p-6 pb-0 bg-gray-100">{children}</div>
       </div>
     </div>
   );

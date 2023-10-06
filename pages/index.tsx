@@ -119,10 +119,7 @@ export default function Home() {
           <p className="mb-4 text-right text-blue-600 hover:underline hover:cursor-pointer">
             Forgot password?
           </p>
-          <Button
-            type="submit"
-            className="w-full transition duration-100 bg-blue-500 hover:bg-blue-600"
-          >
+          <Button type="submit" className="w-full ">
             {!loginLoading ? <p>Login</p> : <Spinner className="w-5" />}
           </Button>
         </form>
@@ -170,7 +167,7 @@ export default function Home() {
 
     const handleSignup: SubmitHandler<SignupInputs> = async (data) => {
       try {
-        const res = await signup({
+        await signup({
           email: data.email,
           password: data.password,
           name: data.name,
@@ -270,10 +267,7 @@ export default function Home() {
             <FormError content="Confirm password is required" />
           ) : null}
 
-          <Button
-            type="submit"
-            className="w-full my-6 transition duration-100 bg-blue-500 hover:bg-blue-600"
-          >
+          <Button type="submit" className="w-full my-6 ">
             {!signupLoading ? <p>Signup</p> : <Spinner className="w-5" />}
           </Button>
         </form>

@@ -1,207 +1,1224 @@
-
-import { useState, useEffect, useRef } from 'react'
-import { fabric } from 'fabric';
-import { Canvas } from 'fabric/fabric-impl';
-import { Button } from '@/components/ui/button';
-import { AddSquare } from "solar-icon-set"
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { AddSquare } from "solar-icon-set";
 import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/sheet"
-import AddTableDrawer from '@/components/addTableDrawer/AddTableDrawer';
-import DashboardLayout from '@/components/layout/DashboardLayout';
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import AddTableDrawer from "@/components/addTableDrawer/AddTableDrawer";
+import DashboardLayout from "@/components/layout/DashboardLayout";
+import InitialLoading from "@/components/initialLoading/InitialLoading";
+import { useAppSelector } from "@/config/store";
+import useInitializeCanvas from "@/hooks/useInitializeCanvas";
+import createTable from "@/lib/canvas";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useFetchProfileQuery } from "@/api/users";
+import { skipToken } from "@reduxjs/toolkit/query";
+import { useFetchFloorsQuery } from "@/api/floor";
 
+const InitialTable = {
+  version: "5.3.0",
+  objects: [
+    {
+      type: "group",
+      version: "5.3.0",
+      originX: "left",
+      originY: "top",
+      left: 570,
+      top: 55,
+      width: 371,
+      height: 171,
+      fill: "rgb(0,0,0)",
+      stroke: null,
+      strokeWidth: 0,
+      strokeDashArray: null,
+      strokeLineCap: "butt",
+      strokeDashOffset: 0,
+      strokeLineJoin: "miter",
+      strokeUniform: false,
+      strokeMiterLimit: 4,
+      scaleX: 1,
+      scaleY: 1,
+      angle: 0,
+      flipX: false,
+      flipY: false,
+      opacity: 1,
+      shadow: null,
+      visible: true,
+      backgroundColor: "",
+      fillRule: "nonzero",
+      paintFirst: "fill",
+      globalCompositeOperation: "source-over",
+      skewX: 0,
+      skewY: 0,
+      objects: [
+        {
+          type: "group",
+          version: "5.3.0",
+          originX: "left",
+          originY: "top",
+          left: -140.5,
+          top: -85.5,
+          width: 281,
+          height: 31,
+          fill: "rgb(0,0,0)",
+          stroke: null,
+          strokeWidth: 0,
+          strokeDashArray: null,
+          strokeLineCap: "butt",
+          strokeDashOffset: 0,
+          strokeLineJoin: "miter",
+          strokeUniform: false,
+          strokeMiterLimit: 4,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0,
+          flipX: false,
+          flipY: false,
+          opacity: 1,
+          shadow: null,
+          visible: true,
+          backgroundColor: "",
+          fillRule: "nonzero",
+          paintFirst: "fill",
+          globalCompositeOperation: "source-over",
+          skewX: 0,
+          skewY: 0,
+          objects: [
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -140.5,
+              top: -15.5,
+              width: 90,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -45.5,
+              top: -15.5,
+              width: 90,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: 49.5,
+              top: -15.5,
+              width: 90,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+          ],
+        },
+        {
+          type: "rect",
+          version: "5.3.0",
+          originX: "left",
+          originY: "top",
+          left: -150.5,
+          top: -50.5,
+          width: 300,
+          height: 100,
+          fill: "#fff",
+          stroke: null,
+          strokeWidth: 1,
+          strokeDashArray: null,
+          strokeLineCap: "butt",
+          strokeDashOffset: 0,
+          strokeLineJoin: "miter",
+          strokeUniform: false,
+          strokeMiterLimit: 4,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0,
+          flipX: false,
+          flipY: false,
+          opacity: 1,
+          shadow: null,
+          visible: true,
+          backgroundColor: "",
+          fillRule: "nonzero",
+          paintFirst: "fill",
+          globalCompositeOperation: "source-over",
+          skewX: 0,
+          skewY: 0,
+          rx: 20,
+          ry: 20,
+        },
+        {
+          type: "group",
+          version: "5.3.0",
+          originX: "left",
+          originY: "top",
+          left: -140.5,
+          top: 54.5,
+          width: 281,
+          height: 31,
+          fill: "rgb(0,0,0)",
+          stroke: null,
+          strokeWidth: 0,
+          strokeDashArray: null,
+          strokeLineCap: "butt",
+          strokeDashOffset: 0,
+          strokeLineJoin: "miter",
+          strokeUniform: false,
+          strokeMiterLimit: 4,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0,
+          flipX: false,
+          flipY: false,
+          opacity: 1,
+          shadow: null,
+          visible: true,
+          backgroundColor: "",
+          fillRule: "nonzero",
+          paintFirst: "fill",
+          globalCompositeOperation: "source-over",
+          skewX: 0,
+          skewY: 0,
+          objects: [
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -140.5,
+              top: -15.5,
+              width: 90,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -45.5,
+              top: -15.5,
+              width: 90,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: 49.5,
+              top: -15.5,
+              width: 90,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+          ],
+        },
+        {
+          type: "group",
+          version: "5.3.0",
+          originX: "left",
+          originY: "top",
+          left: -185.5,
+          top: -40.5,
+          width: 31,
+          height: 81,
+          fill: "rgb(0,0,0)",
+          stroke: null,
+          strokeWidth: 0,
+          strokeDashArray: null,
+          strokeLineCap: "butt",
+          strokeDashOffset: 0,
+          strokeLineJoin: "miter",
+          strokeUniform: false,
+          strokeMiterLimit: 4,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0,
+          flipX: false,
+          flipY: false,
+          opacity: 1,
+          shadow: null,
+          visible: true,
+          backgroundColor: "",
+          fillRule: "nonzero",
+          paintFirst: "fill",
+          globalCompositeOperation: "source-over",
+          skewX: 0,
+          skewY: 0,
+          objects: [
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -15.5,
+              top: -40.5,
+              width: 30,
+              height: 80,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+          ],
+        },
+        {
+          type: "group",
+          version: "5.3.0",
+          originX: "left",
+          originY: "top",
+          left: 154.5,
+          top: -40.5,
+          width: 31,
+          height: 81,
+          fill: "rgb(0,0,0)",
+          stroke: null,
+          strokeWidth: 0,
+          strokeDashArray: null,
+          strokeLineCap: "butt",
+          strokeDashOffset: 0,
+          strokeLineJoin: "miter",
+          strokeUniform: false,
+          strokeMiterLimit: 4,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0,
+          flipX: false,
+          flipY: false,
+          opacity: 1,
+          shadow: null,
+          visible: true,
+          backgroundColor: "",
+          fillRule: "nonzero",
+          paintFirst: "fill",
+          globalCompositeOperation: "source-over",
+          skewX: 0,
+          skewY: 0,
+          objects: [
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -15.5,
+              top: -40.5,
+              width: 30,
+              height: 80,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      type: "group",
+      version: "5.3.0",
+      originX: "left",
+      originY: "top",
+      left: 100,
+      top: 300,
+      width: 371,
+      height: 171,
+      fill: "rgb(0,0,0)",
+      stroke: null,
+      strokeWidth: 0,
+      strokeDashArray: null,
+      strokeLineCap: "butt",
+      strokeDashOffset: 0,
+      strokeLineJoin: "miter",
+      strokeUniform: false,
+      strokeMiterLimit: 4,
+      scaleX: 1,
+      scaleY: 1,
+      angle: 0,
+      flipX: false,
+      flipY: false,
+      opacity: 1,
+      shadow: null,
+      visible: true,
+      backgroundColor: "",
+      fillRule: "nonzero",
+      paintFirst: "fill",
+      globalCompositeOperation: "source-over",
+      skewX: 0,
+      skewY: 0,
+      objects: [
+        {
+          type: "group",
+          version: "5.3.0",
+          originX: "left",
+          originY: "top",
+          left: -140.5,
+          top: -85.5,
+          width: 281,
+          height: 31,
+          fill: "rgb(0,0,0)",
+          stroke: null,
+          strokeWidth: 0,
+          strokeDashArray: null,
+          strokeLineCap: "butt",
+          strokeDashOffset: 0,
+          strokeLineJoin: "miter",
+          strokeUniform: false,
+          strokeMiterLimit: 4,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0,
+          flipX: false,
+          flipY: false,
+          opacity: 1,
+          shadow: null,
+          visible: true,
+          backgroundColor: "",
+          fillRule: "nonzero",
+          paintFirst: "fill",
+          globalCompositeOperation: "source-over",
+          skewX: 0,
+          skewY: 0,
+          objects: [
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -140.5,
+              top: -15.5,
+              width: 52,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -83.5,
+              top: -15.5,
+              width: 52,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -26.5,
+              top: -15.5,
+              width: 52,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: 30.5,
+              top: -15.5,
+              width: 52,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: 87.5,
+              top: -15.5,
+              width: 52,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+          ],
+        },
+        {
+          type: "rect",
+          version: "5.3.0",
+          originX: "left",
+          originY: "top",
+          left: -150.5,
+          top: -50.5,
+          width: 300,
+          height: 100,
+          fill: "#fff",
+          stroke: null,
+          strokeWidth: 1,
+          strokeDashArray: null,
+          strokeLineCap: "butt",
+          strokeDashOffset: 0,
+          strokeLineJoin: "miter",
+          strokeUniform: false,
+          strokeMiterLimit: 4,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0,
+          flipX: false,
+          flipY: false,
+          opacity: 1,
+          shadow: null,
+          visible: true,
+          backgroundColor: "",
+          fillRule: "nonzero",
+          paintFirst: "fill",
+          globalCompositeOperation: "source-over",
+          skewX: 0,
+          skewY: 0,
+          rx: 20,
+          ry: 20,
+        },
+        {
+          type: "group",
+          version: "5.3.0",
+          originX: "left",
+          originY: "top",
+          left: -140.5,
+          top: 54.5,
+          width: 281,
+          height: 31,
+          fill: "rgb(0,0,0)",
+          stroke: null,
+          strokeWidth: 0,
+          strokeDashArray: null,
+          strokeLineCap: "butt",
+          strokeDashOffset: 0,
+          strokeLineJoin: "miter",
+          strokeUniform: false,
+          strokeMiterLimit: 4,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0,
+          flipX: false,
+          flipY: false,
+          opacity: 1,
+          shadow: null,
+          visible: true,
+          backgroundColor: "",
+          fillRule: "nonzero",
+          paintFirst: "fill",
+          globalCompositeOperation: "source-over",
+          skewX: 0,
+          skewY: 0,
+          objects: [
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -140.5,
+              top: -15.5,
+              width: 90,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -45.5,
+              top: -15.5,
+              width: 90,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: 49.5,
+              top: -15.5,
+              width: 90,
+              height: 30,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+          ],
+        },
+        {
+          type: "group",
+          version: "5.3.0",
+          originX: "left",
+          originY: "top",
+          left: -185.5,
+          top: -40.5,
+          width: 31,
+          height: 81,
+          fill: "rgb(0,0,0)",
+          stroke: null,
+          strokeWidth: 0,
+          strokeDashArray: null,
+          strokeLineCap: "butt",
+          strokeDashOffset: 0,
+          strokeLineJoin: "miter",
+          strokeUniform: false,
+          strokeMiterLimit: 4,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0,
+          flipX: false,
+          flipY: false,
+          opacity: 1,
+          shadow: null,
+          visible: true,
+          backgroundColor: "",
+          fillRule: "nonzero",
+          paintFirst: "fill",
+          globalCompositeOperation: "source-over",
+          skewX: 0,
+          skewY: 0,
+          objects: [
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -15.5,
+              top: -40.5,
+              width: 30,
+              height: 80,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+          ],
+        },
+        {
+          type: "group",
+          version: "5.3.0",
+          originX: "left",
+          originY: "top",
+          left: 154.5,
+          top: -40.5,
+          width: 31,
+          height: 81,
+          fill: "rgb(0,0,0)",
+          stroke: null,
+          strokeWidth: 0,
+          strokeDashArray: null,
+          strokeLineCap: "butt",
+          strokeDashOffset: 0,
+          strokeLineJoin: "miter",
+          strokeUniform: false,
+          strokeMiterLimit: 4,
+          scaleX: 1,
+          scaleY: 1,
+          angle: 0,
+          flipX: false,
+          flipY: false,
+          opacity: 1,
+          shadow: null,
+          visible: true,
+          backgroundColor: "",
+          fillRule: "nonzero",
+          paintFirst: "fill",
+          globalCompositeOperation: "source-over",
+          skewX: 0,
+          skewY: 0,
+          objects: [
+            {
+              type: "rect",
+              version: "5.3.0",
+              originX: "left",
+              originY: "top",
+              left: -15.5,
+              top: -40.5,
+              width: 30,
+              height: 80,
+              fill: "#fff",
+              stroke: null,
+              strokeWidth: 1,
+              strokeDashArray: null,
+              strokeLineCap: "butt",
+              strokeDashOffset: 0,
+              strokeLineJoin: "miter",
+              strokeUniform: false,
+              strokeMiterLimit: 4,
+              scaleX: 1,
+              scaleY: 1,
+              angle: 0,
+              flipX: false,
+              flipY: false,
+              opacity: 1,
+              shadow: null,
+              visible: true,
+              backgroundColor: "",
+              fillRule: "nonzero",
+              paintFirst: "fill",
+              globalCompositeOperation: "source-over",
+              skewX: 0,
+              skewY: 0,
+              rx: 6,
+              ry: 6,
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  background: "#F3F4F6",
+};
 
 const TableView = () => {
-    const [canvas, setCanvas] = useState<Canvas | null>(null)
-    const [editDrawer, setEditDrawer] = useState(false)
-    const [addDrawer, setAddDrawer] = useState(false)
+  const [editDrawer, setEditDrawer] = useState(false);
+  const [addDrawer, setAddDrawer] = useState(false);
 
-    const initCanvas = () => {
-        const el = document.getElementById("canvasWrapperElement")?.getBoundingClientRect()
-        console.log(el)
+  const auth = useAppSelector((state) => state.authentication);
+  const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
+  const { data: allFloors } = useFetchFloorsQuery(
+    user?.restaurant?.id ?? skipToken
+  );
 
-        return new fabric.Canvas('canvas', {
-            height: el?.height,
-            width: el?.width,
-            backgroundColor: '#F3F4F6',
-        })
-    }
+  const [tableCanvas, tableCanvasWrapper, canvas] = useInitializeCanvas();
 
+  if (canvas) {
+    canvas.clear();
+    canvas.loadFromJSON(InitialTable, () => {
+      canvas.renderAll();
+    });
+  }
 
-    const createSofa = () => {
-        const sofaBase = new fabric.Rect({ left: 5, width: 300, height: 80, fill: "#fff", rx: 20, })
-        const sofaLeftHand = new fabric.Rect({ width: 40, height: 70, fill: "blue", rx: 15, visible: true, left: 0, top: 5 })
-        const sofaRightHand = new fabric.Rect({ width: 40, height: 70, fill: "blue", rx: 15, visible: true, left: 270, top: 5 })
+  const addTable = (
+    tableLeft: number,
+    tableTop: number,
+    tableWidth: number,
+    tableHeight: number,
+    seatTop: number,
+    seatRight: number,
+    seatBottom: number,
+    seatLeft: number
+  ) => {
+    if (!canvas) return;
+    const table = createTable({
+      tableLeft,
+      tableTop,
+      tableWidth,
+      tableHeight,
+      seatTop,
+      seatRight,
+      seatBottom,
+      seatLeft,
+    });
 
-        const sofa = new fabric.Group([sofaBase, sofaLeftHand, sofaRightHand], {
-            left: 200,
-            top: 200
-        })
-        return sofa;
-    }
+    canvas.add(table);
+    canvas.renderAll();
+  };
 
-    const createTable = (tableLeft: number, tableTop: number, tableWidth: number, tableHeight: number, seatTop: number, seatRight: number, seatBottom: number, seatLeft: number) => {
-        const spaceBetweenSeat = 5;
-        const seatEdgeSpace = 10
-        const seatHeight = 30
+  useEffect(() => {
+    canvas?.on("selection:created", (e) => {
+      console.log(e);
 
-        const table = new fabric.Rect({ left: 0, top: 0, width: tableWidth, height: tableHeight, rx: 20, fill: "#fff" })
+      console.log(canvas.getActiveObjects()?.length);
 
+      if (canvas.getActiveObjects()?.length === 1) {
+        // console.log(canvas.getActiveObject()?.canvas?._objects.at(1)?.set({ width: 30 }))
+        // canvas.getActiveObject()?.on("scaling", (e) => {
+        //     console.log(e)
+        //     canvas.getActiveObject()?.canvas?._objects.at(1)?.set({ width: 30 })
+        //     canvas.renderAll()
+        // })
+      }
+      // e.selected.
+      // console.log(canvas.getActiveObjects())
+      // canvas.remove(canvas.getActiveObject()!)
 
-        //TOP SEATS GENERATION
-        const topSeats: fabric.Rect[] = [];
-        for (let i = 0; i < seatTop; i++) {
-            const seatWidth = (tableWidth - 2 * seatEdgeSpace - (seatTop - 1) * spaceBetweenSeat) / seatTop;
-            const seat = new fabric.Rect({ fill: "#fff", width: seatWidth, height: seatHeight, rx: 6, left: seatEdgeSpace + (i * seatWidth) + i * spaceBetweenSeat })
-            topSeats.push(seat)
-        }
-        const topSeatGrp = new fabric.Group(topSeats, {
-            top: topSeats?.length ? -seatHeight - 5 : 0,
-        })
+      // addTable(canvas.getActiveObject()?.left!, canvas.getActiveObject()?.top!)
+    });
+  }, [canvas]);
 
-        //  BOTTOM SEATS GENERATION
-        const bottomSeats: fabric.Rect[] = [];
-        for (let i = 0; i < seatBottom; i++) {
-            const seatWidth = (tableWidth - 2 * seatEdgeSpace - (seatBottom - 1) * spaceBetweenSeat) / seatBottom;
-            const seat = new fabric.Rect({ fill: "#fff", width: seatWidth, height: seatHeight, rx: 6, left: seatEdgeSpace + (i * seatWidth) + i * spaceBetweenSeat })
-            bottomSeats.push(seat)
-        }
-        const bottomSeatGrp = new fabric.Group(bottomSeats, {
-            top: bottomSeats.length ? tableHeight + 5 : 0,
-        })
+  // const handleEditTable = () => {
+  //     addTable(canvas?.getActiveObject()?.left!, canvas?.getActiveObject()?.top!);
+  //     canvas?.remove(canvas.getActiveObject()!);
+  // }
+  if (!auth.isInitialized) return <InitialLoading />;
 
+  const handleExport = () => {
+    let k = canvas?.toJSON();
+    console.log(k);
+  };
 
-
-        //  LEFT SEATS GENERATION
-        const leftSeats: fabric.Rect[] = [];
-        for (let i = 0; i < seatLeft; i++) {
-            const seatWidth = (tableHeight - 2 * seatEdgeSpace - (seatLeft - 1) * spaceBetweenSeat) / seatLeft;
-            const seat = new fabric.Rect({ fill: "#fff", width: seatHeight, height: seatWidth, rx: 6, top: seatEdgeSpace + (i * seatWidth) + i * spaceBetweenSeat })
-            leftSeats.push(seat)
-        }
-        const leftSeatGrp = new fabric.Group(leftSeats, {
-            left: leftSeats.length ? -seatHeight - 5 : 0,
-        })
-
-
-
-        //  RIGHT SEATS GENERATION
-        const rightSeats: fabric.Rect[] = [];
-        for (let i = 0; i < seatRight; i++) {
-            const seatWidth = (tableHeight - 2 * seatEdgeSpace - (seatRight - 1) * spaceBetweenSeat) / seatRight;
-            const seat = new fabric.Rect({ fill: "#fff", width: seatHeight, height: seatWidth, rx: 6, top: seatEdgeSpace + (i * seatWidth) + i * spaceBetweenSeat })
-            rightSeats.push(seat)
-        }
-        const rightSeatGrp = new fabric.Group(rightSeats, {
-            left: rightSeats?.length ? tableWidth + 5 : 0,
-            lockScalingX: true
-        })
-
-        const tableWithSeats = new fabric.Group([topSeatGrp, table, bottomSeatGrp, leftSeatGrp, rightSeatGrp], {
-            top: tableTop,
-            left: tableLeft,
-            cornerStyle: 'circle',
-            cornerSize: 10,
-            lockUniScaling: false,
-        })
-
-        return tableWithSeats
-    }
-
-    useEffect(() => {
-        if (!canvas) {
-            const canvasEl = initCanvas()
-            setCanvas(canvasEl)
-            return;
-        }
-
-        if (canvas) {
-            const table = createTable(300, 300, 300, 100, 3, 1, 3, 1)
-            canvas.add(table)
-            canvas.renderAll()
-        }
-
-        return () => {
-            canvas.renderAll()
-            setCanvas(null)
-        }
-
-    }, [canvas])
-
-    const addTable = (tableLeft: number, tableTop: number, tableWidth: number, tableHeight: number, seatTop: number, seatRight: number, seatBottom: number, seatLeft: number) => {
-        if (!canvas) return
-        const table = createTable(tableLeft, tableTop, tableWidth, tableHeight, seatTop, seatRight, seatBottom, seatLeft)
-        canvas.add(table)
-        canvas.renderAll()
-    }
-
-    useEffect(() => {
-        canvas?.on("selection:created", (e) => {
-            console.log(e)
-
-            console.log(canvas.getActiveObjects()?.length)
-
-
-            if (canvas.getActiveObjects()?.length === 1) {
-                // console.log(canvas.getActiveObject()?.canvas?._objects.at(1)?.set({ width: 30 }))
-                // canvas.getActiveObject()?.on("scaling", (e) => {
-                //     console.log(e)
-                //     canvas.getActiveObject()?.canvas?._objects.at(1)?.set({ width: 30 })
-                //     canvas.renderAll()
-                // })
-            }
-            // e.selected.
-            // console.log(canvas.getActiveObjects())
-            // canvas.remove(canvas.getActiveObject()!)
-
-            // addTable(canvas.getActiveObject()?.left!, canvas.getActiveObject()?.top!)
-
-        })
-    }, [canvas])
-
-    // const handleEditTable = () => {
-    //     addTable(canvas?.getActiveObject()?.left!, canvas?.getActiveObject()?.top!);
-    //     canvas?.remove(canvas.getActiveObject()!);
-    // }
-
-    return (
-        <DashboardLayout>
-            <div className='relative w-full h-screen' id="canvasWrapperElement">
-                {/* <Button onClick={() => addTable(800, 100)}>Add Table</Button>
+  return (
+    <DashboardLayout>
+      <div
+        className="relative w-full h-screen"
+        id="canvasWrapper"
+        ref={tableCanvasWrapper}
+      >
+        <div className="flex items-center gap-3 px-5 py-2">
+          <Tabs defaultValue="ground_floor" className="w-[400px]">
+            <TabsList>
+              <TabsTrigger className="font-normal" value="ground_floor">
+                Ground Floor
+              </TabsTrigger>
+              <TabsTrigger className="font-normal" value="floor_1">
+                1st floor
+              </TabsTrigger>
+              <TabsTrigger className="font-normal" value="floor_2">
+                2nd floor
+              </TabsTrigger>
+              <TabsTrigger className="font-normal" value="floor_3">
+                3rd floor
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <Button className="ml-auto ">Save</Button>
+        </div>
+        {/* <Button onClick={() => addTable(800, 100)}>Add Table</Button>
             <Button onClick={() => handleEditTable()}> edit</Button> */}
-                <canvas id="canvas" />
-                <div onClick={() => setAddDrawer(true)} className='fixed flex items-center justify-center text-green-500 cursor-pointer bottom-6 right-6' >
-                    <AddSquare iconStyle='BoldDuotone' size={60} />
-                </div>
-                <Sheet open={editDrawer} onOpenChange={() => setEditDrawer(!editDrawer)}  >
-                    <SheetContent  >
-                        <SheetHeader>
-                            <SheetTitle>Are you sure absolutely sure?</SheetTitle>
-                            <SheetDescription>
-                                This action cannot be undone. This will permanently delete your account
-                                and remove your data from our servers.
-                            </SheetDescription>
-                        </SheetHeader>
-                    </SheetContent>
-                </Sheet>
-                <Sheet open={addDrawer} onOpenChange={() => setAddDrawer(!addDrawer)}  >
-                    <SheetContent>
-                        <SheetHeader>
-                            <SheetTitle>Add a table</SheetTitle>
-                            <SheetDescription>
-                                <AddTableDrawer addTable={addTable} setAddDrawer={setAddDrawer} />
-                            </SheetDescription>
-                        </SheetHeader>
-                    </SheetContent>
-                </Sheet>
-            </div>
-        </DashboardLayout>
-    )
-}
+        <canvas ref={tableCanvas} id="tableCanvas" />
+        <div
+          onClick={() => setAddDrawer(true)}
+          className="fixed flex items-center justify-center text-green-500 cursor-pointer bottom-6 right-6"
+        >
+          <AddSquare iconStyle="BoldDuotone" size={60} />
+        </div>
+        <Sheet
+          open={editDrawer}
+          onOpenChange={() => setEditDrawer(!editDrawer)}
+        >
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Are you sure absolutely sure?</SheetTitle>
+              <SheetDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </SheetDescription>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
+        <Sheet open={addDrawer} onOpenChange={() => setAddDrawer(!addDrawer)}>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Add a table</SheetTitle>
+              <SheetDescription>
+                <AddTableDrawer
+                  addTable={addTable}
+                  setAddDrawer={setAddDrawer}
+                />
+              </SheetDescription>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </DashboardLayout>
+  );
+};
 
-export default TableView
+export default TableView;

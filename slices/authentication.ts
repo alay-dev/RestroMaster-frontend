@@ -4,42 +4,44 @@ import { User } from "@/types/user";
 import { PayloadAction, createAction, createSlice } from "@reduxjs/toolkit";
 
 export type AuthenticationState = {
-    user: User  | null ;
-    isInitialized: boolean;
-    token: null | string
-}
+  user: User | null;
+  isInitialized: boolean;
+  token: null | string;
+};
 
-const initialState : AuthenticationState = {
-    user: null,
-    isInitialized: false,
-    token: null
-}
+const initialState: AuthenticationState = {
+  user: null,
+  isInitialized: false,
+  token: null,
+};
 
 export const authenticationSlice = createSlice({
-    name: "authentication",
-    initialState,
-    reducers: {
-        authenticateUser: (state) => {
-            state.isInitialized= true;
-        },
-        setAuthToken : (state, action) => {
-            state.token = action.payload
-        },
-        reauthenticateUser : (state) => {
-            localStorage.removeItem(authKey) ;
-            return {...initialState, isInitialized: true}
-        }
+  name: "authentication",
+  initialState,
+  reducers: {
+    authenticateUser: (state) => {
+      state.isInitialized = true;
     },
-    extraReducers : (builder) => {
-        builder
-        .addMatcher(authenticationApi.endpoints.loginWithEmailAndPassword.matchFulfilled , (state, action) => {
-            console.log(action.payload , "STORE")
-            localStorage.setItem(authKey, JSON.stringify(action.payload.token))
-            state.user = action.payload.user ;
-            state.token = action.payload.token
+    setAuthToken: (state, action) => {
+      state.token = action.payload;
+    },
+    reauthenticateUser: (state) => {
+      localStorage.removeItem(authKey);
+      return { ...initialState, isInitialized: true };
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      authenticationApi.endpoints.loginWithEmailAndPassword.matchFulfilled,
+      (state, action) => {
+        console.log(action.payload, "STORE");
+        localStorage.setItem(authKey, action.payload.token);
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+      }
+    );
+  },
+});
 
-        })
-    }
-})
-
-export const { authenticateUser, reauthenticateUser, setAuthToken} = authenticationSlice.actions
+export const { authenticateUser, reauthenticateUser, setAuthToken } =
+  authenticationSlice.actions;
