@@ -13,9 +13,11 @@ import { useRouter } from "next/router";
 import { cn } from "@/lib/utils";
 import { Poppins } from "next/font/google";
 import { reauthenticateUser } from "@/slices/authentication";
-import { store } from "@/config/store";
+import { store, useAppSelector } from "@/config/store";
 import { authenticationApi } from "@/api/authentication";
 import { authKey } from "@/constants/storage";
+import { useFetchProfileQuery } from "@/api/users";
+import { skipToken } from "@reduxjs/toolkit/query";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
@@ -23,6 +25,8 @@ const poppins = Poppins({
 
 const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();
+  const auth = useAppSelector((state) => state.authentication);
+  const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
 
   const handleLogout = () => {
     localStorage.removeItem(authKey);
@@ -92,7 +96,8 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
         <header className="flex items-center justify-between w-full h-16 px-4 border-b">
           <div>
             <h2 className="">
-              <strong className="text-xl">Welcome</strong>, Adam
+              <strong className="text-xl">Welcome</strong>,{" "}
+              {user?.name?.split(" ")[0]}
             </h2>
           </div>
           <div className="flex items-center gap-2">
