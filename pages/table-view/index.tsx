@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { AddSquare } from "solar-icon-set";
+import { AddSquare, AddCircle } from "solar-icon-set";
 import {
   Sheet,
   SheetContent,
@@ -11,13 +11,22 @@ import {
 import AddTableDrawer from "@/components/addTableDrawer/AddTableDrawer";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import InitialLoading from "@/components/initialLoading/InitialLoading";
-import { useAppSelector } from "@/config/store";
+import { useAppDispatch, useAppSelector } from "@/config/store";
 import useInitializeCanvas from "@/hooks/useInitializeCanvas";
 import createTable from "@/lib/canvas";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFetchProfileQuery } from "@/api/users";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { useFetchFloorsQuery } from "@/api/floor";
+import {
+  floorApi,
+  useAddFloorMutation,
+  useFetchFloorsQuery,
+  useUpdateFloorMutation,
+} from "@/api/floor";
+
+import { ApiError } from "@/types/api";
+import { getFloorName } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
 
 const InitialTable = {
   version: "5.3.0",
@@ -1079,21 +1088,48 @@ const InitialTable = {
 const TableView = () => {
   const [editDrawer, setEditDrawer] = useState(false);
   const [addDrawer, setAddDrawer] = useState(false);
+  const [currentFloor, setCurrentFloor] = useState<number>(0);
+  const [newFloor, setNewFloor] = useState(false);
 
+  const { toast } = useToast();
+  const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.authentication);
   const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
-  const { data: allFloors } = useFetchFloorsQuery(
+  const { data: allFloors, isLoading: allFloorsLoading } = useFetchFloorsQuery(
     user?.restaurant?.id ?? skipToken
   );
+  const [addFloor] = useAddFloorMutation();
+  const [updateFloor] = useUpdateFloorMutation();
+
+  useEffect(() => {
+    if (allFloors && !allFloors.length) {
+      setCurrentFloor(0);
+      setNewFloor(true);
+    } else {
+      setNewFloor(false);
+    }
+  }, [allFloors]);
 
   const [tableCanvas, tableCanvasWrapper, canvas] = useInitializeCanvas();
 
-  if (canvas) {
-    canvas.clear();
-    canvas.loadFromJSON(InitialTable, () => {
-      canvas.renderAll();
-    });
-  }
+  useEffect(() => {
+    console.log(allFloors?.length, currentFloor + 1);
+
+    if (canvas && allFloors?.length === 0) {
+      canvas.clear();
+      canvas.loadFromJSON(InitialTable, () => {
+        canvas.renderAll();
+      });
+    } else if (canvas && allFloors?.length && allFloors.length > currentFloor) {
+      const canvasJSON = JSON.parse(allFloors[currentFloor].canvas);
+      canvas.clear();
+      canvas.loadFromJSON(canvasJSON, () => {
+        canvas.renderAll();
+      });
+    } else if (allFloors && allFloors?.length < currentFloor + 1) {
+      canvas?.clear();
+    }
+  }, [currentFloor, allFloors, canvas]);
 
   const addTable = (
     tableLeft: number,
@@ -1149,9 +1185,48 @@ const TableView = () => {
   // }
   if (!auth.isInitialized) return <InitialLoading />;
 
-  const handleExport = () => {
-    let k = canvas?.toJSON();
-    console.log(k);
+  const handleSaveFloor = async () => {
+    if (!user?.restaurant) return;
+    const canvasString = JSON.stringify(canvas?.toJSON());
+    try {
+      let floor;
+      if (allFloors && allFloors.length > currentFloor)
+        floor = allFloors[currentFloor];
+
+      if (!floor?.canvas) {
+        await addFloor({
+          canvas: canvasString,
+          floor_no: currentFloor,
+          restaurant_id: user?.restaurant?.id,
+        }).unwrap();
+        dispatch(floorApi.util.invalidateTags(["allFloors"]));
+        toast({ title: "Floor added" });
+      } else {
+        await updateFloor({
+          canvas: canvasString,
+          floor_no: currentFloor,
+          restaurant_id: user?.restaurant?.id,
+          floor_id: floor.id,
+        }).unwrap();
+        dispatch(floorApi.util.invalidateTags(["allFloors"]));
+        toast({ title: "Floor updated" });
+      }
+    } catch (e) {
+      const error = e as ApiError;
+    }
+  };
+
+  const handleAddFloor = () => {
+    if (newFloor)
+      return toast({
+        variant: "destructive",
+        title: "Please save the current floor ",
+      });
+
+    setNewFloor(true);
+    setCurrentFloor(allFloors?.length!);
+
+    canvas?.clear();
   };
 
   return (
@@ -1162,23 +1237,50 @@ const TableView = () => {
         ref={tableCanvasWrapper}
       >
         <div className="flex items-center gap-3 px-5 py-2">
-          <Tabs defaultValue="ground_floor" className="w-[400px]">
+          <Tabs
+            onValueChange={(val) => setCurrentFloor(Number(val))}
+            value={currentFloor?.toString()}
+            className=""
+          >
             <TabsList>
-              <TabsTrigger className="font-normal" value="ground_floor">
-                Ground Floor
-              </TabsTrigger>
-              <TabsTrigger className="font-normal" value="floor_1">
-                1st floor
-              </TabsTrigger>
-              <TabsTrigger className="font-normal" value="floor_2">
-                2nd floor
-              </TabsTrigger>
-              <TabsTrigger className="font-normal" value="floor_3">
-                3rd floor
-              </TabsTrigger>
+              {allFloors?.length === 0 && (
+                <TabsTrigger className="font-normal" value="Ground floor">
+                  Ground Floor
+                </TabsTrigger>
+              )}
+              {allFloors?.map((floor) => {
+                return (
+                  <TabsTrigger
+                    key={floor?.id}
+                    className="font-normal"
+                    value={floor.floor_no?.toString()}
+                  >
+                    {getFloorName(floor.floor_no)}
+                  </TabsTrigger>
+                );
+              })}
+              {newFloor && allFloors?.length !== 0 && (
+                <TabsTrigger
+                  key={allFloors?.length!}
+                  className="font-normal"
+                  value={allFloors?.length!?.toString()}
+                >
+                  {getFloorName(allFloors?.length!)}
+                </TabsTrigger>
+              )}
             </TabsList>
           </Tabs>
-          <Button className="ml-auto ">Save</Button>
+
+          <AddCircle
+            onClick={handleAddFloor}
+            iconStyle="BoldDuotone"
+            size={30}
+            color="#757575"
+          />
+
+          <Button onClick={handleSaveFloor} className="ml-auto ">
+            Save
+          </Button>
         </div>
         {/* <Button onClick={() => addTable(800, 100)}>Add Table</Button>
             <Button onClick={() => handleEditTable()}> edit</Button> */}
