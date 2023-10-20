@@ -1231,57 +1231,57 @@ const TableView = () => {
 
   return (
     <DashboardLayout>
+      <h1 className="mb-6 text-2xl font-medium">Floor setup</h1>
+      <div className="flex items-center gap-3  py-2 pt-0 ">
+        <Tabs
+          onValueChange={(val) => setCurrentFloor(Number(val))}
+          value={currentFloor?.toString()}
+        >
+          <TabsList>
+            {allFloors?.length === 0 && (
+              <TabsTrigger className="font-normal" value="Ground floor">
+                Ground Floor
+              </TabsTrigger>
+            )}
+            {allFloors?.map((floor) => {
+              return (
+                <TabsTrigger
+                  key={floor?.id}
+                  className="font-normal"
+                  value={floor.floor_no?.toString()}
+                >
+                  {getFloorName(floor.floor_no)}
+                </TabsTrigger>
+              );
+            })}
+            {newFloor && allFloors?.length !== 0 && (
+              <TabsTrigger
+                key={allFloors?.length!}
+                className="font-normal"
+                value={allFloors?.length!?.toString()}
+              >
+                {getFloorName(allFloors?.length!)}
+              </TabsTrigger>
+            )}
+          </TabsList>
+        </Tabs>
+
+        <AddCircle
+          onClick={handleAddFloor}
+          iconStyle="BoldDuotone"
+          size={30}
+          color="#757575"
+        />
+
+        <Button onClick={handleSaveFloor} className="ml-auto ">
+          Save
+        </Button>
+      </div>
       <div
         className="relative w-full h-screen"
         id="canvasWrapper"
         ref={tableCanvasWrapper}
       >
-        <div className="flex items-center gap-3 px-5 py-2">
-          <Tabs
-            onValueChange={(val) => setCurrentFloor(Number(val))}
-            value={currentFloor?.toString()}
-            className=""
-          >
-            <TabsList>
-              {allFloors?.length === 0 && (
-                <TabsTrigger className="font-normal" value="Ground floor">
-                  Ground Floor
-                </TabsTrigger>
-              )}
-              {allFloors?.map((floor) => {
-                return (
-                  <TabsTrigger
-                    key={floor?.id}
-                    className="font-normal"
-                    value={floor.floor_no?.toString()}
-                  >
-                    {getFloorName(floor.floor_no)}
-                  </TabsTrigger>
-                );
-              })}
-              {newFloor && allFloors?.length !== 0 && (
-                <TabsTrigger
-                  key={allFloors?.length!}
-                  className="font-normal"
-                  value={allFloors?.length!?.toString()}
-                >
-                  {getFloorName(allFloors?.length!)}
-                </TabsTrigger>
-              )}
-            </TabsList>
-          </Tabs>
-
-          <AddCircle
-            onClick={handleAddFloor}
-            iconStyle="BoldDuotone"
-            size={30}
-            color="#757575"
-          />
-
-          <Button onClick={handleSaveFloor} className="ml-auto ">
-            Save
-          </Button>
-        </div>
         {/* <Button onClick={() => addTable(800, 100)}>Add Table</Button>
             <Button onClick={() => handleEditTable()}> edit</Button> */}
         <canvas ref={tableCanvas} id="tableCanvas" />

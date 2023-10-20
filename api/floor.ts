@@ -16,9 +16,13 @@ type AddFloorProps = {
 
 type UpdateFloorProps = AddFloorProps & { floor_id: string };
 
-type AddFloorRes = {};
+type AddFloorRes = {
+  floor_id: string;
+};
 
-type UpdateFloorRes = {};
+type UpdateFloorRes = {
+  floor_id: string;
+};
 
 type fetchAllFloorsRes = Floor[];
 

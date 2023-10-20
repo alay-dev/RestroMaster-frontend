@@ -76,11 +76,11 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
           <div
             className={cn(
               "flex items-center justify-center w-full h-12",
-              router.pathname.includes("/settings") &&
+              router.pathname.includes("/profile") &&
                 "border-l-4 border-white bg-blue-400 h-16 [&>*]:scale-125"
             )}
           >
-            <Link href="/settings">
+            <Link href="/profile">
               <Settings iconStyle="BoldDuotone" size={25} />
             </Link>
           </div>

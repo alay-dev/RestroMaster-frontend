@@ -7,4 +7,5 @@ export interface Restaurant {
   phone_no: string | null;
   address: string | null;
   email: string | null;
+  dish_category: string[];
 }

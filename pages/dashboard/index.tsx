@@ -7,16 +7,12 @@ import CreateRestaurant from "@/components/restaurant/CreateRestaurant";
 import StatChartCard from "@/components/statChartCard/StatChartCard";
 import { useAppSelector } from "@/config/store";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { useEffect } from "react";
+
 import { Sale, MoneyBag, GraphUp, ArrowRight } from "solar-icon-set";
 
 const Dashboard = () => {
   const auth = useAppSelector((state) => state.authentication);
   const user = useFetchProfileQuery(auth.token ?? skipToken);
-
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
 
   if (!auth.isInitialized) return <InitialLoading />;
 

@@ -11,6 +11,8 @@ import { userApi } from "@/api/users";
 import { onboardingSlice } from "@/slices/onboarding";
 import { restaurantApi } from "@/api/restaurant";
 import { floorApi } from "@/api/floor";
+import { dishApi } from "@/api/dish";
+import { utilApi } from "@/api/util";
 
 export type RootState = ReturnType<typeof reducer>;
 export type AppStore = ReturnType<typeof setupStore>;
@@ -23,6 +25,8 @@ export const reducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
   [restaurantApi.reducerPath]: restaurantApi.reducer,
   [floorApi.reducerPath]: floorApi.reducer,
+  [dishApi.reducerPath]: dishApi.reducer,
+  [utilApi.reducerPath]: utilApi.reducer,
 });
 
 function setupStore(preloadedState?: PreloadedState<RootState>) {
@@ -35,7 +39,9 @@ function setupStore(preloadedState?: PreloadedState<RootState>) {
         .concat(userApi.middleware)
         .concat(authenticationApi.middleware)
         .concat(restaurantApi.middleware)
-        .concat(floorApi.middleware),
+        .concat(floorApi.middleware)
+        .concat(dishApi.middleware)
+        .concat(utilApi.middleware),
   });
 }
 
