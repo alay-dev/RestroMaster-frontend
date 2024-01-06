@@ -35,7 +35,7 @@ const Dashboard = () => {
               <div className="mt-4">
                 <h4 className="text-sm text-gray-400">Total sales</h4>
                 <p>
-                  $ <strong className="text-2xl font-semibold">1,231</strong>
+                  ₹ <strong className="text-2xl font-semibold">1,231</strong>
                 </p>
               </div>
             </div>
@@ -44,7 +44,7 @@ const Dashboard = () => {
               <div className="mt-4">
                 <h4 className="text-sm text-gray-400">Expense</h4>
                 <p>
-                  $ <strong className="text-2xl font-semibold">1,231</strong>
+                  ₹ <strong className="text-2xl font-semibold">1,231</strong>
                 </p>
               </div>
             </div>
@@ -53,7 +53,7 @@ const Dashboard = () => {
               <div className="mt-4">
                 <h4 className="text-sm text-gray-400">Revenue</h4>
                 <p>
-                  $ <strong className="text-2xl font-semibold">1,231</strong>
+                  ₹ <strong className="text-2xl font-semibold">1,231</strong>
                 </p>
               </div>
             </div>

@@ -106,9 +106,9 @@ const RestaurantDetail = () => {
   };
 
   return (
-    <div className=" border-blue-200  bg-card border rounded-lg overflow-hidden mb-10 ">
+    <div className=" border-blue-200  bg-card border rounded-xl overflow-hidden mb-10 ">
       <div className="bg-blue-50  p-4 border-b border-blue-200 text-blue-500">
-        <p>Restaurant detail</p>
+        <p>Restaurant</p>
       </div>
       <div className=" p-8 flex  justify-between  shadow-light gap-12">
         <div className="flex flex-col ">
