@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
-    const authToken = localStorage.getItem(authKey);
+    const authToken = sessionStorage.getItem(authKey);
     let loading: ReturnType<typeof setTimeout>;
 
     if (!authToken) {

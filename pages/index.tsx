@@ -1,6 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Letter, LockKeyhole, Eye, EyeClosed, User } from "solar-icon-set";
+import {
+  Letter,
+  LockKeyhole,
+  Eye,
+  EyeClosed,
+  User,
+  ChefHat,
+} from "solar-icon-set";
 import googleLogo from "@/public/images/social/google-logo.svg";
 import facebookLogo from "@/public/images/social/facebook-logo.svg";
 import { useEffect, useState } from "react";
@@ -67,7 +74,7 @@ export default function Home() {
 
     return (
       <div className="w-[25rem]">
-        <h1 className="mb-2 text-3xl font-medium">Welcome back !</h1>
+        <h1 className="mb-2 text-3xl font-medium">Welcome !</h1>
         <p className="mb-16 text-sm text-gray-400">
           {" "}
           Start managing your restaurant, better and fater
@@ -289,7 +296,17 @@ export default function Home() {
 
   return (
     <main className={`flex min-h-screen flex-1 `}>
-      <div className="w-2/4 min-h-screen bg-gray-100">hello</div>
+      <div className="w-2/4 min-h-screen bg-gray-100 flex flex-col items-center justify-around">
+        <div className="flex gap-4 items-center ">
+          <ChefHat iconStyle="BoldDuotone" size={35} color="#42A5F5" />
+          <h1 className="text-2xl  ">Restro master</h1>
+        </div>
+
+        <img src="/images/login.png" alt="" className="w-3/4" />
+        <p className="text-lg text-gray-500">
+          Seamlessly manage your restaurant with presicion and style.
+        </p>
+      </div>
 
       <div className="flex flex-col items-center justify-center w-2/4 min-h-screen bg-white">
         {formType === "login" && <LoginForm />}

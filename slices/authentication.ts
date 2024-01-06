@@ -26,7 +26,7 @@ export const authenticationSlice = createSlice({
       state.token = action.payload;
     },
     reauthenticateUser: (state) => {
-      localStorage.removeItem(authKey);
+      sessionStorage.removeItem(authKey);
       return { ...initialState, isInitialized: true };
     },
   },
@@ -35,7 +35,7 @@ export const authenticationSlice = createSlice({
       authenticationApi.endpoints.loginWithEmailAndPassword.matchFulfilled,
       (state, action) => {
         console.log(action.payload, "STORE");
-        localStorage.setItem(authKey, action.payload.token);
+        sessionStorage.setItem(authKey, action.payload.token);
         state.user = action.payload.user;
         state.token = action.payload.token;
       }

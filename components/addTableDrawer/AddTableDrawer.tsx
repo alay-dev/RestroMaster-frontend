@@ -190,6 +190,7 @@ const AddTableDrawer = ({ addTable, setAddDrawer }: AddTableDrawerProps) => {
             <img
               src="/images/tableView/table1.png"
               className="object-cover w-full h-full"
+              alt=""
             />
           </div>
         </div>

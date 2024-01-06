@@ -9,6 +9,7 @@ import { useAppSelector } from "@/config/store";
 import { skipToken } from "@reduxjs/toolkit/query";
 
 import { Sale, MoneyBag, GraphUp, ArrowRight } from "solar-icon-set";
+import CustomerStat from "./_views/CustomerStat";
 
 const Dashboard = () => {
   const auth = useAppSelector((state) => state.authentication);
@@ -61,13 +62,7 @@ const Dashboard = () => {
         </div>
         <div className="flex w-3/5 gap-5">
           <div className="flex flex-col w-1/2">
-            <div className="flex items-center justify-between w-full mb-4">
-              <h3 className="text-xl font-medium ">Customer stats</h3>
-              <div className="px-5 py-2 bg-gray-200 cursor-pointer hover:underline rounded-xl">
-                <p className="text-xs text-orange-600">View all</p>
-              </div>
-            </div>
-            <div className="flex-1 w-full bg-white rounded-2xl"></div>
+            <CustomerStat />
           </div>
           <div className="relative flex items-center justify-start w-1/2">
             <img
@@ -89,7 +84,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="flex gap-12 mb-16">
+      <div className="flex gap-12 mb-10">
         <div className="w-2/5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-medium ">Employee</h3>

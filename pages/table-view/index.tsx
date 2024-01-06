@@ -1113,8 +1113,6 @@ const TableView = () => {
   const [tableCanvas, tableCanvasWrapper, canvas] = useInitializeCanvas();
 
   useEffect(() => {
-    console.log(allFloors?.length, currentFloor + 1);
-
     if (canvas && allFloors?.length === 0) {
       canvas.clear();
       canvas.loadFromJSON(InitialTable, () => {
@@ -1217,6 +1215,12 @@ const TableView = () => {
   };
 
   const handleAddFloor = () => {
+    if (!user?.restaurant) {
+      return toast({
+        variant: "default",
+        title: "Please setup your restaurant first.",
+      });
+    }
     if (newFloor)
       return toast({
         variant: "destructive",

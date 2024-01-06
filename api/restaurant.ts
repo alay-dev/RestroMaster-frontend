@@ -7,7 +7,7 @@ import { baseurl } from "@/config/api";
 import { store } from "@/config/store";
 import { ApiSuccess } from "@/types/api";
 
-type AddRestaurantProps = {
+type AddRestaurantReq = {
   user_id: string;
   name: string;
   type: string;
@@ -16,9 +16,17 @@ type AddRestaurantProps = {
   address: string;
   email: string;
   phone_no: string;
+  cta: string;
+};
+
+type UpdateRestaurantReq = Omit<AddRestaurantReq, "user_id"> & {
+  restaurant_id: string;
 };
 
 type AddRestaurantRes = {
+  restaurant_id: string;
+};
+type UpdateRestaurantRes = {
   restaurant_id: string;
 };
 
@@ -33,7 +41,7 @@ export const restaurantApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    addRestaurant: builder.mutation<AddRestaurantRes, AddRestaurantProps>({
+    addRestaurant: builder.mutation<AddRestaurantRes, AddRestaurantReq>({
       query: (body) => ({
         url: "/create_restaurant",
         method: "POST",
@@ -46,7 +54,24 @@ export const restaurantApi = createApi({
         return response.data;
       },
     }),
+    updateRestaurant: builder.mutation<
+      UpdateRestaurantRes,
+      UpdateRestaurantReq
+    >({
+      query: (body) => ({
+        url: "/update_restaurant",
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: ApiSuccess<UpdateRestaurantRes>) => {
+        return response.data;
+      },
+      transformErrorResponse: (response: FetchBaseQueryError) => {
+        return response.data;
+      },
+    }),
   }),
 });
 
-export const { useAddRestaurantMutation } = restaurantApi;
+export const { useAddRestaurantMutation, useUpdateRestaurantMutation } =
+  restaurantApi;

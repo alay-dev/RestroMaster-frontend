@@ -29,22 +29,22 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
   const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
 
   const handleLogout = () => {
-    localStorage.removeItem(authKey);
+    sessionStorage.removeItem(authKey);
     store.dispatch(reauthenticateUser());
     authenticationApi.util.resetApiState();
     router.push("/");
   };
 
   return (
-    <div className={cn("flex w-full pl-24", poppins.className)}>
+    <div className={cn("flex w-full pl-24 ", poppins.className)}>
       <nav className="fixed top-0 left-0 flex flex-col items-center w-24 h-screen py-5 text-white bg-blue-500">
         <ChefHat iconStyle="BoldDuotone" size={35} />
         <ul className="flex flex-col items-center flex-1 w-full mt-16">
           <div
             className={cn(
-              "flex items-center justify-center w-full h-12",
+              "flex items-center justify-center w-full h-12 pl-1",
               router.pathname.includes("/dashboard") &&
-                "border-l-4 border-white bg-blue-400 h-16 [&>*]:scale-125"
+                "border-l-4 border-white bg-blue-400  pl-0 "
             )}
           >
             <Link href="/dashboard">
@@ -53,9 +53,9 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
           </div>
           <div
             className={cn(
-              "flex items-center justify-center w-full h-12",
+              "flex items-center justify-center w-full h-12 pl-1",
               router.pathname.includes("/table-view") &&
-                "border-l-4 border-white bg-blue-400 h-16 [&>*]:scale-125"
+                "border-l-4 border-white bg-blue-400 pl-0  "
             )}
           >
             <Link href="/table-view">
@@ -64,9 +64,9 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
           </div>
           <div
             className={cn(
-              "flex items-center justify-center w-full h-12 transition duration-150",
+              "flex items-center justify-center w-full h-12  pl-1",
               router.pathname.includes("/dishes") &&
-                "border-l-4 border-white bg-blue-400 h-16 [&>*]:scale-125"
+                "border-l-4 border-white bg-blue-400  pl-0 "
             )}
           >
             <Link href="/dishes">
@@ -75,9 +75,9 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
           </div>
           <div
             className={cn(
-              "flex items-center justify-center w-full h-12",
+              "flex items-center justify-center w-full  h-12 pl-1",
               router.pathname.includes("/profile") &&
-                "border-l-4 border-white bg-blue-400 h-16 [&>*]:scale-125"
+                "border-l-4 border-white bg-blue-400 pl-0 "
             )}
           >
             <Link href="/profile">
@@ -96,7 +96,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
         <header className="flex items-center justify-between w-full h-16 px-4 border-b">
           <div>
             <h2 className="">
-              <strong className="text-xl">Welcome</strong>,{" "}
+              <strong className="text-xl text-green-600">Welcome</strong>,{" "}
               {user?.name?.split(" ")[0]}
             </h2>
           </div>
@@ -108,7 +108,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                         <p>Adam </p> */}
           </div>
         </header>
-        <div className="min-h-screen p-6 pb-0 bg-gray-100">{children}</div>
+        <div className="min-h-screen p-6 bg-gray-100">{children}</div>
       </div>
     </div>
   );

@@ -15,4 +15,5 @@ export const app = initializeApp(firebaseConfig);
 export const storage = getStorage(app);
 
 export const restaurantImagesPath = "restaurants";
+export const userImagePath = "user";
 export const dishImagesPath = "dishes";

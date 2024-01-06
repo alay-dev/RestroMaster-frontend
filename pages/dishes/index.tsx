@@ -62,7 +62,7 @@ const Dishes = () => {
             <p className="text-sm text-gray-400">
               You dont have any dish yet. Add a dish and get your customers
             </p>
-            <Link href="/dishes/add">
+            <Link href={user?.restaurant ? "/dishes/add" : "/dashboard"}>
               <Button className="mt-10 w-64 rounded-xl">Add dish</Button>
             </Link>
           </div>

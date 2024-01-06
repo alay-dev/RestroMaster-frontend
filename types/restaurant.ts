@@ -8,4 +8,5 @@ export interface Restaurant {
   address: string | null;
   email: string | null;
   dish_category: string[];
+  cta: null | string;
 }

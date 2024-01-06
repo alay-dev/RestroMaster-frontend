@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { Sale } from "solar-icon-set";
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
@@ -12,7 +11,7 @@ const DUMMY_DATES = [
   "2023-02-21T07:19:27.628Z",
 ];
 
-const StatChartCard = () => {
+const CustomerStat = () => {
   const [chartData, setChartData] = useState<any>("");
   const [chartOptions, setChartOptions] = useState<any>("");
 
@@ -110,28 +109,23 @@ const StatChartCard = () => {
   }, []);
 
   return (
-    <div className="flex w-full gap-3 p-4 bg-white rounded-2xl">
-      <div className="flex items-center gap-4 text-blue-500">
-        <Sale size={30} />
-        <div>
-          <span>
-            $ <strong className="text-xl font-semibold">1,231</strong>
-          </span>
-          <p className="text-xs text-gray-400">Total sales</p>
+    <>
+      <div className="flex items-center justify-between w-full mb-4">
+        <h3 className="text-xl font-medium ">Customer stats</h3>
+        <div className="px-5 py-2 bg-gray-200 cursor-pointer hover:underline rounded-xl">
+          <p className="text-xs text-orange-600">View all</p>
         </div>
+      </div>
+      <div className="flex-1 flex flex-col justify-between w-full bg-white rounded-2xl">
+        <p className="mt-6 ml-6 text-gray-400 text-sm">
+          <span className="text-4xl text-green-600 mr-1">27</span>7 day avg
+        </p>
         {chartData && chartOptions && (
-          <Chart
-            options={chartOptions}
-            series={chartData}
-            type="area"
-            height={100}
-            width="100%"
-            style={{ marginBottom: "-1rem" }}
-          />
+          <Chart options={chartOptions} series={chartData} type="area" />
         )}
       </div>
-    </div>
+    </>
   );
 };
 
-export default StatChartCard;
+export default CustomerStat;

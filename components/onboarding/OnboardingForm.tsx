@@ -25,7 +25,7 @@ import {
   setRestaurantName,
 } from "@/slices/onboarding";
 import { restaurantImagesPath } from "@/config/firebase";
-import { useFetchProfileQuery } from "@/api/users";
+import { useFetchProfileQuery, userApi } from "@/api/users";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useAddRestaurantMutation } from "@/api/restaurant";
 import { ApiError } from "@/types/api";
@@ -173,6 +173,7 @@ const OnboardingForm = () => {
                       key={i}
                       src={item}
                       className="w-16 h-16 rounded-sm object-cover"
+                      alt=""
                     />
                   ))}
                   <label className="ml-2 cursor-pointer" htmlFor="coverImage">
@@ -343,6 +344,7 @@ const OnboardingForm = () => {
     const [addRestaurant] = useAddRestaurantMutation();
     const router = useRouter();
     const [currentPlan, setCurrentPlan] = useState<Plans>("Free");
+    const dispatch = useAppDispatch();
 
     const handleSubmitRestaurantDetails = async () => {
       try {
@@ -355,9 +357,12 @@ const OnboardingForm = () => {
           address: onboarding.address,
           email: onboarding.email,
           phone_no: onboarding.contactNo,
+          cta: onboarding.cta,
         }).unwrap();
 
         router.push("/table-view");
+        dispatch(userApi.util.invalidateTags(["me"]));
+
         toast({
           variant: "default",
           title: "Your restaurant has been created.",
