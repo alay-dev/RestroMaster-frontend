@@ -72,7 +72,11 @@
   }
   body {
     @apply bg-background text-foreground;
+
+  
   }
+
+
 
   .no-scroll-bar::-webkit-scrollbar {
     display: none;

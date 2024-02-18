@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: restromaster-backend-service
+spec:
+  selector: 
+      app: restromaster-backend
+  ports: 
+    - protocol: 'TCP'
+      port: 4000
+      targetPort: 4000
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: restromaster-backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      app: restromaster-backend
+  template: 
+    metadata: 
+      labels: 
+        app: restromaster-backend
+    spec: 
+      containers:
+        - name: restromaster-backend
+          image: narualay030/restromaster-backend:latest
+          

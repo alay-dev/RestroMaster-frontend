@@ -1090,7 +1090,7 @@ const TableView = () => {
   const [addDrawer, setAddDrawer] = useState(false);
   const [currentFloor, setCurrentFloor] = useState<number>(0);
   const [newFloor, setNewFloor] = useState(false);
-
+  const [tableCount, setTableCount] = useState(0);
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.authentication);
@@ -1122,6 +1122,7 @@ const TableView = () => {
       const canvasJSON = JSON.parse(allFloors[currentFloor].canvas);
       canvas.clear();
       canvas.loadFromJSON(canvasJSON, () => {
+        setTableCount(canvas?._objects?.length);
         canvas.renderAll();
       });
     } else if (allFloors && allFloors?.length < currentFloor + 1) {
@@ -1140,6 +1141,7 @@ const TableView = () => {
     seatLeft: number
   ) => {
     if (!canvas) return;
+    const tableId = `F${currentFloor}-T${tableCount}`;
     const table = createTable({
       tableLeft,
       tableTop,
@@ -1149,7 +1151,9 @@ const TableView = () => {
       seatRight,
       seatBottom,
       seatLeft,
+      tableId,
     });
+    setTableCount(tableCount + 1);
 
     canvas.add(table);
     canvas.renderAll();
@@ -1185,7 +1189,8 @@ const TableView = () => {
 
   const handleSaveFloor = async () => {
     if (!user?.restaurant) return;
-    const canvasString = JSON.stringify(canvas?.toJSON());
+    const canvasString = JSON.stringify(canvas?.toJSON(["id"]));
+
     try {
       let floor;
       if (allFloors && allFloors.length > currentFloor)
@@ -1215,6 +1220,7 @@ const TableView = () => {
   };
 
   const handleAddFloor = () => {
+    if (!canvas) return;
     if (!user?.restaurant) {
       return toast({
         variant: "default",
@@ -1229,8 +1235,10 @@ const TableView = () => {
 
     setNewFloor(true);
     setCurrentFloor(allFloors?.length!);
+    setTableCount(0);
 
     canvas?.clear();
+    canvas.setBackgroundColor("#F3F4F6", () => canvas.renderAll());
   };
 
   return (
@@ -1282,7 +1290,7 @@ const TableView = () => {
         </Button>
       </div>
       <div
-        className="relative w-full h-screen"
+        className="relative w-[80rem] h-[40rem] mx-auto"
         id="canvasWrapper"
         ref={tableCanvasWrapper}
       >

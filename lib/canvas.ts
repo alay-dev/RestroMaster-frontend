@@ -1,4 +1,6 @@
+import { TableGroup } from "@/types/floor";
 import { fabric } from "fabric";
+import { v4 as uuidV4 } from "uuid";
 
 const spaceBetweenSeat = 5;
 const seatEdgeSpace = 10;
@@ -13,6 +15,7 @@ const createTable = ({
   seatRight,
   seatBottom,
   seatLeft,
+  tableId,
 }: CreateTableProps) => {
   const table = new fabric.Rect({
     left: 0,
@@ -100,7 +103,7 @@ const createTable = ({
     lockScalingX: true,
   });
 
-  const tableWithSeats = new fabric.Group(
+  const tableWithSeats: TableGroup = new fabric.Group(
     [topSeatGrp, table, bottomSeatGrp, leftSeatGrp, rightSeatGrp],
     {
       top: tableTop,
@@ -110,6 +113,8 @@ const createTable = ({
       lockUniScaling: false,
     }
   );
+
+  tableWithSeats.id = tableId;
 
   return tableWithSeats;
 };
@@ -125,4 +130,5 @@ type CreateTableProps = {
   seatRight: number;
   seatBottom: number;
   seatLeft: number;
+  tableId: string;
 };

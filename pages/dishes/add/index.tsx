@@ -202,6 +202,7 @@ const AddDish = () => {
                       <img
                         src={item}
                         className="w-full h-full rounded-sm object-cover"
+                        alt=""
                       />
                     </div>
                   );
@@ -241,12 +242,14 @@ const AddDish = () => {
             <div className="flex gap-3 flex-wrap mt-4">
               {photos?.length === 0 && <p>No images found</p>}
               {photos?.length !== 0 &&
-                photos?.map((item) => {
+                photos?.map((item, i) => {
                   return (
                     <img
+                      key={i}
                       onClick={() => handleAddPhoto(item.img)}
                       src={item.img}
                       className="w-24 h-24 rounded-sm object-cover"
+                      alt=""
                     />
                   );
                 })}

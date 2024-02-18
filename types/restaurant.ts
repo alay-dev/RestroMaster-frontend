@@ -10,3 +10,13 @@ export interface Restaurant {
   dish_category: string[];
   cta: null | string;
 }
+
+export interface TableBooking {
+  id: string;
+  customer_name: string;
+  phone_no: string;
+  table_id: string;
+  date: Date;
+  time: string;
+  note: string | null;
+}

@@ -115,7 +115,7 @@ const StatChartCard = () => {
         <Sale size={30} />
         <div>
           <span>
-            ₹ <strong className="text-xl font-semibold">1,231</strong>
+            ₹ <strong className="text-xl font-medium">1,231</strong>
           </span>
           <p className="text-xs text-gray-400">Total sales</p>
         </div>

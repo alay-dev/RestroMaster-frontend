@@ -97,11 +97,11 @@ const User = () => {
     }
   };
 
-  const fallbackAvatar =
-    user?.name?.split(" ")?.length > 1
-      ? user?.name?.at(0)?.toUpperCase() +
-        user?.name?.split(" ")[1]?.at(0)?.toUpperCase()
-      : user?.name?.at(0)?.toUpperCase();
+  // const fallbackAvatar =
+  //   user?.name?.split(" ")?.length > 1
+  //     ? user?.name?.at(0)?.toUpperCase() +
+  //       user?.name?.split(" ")[1]?.at(0)?.toUpperCase()
+  //     : user?.name?.at(0)?.toUpperCase();
 
   return (
     <div className="border-blue-200 bg-card border rounded-xl  mb-8 overflow-hidden">
@@ -134,7 +134,7 @@ const User = () => {
             </div>
             <Avatar className="w-28 h-28 ring-2 ring-offset-2 ring-gray-200">
               <AvatarImage src={user?.picture || ""} alt="@shadcn" />
-              <AvatarFallback>{fallbackAvatar}</AvatarFallback>
+              {/* <AvatarFallback>{fallbackAvatar}</AvatarFallback> */}
             </Avatar>
           </div>
           <div>

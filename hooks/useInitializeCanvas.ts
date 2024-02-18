@@ -25,7 +25,6 @@ const useInitializeCanvas = () => {
     const fabricInstance = new fabric.Canvas(tableCanvas.current, {
       height: canvasHeight,
       width: canvasWidth,
-      backgroundColor: "#F3F4F6",
     });
 
     setCanvas(fabricInstance);
@@ -36,8 +35,3 @@ const useInitializeCanvas = () => {
 };
 
 export default useInitializeCanvas;
-
-type UseInitializeProps = {
-  tableCanvas: HTMLCanvasElement | null;
-  canvasWrapper: HTMLDivElement | null;
-};
