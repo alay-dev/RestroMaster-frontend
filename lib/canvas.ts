@@ -1,10 +1,53 @@
 import { TableGroup } from "@/types/floor";
 import { fabric } from "fabric";
-import { v4 as uuidV4 } from "uuid";
 
 const spaceBetweenSeat = 5;
 const seatEdgeSpace = 10;
 const seatHeight = 30;
+
+const createCircularTable = ({
+  seatCount,
+  radius,
+}: CreateCircularTableProps) => {
+  const table = new fabric.Circle({
+    radius: radius,
+    left: -radius,
+    top: -radius,
+    fill: "#fff",
+  });
+
+  const angleIncrement = (2 * Math.PI) / seatCount;
+
+  // Calculate the coordinates of each point
+  const points = [];
+  for (let i = 0; i < seatCount; i++) {
+    const angle = i * angleIncrement;
+    const x = 0 + radius * Math.cos(angle);
+    const y = 0 + radius * Math.sin(angle);
+    points.push({ x, y });
+  }
+
+  const seats = points.map((point) => {
+    return new fabric.Circle({
+      radius: 5,
+      left: point.x,
+      top: point.y,
+      fill: "#000",
+    });
+  });
+
+  const seatGrp = new fabric.Group(seats);
+
+  const tableWithSeats: TableGroup = new fabric.Group([table, seatGrp], {
+    top: 0,
+    left: 0,
+    cornerStyle: "circle",
+    cornerSize: 10,
+    lockUniScaling: false,
+  });
+
+  return tableWithSeats;
+};
 
 const createTable = ({
   tableLeft,
@@ -113,13 +156,19 @@ const createTable = ({
       lockUniScaling: false,
     }
   );
+  tableWithSeats.table_data = {
+    bottom_seat: seatBottom,
+    left_seat: seatLeft,
+    right_seat: seatRight,
+    top_seat: seatTop,
+  };
 
   tableWithSeats.id = tableId;
 
   return tableWithSeats;
 };
 
-export default createTable;
+export { createTable, createCircularTable };
 
 type CreateTableProps = {
   tableLeft: number;
@@ -131,4 +180,9 @@ type CreateTableProps = {
   seatBottom: number;
   seatLeft: number;
   tableId: string;
+};
+
+type CreateCircularTableProps = {
+  seatCount: number;
+  radius: number;
 };

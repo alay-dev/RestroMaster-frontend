@@ -3,13 +3,22 @@ import { Button } from "@/components//ui/button";
 import { useState, useEffect, useRef } from "react";
 import { fabric } from "fabric";
 import { Canvas } from "fabric/fabric-impl";
+import { TableData, TableObject } from "@/types/floor";
 
-const AddTableDrawer = ({ addTable, setAddDrawer }: AddTableDrawerProps) => {
+const TableDrawer = ({
+  addTable,
+  setAddDrawer,
+  isEditing,
+  activeTable,
+  onUpdateTable,
+  onDeleteTable,
+}: TableDrawerProps) => {
   const [canvas, setCanvas] = useState<Canvas | null>(null);
   const [topSeat, setTopSeat] = useState([3]);
   const [bottomSeat, setBottomSeat] = useState([3]);
   const [leftSeat, setLeftSeat] = useState([1]);
   const [rightSeat, setRightSeat] = useState([1]);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const initCanvas = () => {
     const el = document
@@ -145,24 +154,69 @@ const AddTableDrawer = ({ addTable, setAddDrawer }: AddTableDrawerProps) => {
       return;
     }
 
+    if (!isInitialized && isEditing && activeTable) {
+      setIsInitialized(true);
+      console.log(activeTable?.table_data);
+      if (
+        activeTable?.table_data?.top_seat === undefined ||
+        activeTable?.table_data?.bottom_seat === undefined ||
+        activeTable?.table_data?.right_seat === undefined ||
+        activeTable?.table_data?.left_seat === undefined
+      )
+        return;
+      setTopSeat([activeTable?.table_data?.top_seat]);
+      setRightSeat([activeTable?.table_data?.right_seat]);
+      setBottomSeat([activeTable?.table_data?.bottom_seat]);
+      setLeftSeat([activeTable?.table_data?.left_seat]);
+    }
+
     if (canvas) {
-      const table = createTable(
-        150,
-        60,
-        topSeat.at(0)!,
-        rightSeat.at(0)!,
-        bottomSeat.at(0)!,
-        leftSeat.at(0)!
-      );
-      canvas.add(table);
-      canvas.renderAll();
+      if (isEditing && activeTable) {
+        const table = createTable(
+          150,
+          60,
+          isInitialized
+            ? topSeat.at(0)!
+            : activeTable?.table_data?.top_seat || 0,
+          isInitialized
+            ? rightSeat.at(0)!
+            : activeTable?.table_data?.right_seat || 0,
+          isInitialized
+            ? bottomSeat.at(0)!
+            : activeTable?.table_data?.bottom_seat || 0,
+          isInitialized
+            ? leftSeat.at(0)!
+            : activeTable?.table_data?.left_seat || 0
+        );
+        canvas.add(table);
+        canvas.renderAll();
+      } else {
+        const table = createTable(
+          150,
+          60,
+          topSeat.at(0)!,
+          rightSeat.at(0)!,
+          bottomSeat.at(0)!,
+          leftSeat.at(0)!
+        );
+        canvas.add(table);
+        canvas.renderAll();
+      }
     }
 
     return () => {
       canvas.renderAll();
       setCanvas(null);
     };
-  }, [canvas, topSeat, leftSeat, rightSeat, bottomSeat]);
+  }, [
+    isEditing,
+    canvas,
+    topSeat,
+    bottomSeat,
+    leftSeat,
+    rightSeat,
+    activeTable,
+  ]);
 
   const handleAddTable = () => {
     addTable(
@@ -176,6 +230,23 @@ const AddTableDrawer = ({ addTable, setAddDrawer }: AddTableDrawerProps) => {
       leftSeat[0]
     );
     setAddDrawer(false);
+  };
+
+  const handleUpdateTable = () => {
+    const rect = activeTable?.getBoundingRect();
+    if (!rect || !activeTable?.id) return;
+
+    onUpdateTable?.(
+      rect?.left,
+      rect?.top,
+      300,
+      100,
+      topSeat?.at(0) || 0,
+      rightSeat?.at(0) || 0,
+      bottomSeat?.at(0) || 0,
+      leftSeat?.at(0) || 0,
+      activeTable?.id
+    );
   };
 
   return (
@@ -251,18 +322,34 @@ const AddTableDrawer = ({ addTable, setAddDrawer }: AddTableDrawerProps) => {
             </li>
           </ul>
         </div>
-
-        <Button onClick={() => handleAddTable()} className="float-right">
-          Create table
-        </Button>
+        {isEditing ? (
+          <div className="flex items-center justify-between mt-8">
+            <Button
+              onClick={onDeleteTable}
+              className="w-24"
+              variant="destructive"
+            >
+              Delete
+            </Button>
+            <Button onClick={handleUpdateTable} className="w-24">
+              Save
+            </Button>
+          </div>
+        ) : (
+          <Button onClick={() => handleAddTable()} className="float-right">
+            Create table
+          </Button>
+        )}
       </div>
     </div>
   );
 };
 
-export default AddTableDrawer;
+export default TableDrawer;
 
-type AddTableDrawerProps = {
+type TableDrawerProps = {
+  isEditing: boolean;
+  activeTable?: TableObject;
   addTable: (
     tableLeft: number,
     tableTop: number,
@@ -274,4 +361,16 @@ type AddTableDrawerProps = {
     seatLeft: number
   ) => void;
   setAddDrawer: (data: boolean) => void;
+  onUpdateTable?: (
+    tableLeft: number,
+    tableTop: number,
+    tableWidth: number,
+    tableHeight: number,
+    seatTop: number,
+    seatRight: number,
+    seatBottom: number,
+    seatLeft: number,
+    tableId: string
+  ) => void;
+  onDeleteTable?: () => void;
 };

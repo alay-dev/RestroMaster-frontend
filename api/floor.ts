@@ -24,6 +24,10 @@ type UpdateFloorRes = {
   floor_id: string;
 };
 
+type DeleteFloorRes = {
+  floor_id: string;
+};
+
 type fetchAllFloorsRes = Floor[];
 
 export const floorApi = createApi({
@@ -76,6 +80,18 @@ export const floorApi = createApi({
         return response.data;
       },
     }),
+    deleteFloor: builder.mutation<DeleteFloorRes, string>({
+      query: (floor_id) => ({
+        url: `/delete_floor/${floor_id}`,
+        method: "DELETE",
+      }),
+      transformResponse: (response: ApiSuccess<DeleteFloorRes>) => {
+        return response.data;
+      },
+      transformErrorResponse: (response: FetchBaseQueryError) => {
+        return response.data;
+      },
+    }),
   }),
 });
 
@@ -83,4 +99,5 @@ export const {
   useAddFloorMutation,
   useFetchFloorsQuery,
   useUpdateFloorMutation,
+  useDeleteFloorMutation,
 } = floorApi;

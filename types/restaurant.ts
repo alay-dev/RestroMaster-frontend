@@ -20,3 +20,8 @@ export interface TableBooking {
   time: string;
   note: string | null;
 }
+
+export interface TableAvailability {
+  is_available: boolean;
+  time: string;
+}

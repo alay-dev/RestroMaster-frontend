@@ -298,12 +298,11 @@ export default function Home() {
     <main className={`flex min-h-screen flex-1 `}>
       <div className="w-2/4 min-h-screen bg-gray-100 flex flex-col items-center justify-around">
         <div className="flex gap-4 items-center ">
-          <ChefHat iconStyle="BoldDuotone" size={35} color="#42A5F5" />
-          <h1 className="text-2xl  ">Restro master</h1>
+          <h1 className="text-2xl">Restro Master</h1>
         </div>
 
         <img src="/images/login.png" alt="" className="w-3/4" />
-        <p className="text-lg text-gray-500">
+        <p className=" text-gray-500 font-thin">
           Seamlessly manage your restaurant with presicion and style.
         </p>
       </div>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { AddSquare, AddCircle } from "solar-icon-set";
 import {
@@ -8,18 +8,19 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import AddTableDrawer from "@/components/addTableDrawer/AddTableDrawer";
+import TableDrawer from "@/pages/table-view/_components/TableDrawer";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import InitialLoading from "@/components/initialLoading/InitialLoading";
 import { useAppDispatch, useAppSelector } from "@/config/store";
 import useInitializeCanvas from "@/hooks/useInitializeCanvas";
-import createTable from "@/lib/canvas";
+import { createCircularTable, createTable } from "@/lib/canvas";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useFetchProfileQuery } from "@/api/users";
 import { skipToken } from "@reduxjs/toolkit/query";
 import {
   floorApi,
   useAddFloorMutation,
+  useDeleteFloorMutation,
   useFetchFloorsQuery,
   useUpdateFloorMutation,
 } from "@/api/floor";
@@ -27,6 +28,7 @@ import {
 import { ApiError } from "@/types/api";
 import { getFloorName } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
+import { TableData, TableObject } from "@/types/floor";
 
 const InitialTable = {
   version: "5.3.0",
@@ -1091,6 +1093,8 @@ const TableView = () => {
   const [currentFloor, setCurrentFloor] = useState<number>(0);
   const [newFloor, setNewFloor] = useState(false);
   const [tableCount, setTableCount] = useState(0);
+  const [activeTable, setActiveTable] = useState<fabric.Object | null>(null);
+
   const { toast } = useToast();
   const dispatch = useAppDispatch();
   const auth = useAppSelector((state) => state.authentication);
@@ -1100,6 +1104,7 @@ const TableView = () => {
   );
   const [addFloor] = useAddFloorMutation();
   const [updateFloor] = useUpdateFloorMutation();
+  const [deleteFloor] = useDeleteFloorMutation();
 
   useEffect(() => {
     if (allFloors && !allFloors.length) {
@@ -1123,6 +1128,7 @@ const TableView = () => {
       canvas.clear();
       canvas.loadFromJSON(canvasJSON, () => {
         setTableCount(canvas?._objects?.length);
+
         canvas.renderAll();
       });
     } else if (allFloors && allFloors?.length < currentFloor + 1) {
@@ -1160,36 +1166,22 @@ const TableView = () => {
   };
 
   useEffect(() => {
-    canvas?.on("selection:created", (e) => {
-      console.log(e);
+    canvas?.on("mouse:dblclick", (e) => {
+      const table = canvas?.getActiveObject();
 
-      console.log(canvas.getActiveObjects()?.length);
-
-      if (canvas.getActiveObjects()?.length === 1) {
-        // console.log(canvas.getActiveObject()?.canvas?._objects.at(1)?.set({ width: 30 }))
-        // canvas.getActiveObject()?.on("scaling", (e) => {
-        //     console.log(e)
-        //     canvas.getActiveObject()?.canvas?._objects.at(1)?.set({ width: 30 })
-        //     canvas.renderAll()
-        // })
+      if (table) {
+        setActiveTable(table);
       }
-      // e.selected.
-      // console.log(canvas.getActiveObjects())
-      // canvas.remove(canvas.getActiveObject()!)
-
-      // addTable(canvas.getActiveObject()?.left!, canvas.getActiveObject()?.top!)
     });
   }, [canvas]);
 
-  // const handleEditTable = () => {
-  //     addTable(canvas?.getActiveObject()?.left!, canvas?.getActiveObject()?.top!);
-  //     canvas?.remove(canvas.getActiveObject()!);
-  // }
   if (!auth.isInitialized) return <InitialLoading />;
 
   const handleSaveFloor = async () => {
     if (!user?.restaurant) return;
-    const canvasString = JSON.stringify(canvas?.toJSON(["id"]));
+    const canvasString = JSON.stringify(
+      canvas?.toJSON(["id", "table_data", "floor_id"])
+    );
 
     try {
       let floor;
@@ -1241,6 +1233,76 @@ const TableView = () => {
     canvas.setBackgroundColor("#F3F4F6", () => canvas.renderAll());
   };
 
+  const onEditModalClose = () => {
+    setActiveTable(null);
+    canvas?.discardActiveObject().renderAll();
+  };
+
+  const handleUpdateTable = (
+    tableLeft: number,
+    tableTop: number,
+    tableWidth: number,
+    tableHeight: number,
+    seatTop: number,
+    seatRight: number,
+    seatBottom: number,
+    seatLeft: number,
+    tableId: string
+  ) => {
+    if (!canvas || !activeTable) return;
+    const table = createTable({
+      tableLeft,
+      tableTop,
+      tableWidth,
+      tableHeight,
+      seatTop,
+      seatRight,
+      seatBottom,
+      seatLeft,
+      tableId,
+    });
+
+    canvas.remove(activeTable);
+    canvas.add(table);
+    canvas?.discardActiveObject().renderAll();
+    setActiveTable(null);
+  };
+
+  const handleDeleteTable = () => {
+    if (!activeTable) return;
+    canvas?.remove(activeTable).renderAll();
+    canvas?.discardActiveObject().renderAll();
+    setActiveTable(null);
+  };
+
+  const handleDeleteFloor = async () => {
+    if (currentFloor + 1 !== allFloors?.length) {
+      return toast({
+        variant: "destructive",
+        title: "Cannot delete floor",
+        description:
+          "You can only delete the last floor. Please try updating floor.",
+      });
+    }
+
+    const floor = allFloors?.at(currentFloor);
+    if (!floor?.id) return;
+
+    try {
+      await deleteFloor(floor?.id).unwrap();
+      setCurrentFloor(currentFloor - 1);
+      dispatch(floorApi?.util?.invalidateTags(["allFloors"]));
+
+      toast({
+        title: "Floor deleted",
+        description:
+          "The floor has been deleted the user can not longer book / view this floor.",
+      });
+    } catch (e) {
+      const error = e as ApiError;
+    }
+  };
+
   return (
     <DashboardLayout>
       <h1 className="mb-6 text-2xl font-medium">Floor setup</h1>
@@ -1284,10 +1346,12 @@ const TableView = () => {
           size={30}
           color="#757575"
         />
-
-        <Button onClick={handleSaveFloor} className="ml-auto ">
-          Save
-        </Button>
+        <div className="ml-auto flex items-center gap-4">
+          <Button variant="destructive" onClick={handleDeleteFloor}>
+            Delete
+          </Button>
+          <Button onClick={handleSaveFloor}>Save</Button>
+        </div>
       </div>
       <div
         className="relative w-[80rem] h-[40rem] mx-auto"
@@ -1317,14 +1381,33 @@ const TableView = () => {
             </SheetHeader>
           </SheetContent>
         </Sheet>
-        <Sheet open={addDrawer} onOpenChange={() => setAddDrawer(!addDrawer)}>
+        <Sheet open={addDrawer} onOpenChange={() => setAddDrawer(false)}>
           <SheetContent>
             <SheetHeader>
               <SheetTitle>Add a table</SheetTitle>
               <SheetDescription>
-                <AddTableDrawer
+                <TableDrawer
                   addTable={addTable}
                   setAddDrawer={setAddDrawer}
+                  isEditing={false}
+                />
+              </SheetDescription>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
+
+        <Sheet open={Boolean(activeTable)} onOpenChange={onEditModalClose}>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Edit table</SheetTitle>
+              <SheetDescription>
+                <TableDrawer
+                  addTable={addTable}
+                  setAddDrawer={setAddDrawer}
+                  isEditing={true}
+                  activeTable={activeTable as TableObject}
+                  onUpdateTable={handleUpdateTable}
+                  onDeleteTable={handleDeleteTable}
                 />
               </SheetDescription>
             </SheetHeader>

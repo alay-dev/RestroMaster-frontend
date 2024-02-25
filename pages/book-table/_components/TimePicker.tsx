@@ -7,8 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { BookTable } from "../../../context/tableBooking";
+import { useFetchTableAvailabilityMutation } from "@/api/restaurant";
+import { useRouter } from "next/router";
 
 const bookingTimes = [
   "9:30 AM",
@@ -39,17 +41,36 @@ const bookingTimes = [
 ];
 
 const TimePicker = () => {
+  const router = useRouter();
+  const restaurantId = router.query.restaurant_id as string;
   const bookTable = useContext(BookTable);
+  const [fetchTableAvailabilty, { data }] = useFetchTableAvailabilityMutation();
+
+  useEffect(() => {
+    if (!bookTable?.date) return;
+    (async () => {
+      await fetchTableAvailabilty({
+        date: bookTable?.date || new Date(),
+        restaurant_id: restaurantId,
+        table_id: bookTable?.tableId,
+      });
+    })();
+  }, [bookTable?.date]);
+
   return (
     <Select value={bookTable?.time} onValueChange={bookTable?.setTime}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Pick a time" />
       </SelectTrigger>
       <SelectContent className="max-h-[10rem]">
-        {bookingTimes?.map((time) => {
+        {data?.map((time) => {
           return (
-            <SelectItem key={time} value={time}>
-              {time}
+            <SelectItem
+              disabled={!time.is_available}
+              key={time.time}
+              value={time.time}
+            >
+              {time.time}
             </SelectItem>
           );
         })}

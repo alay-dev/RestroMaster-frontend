@@ -6,7 +6,11 @@ import {
 import { baseurl } from "@/config/api";
 import { store } from "@/config/store";
 import { ApiSuccess } from "@/types/api";
-import { Restaurant, TableBooking } from "@/types/restaurant";
+import {
+  Restaurant,
+  TableAvailability,
+  TableBooking,
+} from "@/types/restaurant";
 
 type AddRestaurantReq = {
   user_id: string;
@@ -39,6 +43,12 @@ type BookTableReq = {
   date: Date;
   time: string;
   note: string;
+};
+
+type FetchTableAvailabilityProps = {
+  restaurant_id: string;
+  table_id: string;
+  date: Date;
 };
 
 export const restaurantApi = createApi({
@@ -117,6 +127,22 @@ export const restaurantApi = createApi({
         return response.data;
       },
     }),
+    fetchTableAvailability: builder.mutation<
+      TableAvailability[],
+      FetchTableAvailabilityProps
+    >({
+      query: (body) => ({
+        url: "/get_table_availabilty",
+        method: "POST",
+        body,
+      }),
+      transformResponse: (response: ApiSuccess<TableAvailability[]>) => {
+        return response.data;
+      },
+      transformErrorResponse: (response: FetchBaseQueryError) => {
+        return response.data;
+      },
+    }),
   }),
 });
 
@@ -126,4 +152,5 @@ export const {
   useBookTableMutation,
   useFetchTableBookingsQuery,
   useFetchRestaurantQuery,
+  useFetchTableAvailabilityMutation,
 } = restaurantApi;
