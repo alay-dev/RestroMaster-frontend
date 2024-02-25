@@ -326,14 +326,12 @@ const TableDrawer = ({
           <div className="flex items-center justify-between mt-8">
             <Button
               onClick={onDeleteTable}
-              className="w-24"
-              variant="destructive"
+              className="border-red-400 bg-transparent text-black hover:text-red-400 hover:bg-transparent"
+              variant="outline"
             >
               Delete
             </Button>
-            <Button onClick={handleUpdateTable} className="w-24">
-              Save
-            </Button>
+            <Button onClick={handleUpdateTable}>Save</Button>
           </div>
         ) : (
           <Button onClick={() => handleAddTable()} className="float-right">

@@ -29,6 +29,7 @@ import { ApiError } from "@/types/api";
 import { getFloorName } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { TableData, TableObject } from "@/types/floor";
+import { PageTitle } from "@/components/PageTitle";
 
 const InitialTable = {
   version: "5.3.0",
@@ -1204,7 +1205,10 @@ const TableView = () => {
           floor_id: floor.id,
         }).unwrap();
         dispatch(floorApi.util.invalidateTags(["allFloors"]));
-        toast({ title: "Floor updated" });
+        toast({
+          title: "Floor updated",
+          description: "Current floor has been updated.",
+        });
       }
     } catch (e) {
       const error = e as ApiError;
@@ -1305,7 +1309,8 @@ const TableView = () => {
 
   return (
     <DashboardLayout>
-      <h1 className="mb-6 text-2xl font-medium">Floor setup</h1>
+      <PageTitle title="Floor setup" />
+
       <div className="flex items-center gap-3  py-2 pt-0 ">
         <Tabs
           onValueChange={(val) => setCurrentFloor(Number(val))}
@@ -1347,7 +1352,11 @@ const TableView = () => {
           color="#757575"
         />
         <div className="ml-auto flex items-center gap-4">
-          <Button variant="destructive" onClick={handleDeleteFloor}>
+          <Button
+            variant="outline"
+            className="border-red-400 bg-transparent hover:text-red-400"
+            onClick={handleDeleteFloor}
+          >
             Delete
           </Button>
           <Button onClick={handleSaveFloor}>Save</Button>

@@ -9,6 +9,7 @@ import { useAppSelector } from "@/config/store";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { Sale, MoneyBag, GraphUp, ArrowRight } from "solar-icon-set";
 import TableBookings from "@/components/tableBookings/TableBookings";
+import { PageTitle } from "@/components/PageTitle";
 
 const Dashboard = () => {
   const auth = useAppSelector((state) => state.authentication);
@@ -20,6 +21,7 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
+      <PageTitle title="Dashboard" />
       <div className="flex gap-12 overflow-hidden mb-14 h-max">
         <div className="w-2/5">
           <div className="flex items-center justify-between mb-4">

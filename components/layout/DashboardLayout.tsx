@@ -96,8 +96,10 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
         <header className="flex items-center justify-between w-full h-16 px-4 border-b">
           <div>
             <h2 className="">
-              <strong className="text-xl text-green-600">Welcome</strong>,{" "}
-              {user?.name?.split(" ")[0]}
+              <strong className="text-xl text-green-600 font-medium">
+                Welcome
+              </strong>
+              , {user?.name?.split(" ")[0]}
             </h2>
           </div>
           <div className="flex items-center gap-2">

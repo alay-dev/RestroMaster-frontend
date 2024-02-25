@@ -10,7 +10,7 @@ import {
 } from "solar-icon-set";
 import googleLogo from "@/public/images/social/google-logo.svg";
 import facebookLogo from "@/public/images/social/facebook-logo.svg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   useLoginWithEmailAndPasswordMutation,
   useSignupMutation,
@@ -123,7 +123,7 @@ export default function Home() {
             )}
           </div>
           {errors.password && <FormError content="Password is required" />}
-          <p className="mb-4 text-right text-blue-600 hover:underline hover:cursor-pointer">
+          <p className="mb-4 text-sm mt-1 text-right text-blue-600 hover:underline hover:cursor-pointer">
             Forgot password?
           </p>
           <Button type="submit" className="w-full ">
@@ -298,7 +298,9 @@ export default function Home() {
     <main className={`flex min-h-screen flex-1 `}>
       <div className="w-2/4 min-h-screen bg-gray-100 flex flex-col items-center justify-around">
         <div className="flex gap-4 items-center ">
-          <h1 className="text-2xl">Restro Master</h1>
+          <h1 className="text-4xl font-light">
+            <span>Restro</span> Master
+          </h1>
         </div>
 
         <img src="/images/login.png" alt="" className="w-3/4" />

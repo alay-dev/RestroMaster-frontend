@@ -24,6 +24,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { useFetchDishQuery } from "@/api/dish";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { PageTitle } from "@/components/PageTitle";
 
 const DISH_TYPES: {
   title: "All" | "Starters" | "Main courses" | "Desserts" | "Drinks";
@@ -51,7 +52,7 @@ const Dishes = () => {
   if (auth.isInitialized && !dishes?.length) {
     return (
       <DashboardLayout>
-        <h1 className="mb-6 text-2xl font-medium">Dishes</h1>
+        <PageTitle title="Dishes" />
         <div className="flex items-center justify-center h-[75vh]">
           <div className="w-3/5 h-[36rem] bg-white rounded-md shadow-sm p-5 flex flex-col items-center justify-center">
             <img
@@ -86,7 +87,7 @@ const Dishes = () => {
 
   return (
     <DashboardLayout>
-      <h1 className="mb-6 text-2xl font-medium">Dishes</h1>
+      <PageTitle title="Dishes" />
       <div className="flex items-center gap-3 my-3 mb-8">
         <div
           key={"All"}

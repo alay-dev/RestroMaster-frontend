@@ -71,7 +71,6 @@ const AddDish = () => {
   };
 
   const handleAddDish: SubmitHandler<AddDishInputs> = async (dishDetail) => {
-    console.log(dishDetail);
     if (images.length === 0) {
       return toast({
         variant: "default",
@@ -118,14 +117,18 @@ const AddDish = () => {
 
   return (
     <DashboardLayout>
-      <div className="mb-6 flex items-center gap-2">
+      <div className="mb-6 flex items-center gap-2 ">
         <Link href="/dishes">
-          <Button size="icon" variant="ghost">
+          <Button
+            size="icon"
+            variant="ghost"
+            className="rounded-full hover:bg-gray-200"
+          >
             <BackIcon size={24} />
           </Button>
         </Link>
 
-        <h1 className="text-2xl ">Add dish</h1>
+        <h1 className="text-2xl font-light w-max">Add dish</h1>
       </div>
 
       <form onSubmit={handleSubmit(handleAddDish)}>
