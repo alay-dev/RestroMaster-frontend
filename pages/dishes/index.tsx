@@ -122,8 +122,8 @@ const Dishes = () => {
         })}
       </div>
       <Link href="/dishes/add">
-        <div className="fixed flex items-center justify-center text-green-500 cursor-pointer bottom-6 right-6">
-          <AddSquare iconStyle="BoldDuotone" size={60} />
+        <div className="fixed flex items-center justify-center text-green-500 cursor-pointer bottom-6 right-6 ">
+          <AddSquare iconStyle="Bold" size={60} />
         </div>
       </Link>
       <Sheet

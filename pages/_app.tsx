@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 import { AppProps } from "next/app";
 import { store } from "@/config/store";
 import { Provider } from "react-redux";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 
 import {
   authenticateUser,
@@ -12,6 +12,12 @@ import {
 import { useRouter } from "next/router";
 import { authKey } from "@/constants/storage";
 import { Toaster } from "@/components/ui/toaster";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -46,11 +52,11 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <>
+    <div className={poppins.className}>
       <Provider store={store}>
         <Component {...pageProps} />
         <Toaster />
       </Provider>
-    </>
+    </div>
   );
 }

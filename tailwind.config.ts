@@ -1,9 +1,5 @@
 import type { Config } from "tailwindcss";
-import { Poppins } from "next/font/google";
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
-});
+
 const config: Config = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
