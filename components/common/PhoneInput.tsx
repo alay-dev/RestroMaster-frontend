@@ -14,6 +14,7 @@ const PhoneInput = ({
   setCountryCode,
   contactNo,
   onChange,
+  placeholder,
 }: PhoneInputProps) => {
   return (
     <div className="w-full outline-gray-600 border overflow-hidden  rounded-xl flex">
@@ -38,6 +39,7 @@ const PhoneInput = ({
         type="tel"
         className="ring-none focus:ring-none before:ring-0 pl-0  ring-offset-white border-none focus-visible:ring-none focus-visible:outline-none focus-visible:ring-0 "
         onChange={onChange}
+        placeholder={placeholder}
       />
     </div>
   );
@@ -49,4 +51,5 @@ type PhoneInputProps = {
   setCountryCode: (data: string) => void;
   contactNo?: {};
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
 };

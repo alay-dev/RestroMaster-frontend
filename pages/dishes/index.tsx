@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import DishCard from "@/components/dishCard/DishCard";
+import DishCard from "@/pages/dishes/_components/DishCard";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import {
   PaperBin,

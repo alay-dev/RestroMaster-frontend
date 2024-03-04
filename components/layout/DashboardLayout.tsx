@@ -7,6 +7,7 @@ import {
   Logout,
   DonutBitten as Dishes,
   DonutBitten,
+  OvenMittsMinimalistic as OrderIcon,
 } from "solar-icon-set";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -75,6 +76,17 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
           </div>
           <div
             className={cn(
+              "flex items-center justify-center w-full h-12  pl-1",
+              router.pathname.includes("/orders") &&
+                "border-l-4 border-white bg-blue-400  pl-0 "
+            )}
+          >
+            <Link href="/orders">
+              <OrderIcon iconStyle="BoldDuotone" size={25} />
+            </Link>
+          </div>
+          <div
+            className={cn(
               "flex items-center justify-center w-full  h-12 pl-1",
               router.pathname.includes("/profile") &&
                 "border-l-4 border-white bg-blue-400 pl-0 "
@@ -110,7 +122,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                         <p>Adam </p> */}
           </div>
         </header>
-        <div className="min-h-screen p-6 bg-gray-100">{children}</div>
+        <div className="min-h-screen p-6 pt-3 bg-gray-100">{children}</div>
       </div>
     </div>
   );

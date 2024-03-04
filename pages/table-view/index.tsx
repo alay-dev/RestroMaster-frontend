@@ -31,6 +31,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { TableData, TableObject } from "@/types/floor";
 import { PageTitle } from "@/components/PageTitle";
 
+const grid = 5;
+
 const InitialTable = {
   version: "5.3.0",
   objects: [
@@ -1160,6 +1162,9 @@ const TableView = () => {
       seatLeft,
       tableId,
     });
+
+    table.snapAngle = 90;
+    table.snapThreshold = 10;
     setTableCount(tableCount + 1);
 
     canvas.add(table);
@@ -1167,8 +1172,24 @@ const TableView = () => {
   };
 
   useEffect(() => {
+    canvas?.on("object:moving", (e) => {
+      const table = e.target;
+      if (!table?.left || !table?.top) return;
+      table?.set({
+        left: Math.round(table?.left / grid) * grid,
+        top: Math.round(table?.top / grid) * grid,
+      });
+    });
+
+    canvas?.on("mouse:down", (e) => {
+      const table = e.target;
+      if (table) {
+        table.snapAngle = 90;
+        table.snapThreshold = 10;
+      }
+    });
     canvas?.on("mouse:dblclick", (e) => {
-      const table = canvas?.getActiveObject();
+      const table = e.target;
 
       if (table) {
         setActiveTable(table);
@@ -1265,6 +1286,9 @@ const TableView = () => {
       seatLeft,
       tableId,
     });
+    table.angle = activeTable?.angle || 0;
+    table.top = activeTable?.top || 0;
+    table.left = activeTable?.left || 0;
 
     canvas.remove(activeTable);
     canvas.add(table);
@@ -1300,7 +1324,7 @@ const TableView = () => {
       toast({
         title: "Floor deleted",
         description:
-          "The floor has been deleted the user can not longer book / view this floor.",
+          "The floor has been deleted your customers can no longer book / view this floor.",
       });
     } catch (e) {
       const error = e as ApiError;
@@ -1352,13 +1376,15 @@ const TableView = () => {
           color="#757575"
         />
         <div className="ml-auto flex items-center gap-4">
-          <Button
-            variant="outline"
-            className="border-red-400 bg-transparent hover:text-red-400"
-            onClick={handleDeleteFloor}
-          >
-            Delete
-          </Button>
+          {currentFloor !== 0 ? (
+            <Button
+              variant="outline"
+              className="border-red-400 bg-transparent hover:text-red-400"
+              onClick={handleDeleteFloor}
+            >
+              Delete
+            </Button>
+          ) : null}
           <Button onClick={handleSaveFloor}>Save</Button>
         </div>
       </div>
@@ -1367,8 +1393,6 @@ const TableView = () => {
         id="canvasWrapper"
         ref={tableCanvasWrapper}
       >
-        {/* <Button onClick={() => addTable(800, 100)}>Add Table</Button>
-            <Button onClick={() => handleEditTable()}> edit</Button> */}
         <canvas ref={tableCanvas} id="tableCanvas" />
         <div
           onClick={() => setAddDrawer(true)}

@@ -4,4 +4,12 @@ export interface Dish {
   price: string;
   image: string[];
   name: string;
+  id: string;
 }
+
+export type Category =
+  | "All"
+  | "Starter"
+  | "Main Course"
+  | "Side Dish"
+  | "Bevereges";

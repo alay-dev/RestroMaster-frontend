@@ -4,7 +4,7 @@ import { fabric } from "fabric";
 import { useAppSelector } from "@/config/store";
 
 const useInitializeCanvas = () => {
-  const [canvas, setCanvas] = useState<Canvas>();
+  const [canvas, setCanvas] = useState<Canvas | null>();
   const tableCanvas = useRef<HTMLCanvasElement>(null);
   const tableCanvasWrapper = useRef<HTMLDivElement>(null);
   const auth = useAppSelector((state) => state.authentication);
@@ -29,6 +29,10 @@ const useInitializeCanvas = () => {
 
     setCanvas(fabricInstance);
     fabricInstance.renderAll();
+
+    () => {
+      setCanvas(null);
+    };
   }, [tableCanvas, tableCanvasWrapper, auth.isInitialized]);
 
   return [tableCanvas, tableCanvasWrapper, canvas] as const;

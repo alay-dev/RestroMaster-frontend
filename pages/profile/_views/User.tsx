@@ -150,7 +150,7 @@ const User = () => {
         <Button
           onClick={() => setUpdateModal(true)}
           variant="outline"
-          className="px-10 shadow-sm border-gray-300 gap-4 "
+          className=" shadow-sm  gap-4 border border-green-300"
         >
           <Pen />
           Edit

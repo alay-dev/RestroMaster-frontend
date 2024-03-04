@@ -10,7 +10,9 @@ const DishCard = ({ dish }: DishCardProps) => {
         />
       </div>
       <h4 className="mb-2 font-medium leading-6">{dish.name}</h4>
-      <p className="mb-6 text-xs text-gray-400">{dish.description}</p>
+      <p className="mb-6 text-xs text-gray-400 line-clamp-3">
+        {dish.description}
+      </p>
       <h3 className="text-orange-600">
         ₹ <strong className="text-2xl font-semibold ">{dish.price}</strong>
       </h3>
