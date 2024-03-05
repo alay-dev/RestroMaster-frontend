@@ -44,20 +44,13 @@ const BookTable = () => {
   const [tableCanvas, tableCanvasWrapper, canvas] = useInitializeCanvas();
 
   useEffect(() => {
-    if (allFloors && !allFloors.length) {
-      setCurrentFloor(0);
-      setNewFloor(true);
-    } else {
-      setNewFloor(false);
-    }
-  }, [allFloors]);
-
-  useEffect(() => {
     if (canvas && allFloors?.length === 0) {
       // canvas.clear();
       // canvas.loadFromJSON(InitialTable, () => {
       //   canvas.renderAll();
       // });
+
+      console.log("NO FLoors");
     } else if (
       canvas &&
       allFloors?.length &&
@@ -71,8 +64,6 @@ const BookTable = () => {
           object.lockMovementY = true;
           object.hasControls = false;
           object.hasRotatingPoint = false;
-
-          console.log(object);
         });
 
         canvas.renderAll();
@@ -86,8 +77,6 @@ const BookTable = () => {
           canvas.renderAll();
         }
       });
-    } else if (allFloors && allFloors?.length < currentFloor + 1) {
-      canvas?.clear();
     }
   }, [currentFloor, allFloors, canvas]);
 

@@ -28,8 +28,6 @@ type DeleteFloorRes = {
   floor_id: string;
 };
 
-type fetchAllFloorsRes = Floor[];
-
 export const floorApi = createApi({
   reducerPath: "floorApi",
   baseQuery: fetchBaseQuery({
@@ -42,11 +40,11 @@ export const floorApi = createApi({
   }),
   tagTypes: ["allFloors"],
   endpoints: (builder) => ({
-    fetchFloors: builder.query<fetchAllFloorsRes, string>({
+    fetchFloors: builder.query<Floor[], string>({
       query: (restaurant_id) => ({
         url: `/${restaurant_id}`,
       }),
-      transformResponse: (response: ApiSuccess<fetchAllFloorsRes>) => {
+      transformResponse: (response: ApiSuccess<Floor[]>) => {
         return response.data;
       },
       transformErrorResponse: (response: FetchBaseQueryError) => {
