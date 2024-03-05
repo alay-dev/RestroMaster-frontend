@@ -2,7 +2,7 @@ import { useFetchProfileQuery } from "@/api/users";
 import EmployeeCard from "@/components/employeeCard/EmployeeCard";
 import InitialLoading from "@/components/initialLoading/InitialLoading";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import RecentOrder from "@/components/recentOrder/RecentOrder";
+import RecentOrder from "@/pages/dashboard/_views/RecentOrder";
 import CreateRestaurant from "@/components/restaurant/CreateRestaurant";
 import StatChartCard from "@/components/statChartCard/StatChartCard";
 import { useAppSelector } from "@/config/store";

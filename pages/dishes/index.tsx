@@ -58,6 +58,7 @@ const Dishes = () => {
             <img
               src="/images/dish/noDish.jpg"
               className="w-[90%] h-[22rem] object-contain"
+              alt="no dish"
             />
             <h1 className="text-2xl mb-2">No Dish</h1>
             <p className="text-sm text-gray-400">

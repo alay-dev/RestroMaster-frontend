@@ -1,6 +1,7 @@
 import { useFetchOrdersQuery } from "@/api/order";
 import { useFetchProfileQuery } from "@/api/users";
 import { useAppSelector } from "@/config/store";
+import OrderStatusChip from "@/pages/orders/_components/OrderStatusChip";
 import { skipToken } from "@reduxjs/toolkit/query";
 
 const RecentOrder = () => {
@@ -27,9 +28,7 @@ const RecentOrder = () => {
                   <p className="text-gray-400 text-sm mb-1">
                     {order.customer_name}
                   </p>
-                  <div className="bg-orange-50 text-orange-600 py-1 px-4 text-xs rounded-lg w-max border border-orange-400">
-                    {order?.paid ? "Paid " : "Not paid"}
-                  </div>
+                  <OrderStatusChip status={order.paid ? "Paid" : "Unpaid"} />
                 </div>
               </div>
               <p>₹ {order?.order_total}</p>

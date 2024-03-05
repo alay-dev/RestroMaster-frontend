@@ -1396,9 +1396,9 @@ const TableView = () => {
         <canvas ref={tableCanvas} id="tableCanvas" />
         <div
           onClick={() => setAddDrawer(true)}
-          className="fixed flex items-center justify-center text-green-500 cursor-pointer bottom-6 right-6"
+          className="fixed flex items-center justify-center text-green-500 cursor-pointer bottom-6 right-6 "
         >
-          <AddSquare iconStyle="BoldDuotone" size={60} />
+          <AddSquare iconStyle="Bold" size={60} />
         </div>
         <Sheet
           open={editDrawer}
