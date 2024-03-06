@@ -30,6 +30,7 @@ import { getFloorName } from "@/lib/utils";
 import { useToast } from "@/components/ui/use-toast";
 import { TableData, TableObject } from "@/types/floor";
 import { PageTitle } from "@/components/PageTitle";
+import DeleteFloorConfirm from "./_modal/DeleteFloorConfirm";
 
 const grid = 5;
 
@@ -1097,6 +1098,7 @@ const TableView = () => {
   const [newFloor, setNewFloor] = useState(false);
   const [tableCount, setTableCount] = useState(0);
   const [activeTable, setActiveTable] = useState<fabric.Object | null>(null);
+  const [deleteFloorConfirmModal, setDeleteFloorConfirmModal] = useState(false);
 
   const { toast } = useToast();
   const dispatch = useAppDispatch();
@@ -1319,6 +1321,7 @@ const TableView = () => {
     try {
       await deleteFloor(floor?.id).unwrap();
       setCurrentFloor(currentFloor - 1);
+      setDeleteFloorConfirmModal(false);
       dispatch(floorApi?.util?.invalidateTags(["allFloors"]));
 
       toast({
@@ -1380,7 +1383,7 @@ const TableView = () => {
             <Button
               variant="outline"
               className="border-red-400 bg-transparent hover:text-red-400"
-              onClick={handleDeleteFloor}
+              onClick={() => setDeleteFloorConfirmModal(true)}
             >
               Delete
             </Button>
@@ -1447,6 +1450,12 @@ const TableView = () => {
           </SheetContent>
         </Sheet>
       </div>
+      <DeleteFloorConfirm
+        floor={getFloorName(currentFloor)}
+        isOpen={deleteFloorConfirmModal}
+        onClose={() => setDeleteFloorConfirmModal(false)}
+        onConfirm={handleDeleteFloor}
+      />
     </DashboardLayout>
   );
 };

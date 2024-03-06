@@ -8,7 +8,7 @@ import StatChartCard from "@/components/statChartCard/StatChartCard";
 import { useAppSelector } from "@/config/store";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { Sale, MoneyBag, GraphUp, ArrowRight } from "solar-icon-set";
-import TableBookings from "@/components/tableBookings/TableBookings";
+import TableBookings from "@/pages/dashboard/_views/TableBookings";
 import { PageTitle } from "@/components/PageTitle";
 
 const Dashboard = () => {

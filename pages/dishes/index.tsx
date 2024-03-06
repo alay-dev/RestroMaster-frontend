@@ -16,7 +16,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import AddDishDrawer from "@/components/addDishDrawer/AddDishDrawer";
+import AddDishDrawer from "@/pages/dishes/_components/AddDishDrawer";
 import InitialLoading from "@/components/initialLoading/InitialLoading";
 import { useAppSelector } from "@/config/store";
 import { useFetchProfileQuery } from "@/api/users";

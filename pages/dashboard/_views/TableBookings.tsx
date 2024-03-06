@@ -28,6 +28,7 @@ const TableBookings = () => {
                 <img
                   className="w-10 h-10 overflow-hidden rounded-full"
                   src="https://github.com/shadcn.png"
+                  alt=""
                 />
                 <div>
                   <p className=" text-sm leading-4">{booking.customer_name}</p>
