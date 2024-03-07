@@ -17,3 +17,4 @@ export const storage = getStorage(app);
 export const restaurantImagesPath = "restaurants";
 export const userImagePath = "user";
 export const dishImagesPath = "dishes";
+export const employeeImagesPath = "employees";

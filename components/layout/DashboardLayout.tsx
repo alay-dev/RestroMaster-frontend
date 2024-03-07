@@ -19,6 +19,7 @@ import { authenticationApi } from "@/api/authentication";
 import { authKey } from "@/constants/storage";
 import { useFetchProfileQuery } from "@/api/users";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { navigation } from "@/constants/navigation";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
@@ -41,61 +42,20 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
       <nav className="fixed top-0 left-0 flex flex-col items-center w-24 h-screen py-5 text-white bg-blue-500">
         <ChefHat iconStyle="BoldDuotone" size={35} />
         <ul className="flex flex-col items-center flex-1 w-full mt-16">
-          <div
-            className={cn(
-              "flex items-center justify-center w-full h-12 pl-1",
-              router.pathname.includes("/dashboard") &&
-                "border-l-4 border-white bg-blue-400  pl-0 "
-            )}
-          >
-            <Link href="/dashboard">
-              <Home iconStyle="BoldDuotone" size={25} />
-            </Link>
-          </div>
-          <div
-            className={cn(
-              "flex items-center justify-center w-full h-12 pl-1",
-              router.pathname.includes("/table-view") &&
-                "border-l-4 border-white bg-blue-400 pl-0  "
-            )}
-          >
-            <Link href="/table-view">
-              <BarChair iconStyle="BoldDuotone" size={25} />
-            </Link>
-          </div>
-          <div
-            className={cn(
-              "flex items-center justify-center w-full h-12  pl-1",
-              router.pathname.includes("/dishes") &&
-                "border-l-4 border-white bg-blue-400  pl-0 "
-            )}
-          >
-            <Link href="/dishes">
-              <DonutBitten iconStyle="BoldDuotone" size={25} />
-            </Link>
-          </div>
-          <div
-            className={cn(
-              "flex items-center justify-center w-full h-12  pl-1",
-              router.pathname.includes("/orders") &&
-                "border-l-4 border-white bg-blue-400  pl-0 "
-            )}
-          >
-            <Link href="/orders">
-              <OrderIcon iconStyle="BoldDuotone" size={25} />
-            </Link>
-          </div>
-          <div
-            className={cn(
-              "flex items-center justify-center w-full  h-12 pl-1",
-              router.pathname.includes("/profile") &&
-                "border-l-4 border-white bg-blue-400 pl-0 "
-            )}
-          >
-            <Link href="/profile">
-              <Settings iconStyle="BoldDuotone" size={25} />
-            </Link>
-          </div>
+          {navigation?.map((nav) => {
+            return (
+              <li
+                className={cn(
+                  "flex items-center justify-center w-full h-12 pl-1",
+                  router.pathname.includes(nav.path) &&
+                    "border-l-4 border-white bg-blue-400  pl-0 "
+                )}
+                key={nav.path}
+              >
+                <Link href={nav.path}>{nav.icon}</Link>
+              </li>
+            );
+          })}
         </ul>
         <Logout
           className="cursor-pointer"

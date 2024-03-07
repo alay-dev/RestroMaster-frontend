@@ -118,7 +118,12 @@ const BookingDetails = () => {
       <div className="mb-4">
         <h1 className="uppercase text-sm text-gray-400 mb-1">Date and Time</h1>
         <div className="bg-card p-4 rounded-lg flex flex-col items-center gap-3">
-          <DatePicker />
+          {bookTableContext ? (
+            <DatePicker
+              date={bookTableContext?.date || new Date()}
+              onChange={(date) => bookTableContext?.setDate(date)}
+            />
+          ) : null}
           <TimePicker />
         </div>
       </div>

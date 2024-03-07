@@ -1,5 +1,5 @@
 import { useFetchProfileQuery } from "@/api/users";
-import EmployeeCard from "@/components/employeeCard/EmployeeCard";
+import EmployeeCard from "./_views/EmployeeCard";
 import InitialLoading from "@/components/initialLoading/InitialLoading";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import RecentOrder from "@/pages/dashboard/_views/RecentOrder";
@@ -10,6 +10,7 @@ import { skipToken } from "@reduxjs/toolkit/query";
 import { Sale, MoneyBag, GraphUp, ArrowRight } from "solar-icon-set";
 import TableBookings from "@/pages/dashboard/_views/TableBookings";
 import { PageTitle } from "@/components/PageTitle";
+import Link from "next/link";
 
 const Dashboard = () => {
   const auth = useAppSelector((state) => state.authentication);
@@ -95,18 +96,22 @@ const Dashboard = () => {
         <div className="w-2/5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-md font-medium ">Employee</h3>
-            <div className="px-5 py-1 bg-gray-200 cursor-pointer hover:underline rounded-xl">
-              <p className="text-xs text-orange-600">View all</p>
-            </div>
+            <Link href="/employees">
+              <div className="px-5 py-1 bg-gray-200 cursor-pointer hover:underline rounded-xl">
+                <p className="text-xs text-orange-600">View all</p>
+              </div>
+            </Link>
           </div>
           <EmployeeCard />
         </div>
         <div className="flex flex-col w-3/5 ">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-md font-medium ">Recent order</h3>
-            <div className="px-5 py-1 bg-gray-200 cursor-pointer hover:underline rounded-xl">
-              <p className="text-xs text-orange-600">View all</p>
-            </div>
+            <Link href="/orders">
+              <div className="px-5 py-1 bg-gray-200 cursor-pointer hover:underline rounded-xl">
+                <p className="text-xs text-orange-600">View all</p>
+              </div>
+            </Link>
           </div>
           <RecentOrder />
         </div>

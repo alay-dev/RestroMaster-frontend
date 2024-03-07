@@ -13,9 +13,21 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { BookTable } from "../../../context/tableBooking";
+import { SelectSingleEventHandler } from "react-day-picker";
+import { UseFormRegisterReturn } from "react-hook-form";
 
-const DatePicker = () => {
-  const bookTable = React.useContext(BookTable);
+const DatePicker = ({
+  placeholder,
+  onChange,
+  date,
+}: {
+  placeholder?: string;
+  onChange: (date: Date | undefined) => void;
+  date: Date | undefined;
+}) => {
+  const handleOnSelect = (data: Date | undefined) => {
+    onChange(data);
+  };
 
   return (
     <Popover>
@@ -23,23 +35,23 @@ const DatePicker = () => {
         <Button
           variant={"outline"}
           className={cn(
-            "w-full justify-start text-left font-normal",
-            !bookTable?.date && "text-muted-foreground"
+            "w-full justify-start text-left font-normal rounded-lg",
+            !date && "text-muted-foreground"
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {bookTable?.date ? (
-            format(bookTable.date, "PPP")
+          {date ? (
+            format(date, "PPP")
           ) : (
-            <span>Pick a date</span>
+            <span> {placeholder || "Pick a date"}</span>
           )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
-          selected={bookTable?.date}
-          onSelect={bookTable?.setDate}
+          selected={date}
+          onSelect={handleOnSelect}
           initialFocus
         />
       </PopoverContent>
