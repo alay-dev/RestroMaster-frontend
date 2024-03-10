@@ -52,7 +52,9 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                 )}
                 key={nav.path}
               >
-                <Link href={nav.path}>{nav.icon}</Link>
+                <Link href={nav.path}>
+                  <nav.icon iconStyle="BoldDuotone" size={25} />
+                </Link>
               </li>
             );
           })}

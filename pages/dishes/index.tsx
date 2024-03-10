@@ -89,7 +89,7 @@ const Dishes = () => {
   return (
     <DashboardLayout>
       <PageTitle title="Dishes" />
-      <div className="flex items-center gap-3 my-3 mb-8">
+      <div className="flex items-center gap-3 my-3 mt-0 mb-8">
         <div
           key={"All"}
           className={cn(

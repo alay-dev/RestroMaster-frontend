@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 export const PageTitle = ({ title, actions, backBtnLink }: PageTitleProps) => {
   return (
     <div className="flex items-center justify-between gap-4">
-      <div className="flex gap-2 items-center  mb-6">
+      <div className="flex gap-2 items-center  mb-4">
         {backBtnLink ? (
           <Link href={backBtnLink}>
             <Button

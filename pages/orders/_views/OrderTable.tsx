@@ -62,7 +62,7 @@ const OrderTable = ({ data }: { data: Order[] }) => {
     columnHelper.accessor("customer_name", {
       header: () => "Customer",
       cell: ({ row }) => (
-        <div className="flex gap-2">
+        <div className="flex gap-3 items-start">
           <Avatar>
             <AvatarImage
               src={`https://api.multiavatar.com/${row.original.customer_name}`}
@@ -71,7 +71,7 @@ const OrderTable = ({ data }: { data: Order[] }) => {
               {row.original?.customer_name?.charAt(0)}
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col ">
+          <div className="flex flex-col items-start">
             <p>{row?.original?.customer_name}</p>
             <p className="text-gray-400">{row?.original?.customer_phone} </p>
           </div>

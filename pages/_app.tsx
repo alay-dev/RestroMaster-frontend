@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import { authKey } from "@/constants/storage";
 import { Toaster } from "@/components/ui/toaster";
 import { Poppins } from "next/font/google";
+import { unauthorizedPaths } from "@/constants/auth";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,12 +22,15 @@ const poppins = Poppins({
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const pathname = router.pathname;
+
+  console.log(pathname, "PATHNAME");
 
   useEffect(() => {
     const authToken = sessionStorage.getItem(authKey);
     let loading: ReturnType<typeof setTimeout>;
 
-    if (!authToken) {
+    if (!authToken && !unauthorizedPaths.includes(pathname)) {
       loading = setTimeout(() => {
         router.push("/").then(() => {
           store.dispatch(reauthenticateUser());

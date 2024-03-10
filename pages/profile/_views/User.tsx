@@ -104,8 +104,8 @@ const User = () => {
   //     : user?.name?.at(0)?.toUpperCase();
 
   return (
-    <div className="border-blue-200 bg-card border rounded-xl  mb-8 overflow-hidden">
-      <div className="bg-blue-50  p-4 border-b border-blue-200 text-blue-500">
+    <div className="border-blue-200 bg-card border rounded-xl  mb-5 overflow-hidden">
+      <div className="bg-blue-50  p-4 py-2 border-b border-blue-200 text-blue-500 text-sm">
         <p>Profile</p>
       </div>
       <div className=" p-8 flex items-center justify-between  shadow-light">

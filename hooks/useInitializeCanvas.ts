@@ -3,39 +3,35 @@ import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 import { useAppSelector } from "@/config/store";
 
-const useInitializeCanvas = () => {
-  const [canvas, setCanvas] = useState<Canvas | null>();
+const useInitializeCanvas = (
+  canvas: Canvas | null,
+  setCanvas: (data: Canvas) => void
+) => {
   const tableCanvas = useRef<HTMLCanvasElement>(null);
   const tableCanvasWrapper = useRef<HTMLDivElement>(null);
-  const auth = useAppSelector((state) => state.authentication);
 
   useEffect(() => {
-    if (
-      !tableCanvas.current ||
-      !tableCanvasWrapper.current ||
-      !auth.isInitialized
-    )
-      return;
+    console.log(tableCanvas, tableCanvasWrapper, " TABLECANVAS");
+    if (tableCanvas.current && tableCanvasWrapper.current && !canvas) {
+      // const canvasHeight =
+      //   tableCanvasWrapper?.current?.getBoundingClientRect().height;
+      // const canvasWidth =
+      //   tableCanvasWrapper?.current?.getBoundingClientRect().width;
 
-    const canvasHeight =
-      tableCanvasWrapper?.current?.getBoundingClientRect().height;
-    const canvasWidth =
-      tableCanvasWrapper?.current?.getBoundingClientRect().width;
+      const canvasHeight = 640;
+      const canvasWidth = 1280;
 
-    const fabricInstance = new fabric.Canvas(tableCanvas.current, {
-      height: canvasHeight,
-      width: canvasWidth,
-    });
+      const fabricInstance = new fabric.Canvas(tableCanvas.current, {
+        height: canvasHeight,
+        width: canvasWidth,
+      });
 
-    setCanvas(fabricInstance);
-    fabricInstance.renderAll();
+      setCanvas(fabricInstance);
+      fabricInstance.renderAll();
+    }
+  }, [tableCanvas.current, tableCanvasWrapper.current, canvas]);
 
-    () => {
-      setCanvas(null);
-    };
-  }, [tableCanvas, tableCanvasWrapper, auth.isInitialized]);
-
-  return [tableCanvas, tableCanvasWrapper, canvas] as const;
+  return [tableCanvas, tableCanvasWrapper] as const;
 };
 
 export default useInitializeCanvas;

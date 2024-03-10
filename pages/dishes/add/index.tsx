@@ -32,6 +32,7 @@ import {
   AltArrowLeft as BackIcon,
   CloseCircle as CloseIcon,
 } from "solar-icon-set";
+import { PageTitle } from "@/components/PageTitle";
 
 type AddDishInputs = {
   name: string;
@@ -117,19 +118,7 @@ const AddDish = () => {
 
   return (
     <DashboardLayout>
-      <div className="mb-6 flex items-center gap-2 ">
-        <Link href="/dishes">
-          <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full hover:bg-gray-200"
-          >
-            <BackIcon size={24} />
-          </Button>
-        </Link>
-
-        <h1 className="text-2xl font-light w-max">Add dish</h1>
-      </div>
+      <PageTitle backBtnLink="/dishes" title="Add dish" />
 
       <form onSubmit={handleSubmit(handleAddDish)}>
         {/* <DevTool control={control} /> */}

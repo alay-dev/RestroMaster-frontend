@@ -13,27 +13,27 @@ import {
 export const navigation = [
   {
     path: "/dashboard",
-    icon: <Home iconStyle="BoldDuotone" size={25} />,
+    icon: Home,
   },
   {
     path: "/table-view",
-    icon: <BarChair iconStyle="BoldDuotone" size={25} />,
+    icon: BarChair,
   },
   {
     path: "/dishes",
-    icon: <DonutBitten iconStyle="BoldDuotone" size={25} />,
+    icon: DonutBitten,
   },
 
   {
     path: "/orders",
-    icon: <OrderIcon iconStyle="BoldDuotone" size={25} />,
+    icon: OrderIcon,
   },
   {
     path: "/employees",
-    icon: <EmployeeIcon iconStyle="BoldDuotone" size={25} />,
+    icon: EmployeeIcon,
   },
   {
     path: "/profile",
-    icon: <Settings iconStyle="BoldDuotone" size={25} />,
+    icon: Settings,
   },
 ];
