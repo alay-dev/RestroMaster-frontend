@@ -19,7 +19,7 @@ import {
 } from "@tanstack/react-table";
 import { format } from "date-fns";
 
-const EmployeeTable = ({ data }: { data: Employee[] }) => {
+const EmployeeTable = ({ data = [] }: { data: Employee[] }) => {
   const columnHelper = createColumnHelper<Employee>();
   const { toast } = useToast();
   const dispatch = useAppDispatch();

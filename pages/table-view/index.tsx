@@ -31,6 +31,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { TableData, TableObject } from "@/types/floor";
 import { PageTitle } from "@/components/PageTitle";
 import DeleteFloorConfirm from "./_modal/DeleteFloorConfirm";
+import { Canvas } from "fabric/fabric-impl";
 
 const grid = 5;
 
@@ -1092,6 +1093,7 @@ const InitialTable = {
 };
 
 const TableView = () => {
+  const [canvas, setCanvas] = useState<Canvas | null>(null);
   const [editDrawer, setEditDrawer] = useState(false);
   const [addDrawer, setAddDrawer] = useState(false);
   const [currentFloor, setCurrentFloor] = useState<number>(0);
@@ -1120,7 +1122,10 @@ const TableView = () => {
     }
   }, [allFloors]);
 
-  const [tableCanvas, tableCanvasWrapper, canvas] = useInitializeCanvas();
+  const [tableCanvas, tableCanvasWrapper] = useInitializeCanvas(
+    canvas,
+    setCanvas
+  );
 
   useEffect(() => {
     if (canvas && allFloors?.length === 0) {

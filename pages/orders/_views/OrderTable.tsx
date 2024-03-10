@@ -30,7 +30,7 @@ import { CheckCircle } from "solar-icon-set";
 import OrderStatusChip from "../_components/OrderStatusChip";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const OrderTable = ({ data }: { data: Order[] }) => {
+const OrderTable = ({ data = [] }: { data: Order[] }) => {
   const [markOrderPaid] = useMarkOrderPaidMutation();
   const columnHelper = createColumnHelper<Order>();
   const { toast } = useToast();
