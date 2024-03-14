@@ -1,11 +1,13 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import {
+  FetchBaseQueryError,
+  createApi,
+  fetchBaseQuery,
+} from "@reduxjs/toolkit/query/react";
 import { baseurl } from "@/config/api";
 import { ApiSuccess } from "@/types/api";
 import { store } from "@/config/store";
 import { Dish } from "@/types/dish";
 import { Employee } from "@/types/employee";
-
-type fetchDishRes = Dish[];
 
 type AddEmployeeProps = {
   restaurant_id: string;
@@ -51,6 +53,9 @@ export const employeeApi = createApi({
         body,
       }),
       transformResponse: (response: ApiSuccess<AddEmployeeRes>) => {
+        return response.data;
+      },
+      transformErrorResponse: (response: FetchBaseQueryError) => {
         return response.data;
       },
     }),

@@ -14,6 +14,7 @@ import { authKey } from "@/constants/storage";
 import { Toaster } from "@/components/ui/toaster";
 import { Poppins } from "next/font/google";
 import { unauthorizedPaths } from "@/constants/auth";
+import Head from "next/head";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -57,6 +58,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <div className={poppins.className}>
+      <Head>
+        <title>Restro master</title>
+      </Head>
       <Provider store={store}>
         <Component {...pageProps} />
         <Toaster />

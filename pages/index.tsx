@@ -62,7 +62,12 @@ export default function Home() {
       handleSubmit,
       formState: { errors },
       control,
-    } = useForm<LoginInputs>();
+    } = useForm<LoginInputs>({
+      defaultValues: {
+        email: "narualay030@gmail.com",
+        password: "user1234",
+      },
+    });
 
     const handleLogin: SubmitHandler<LoginInputs> = async (data) => {
       try {

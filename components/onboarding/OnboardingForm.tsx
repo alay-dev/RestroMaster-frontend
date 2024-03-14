@@ -293,7 +293,7 @@ const OnboardingForm = () => {
             </label>
             <PhoneInput
               setCountryCode={setCountryCode}
-              contactNo={register("contactNo", { required: true })}
+              register={register("contactNo", { required: true })}
             />
             {errors.contactNo && (
               <FormError content="Please provide a contact no." />

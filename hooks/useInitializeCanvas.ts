@@ -1,7 +1,6 @@
 import { Canvas } from "fabric/fabric-impl";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { fabric } from "fabric";
-import { useAppSelector } from "@/config/store";
 
 const useInitializeCanvas = (
   canvas: Canvas | null,
@@ -11,8 +10,12 @@ const useInitializeCanvas = (
   const tableCanvasWrapper = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log(tableCanvas, tableCanvasWrapper, " TABLECANVAS");
-    if (tableCanvas.current && tableCanvasWrapper.current && !canvas) {
+    if (!tableCanvas.current && !tableCanvasWrapper.current) return;
+
+    const canvasEl = document.querySelector(".canvas-container");
+
+    if (!canvas && !canvasEl) {
+      console.log("CANVAS", canvas);
       // const canvasHeight =
       //   tableCanvasWrapper?.current?.getBoundingClientRect().height;
       // const canvasWidth =

@@ -20,6 +20,7 @@ import { authKey } from "@/constants/storage";
 import { useFetchProfileQuery } from "@/api/users";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { navigation } from "@/constants/navigation";
+import { Button } from "../ui/button";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
@@ -76,12 +77,25 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
               , {user?.name?.split(" ")[0]}
             </h2>
           </div>
-          <div className="flex items-center gap-2">
-            {/* <Avatar>
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                        <p>Adam </p> */}
+          <div className="flex items-center gap-4">
+            <Link href={`/book-table/${user?.restaurant?.id}`}>
+              <Button
+                size="sm"
+                variant="outline"
+                className="text-xs  bg-transparent rounded-xl border-blue-500 font-light"
+              >
+                Book table
+              </Button>
+            </Link>
+            <Link href={`/orders/new-order`}>
+              <Button
+                size="sm"
+                variant="outline"
+                className="text-xs  bg-transparent rounded-xl border-blue-500 font-light"
+              >
+                Take order
+              </Button>
+            </Link>
           </div>
         </header>
         <div className="min-h-screen p-6 pt-3 bg-gray-100">{children}</div>

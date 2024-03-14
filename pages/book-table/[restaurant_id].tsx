@@ -1,9 +1,4 @@
-import { useRouter } from "next/router";
-
-import { useState, useEffect } from "react";
-import { useFetchFloorsQuery } from "@/api/floor";
-import { skipToken } from "@reduxjs/toolkit/query";
-import useInitializeCanvas from "@/hooks/useInitializeCanvas";
+import { useState } from "react";
 
 import BookingDetails from "./_views/BookingDetails";
 import {

@@ -14,7 +14,6 @@ const countryCodes = ["91", "00", "50", "77"];
 
 const PhoneInput = ({
   setCountryCode,
-  contactNo,
   onChange,
   placeholder,
   register,
@@ -46,13 +45,12 @@ const PhoneInput = ({
       </Select>
       <Input
         onChange={onChange}
-        {...register}
-        // {...contactNo}
         type="tel"
         className="ring-none focus:ring-none before:ring-0 pl-0  ring-offset-white border-none focus-visible:ring-none focus-visible:outline-none focus-visible:ring-0 w-full"
         placeholder={placeholder}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        {...register}
       />
     </div>
   );
@@ -62,7 +60,7 @@ export default PhoneInput;
 
 type PhoneInputProps = {
   setCountryCode: (data: string) => void;
-  contactNo?: {};
+
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   register?: UseFormRegisterReturn;

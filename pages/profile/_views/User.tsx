@@ -192,7 +192,7 @@ const User = () => {
               </label>
               <PhoneInput
                 setCountryCode={setCountryCode}
-                contactNo={register("phone_no", { required: true })}
+                register={register("phone_no", { required: true })}
               />
               {errors.phone_no && (
                 <FormError content="Please provide a contact no." />

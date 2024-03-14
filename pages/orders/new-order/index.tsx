@@ -115,6 +115,7 @@ const NewOrder = () => {
         variant: "default",
         title: "Order created",
       });
+      setCustomerDetailModal(false);
     } catch (err) {
       console.log(err);
 

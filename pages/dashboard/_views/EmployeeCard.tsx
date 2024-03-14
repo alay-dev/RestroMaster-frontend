@@ -8,8 +8,18 @@ const EmployeeCard = () => {
   const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
   const employees = useFetchEmployeeQuery(user?.restaurant?.id ?? skipToken);
 
+  if (employees?.data?.length !== 0) {
+    return (
+      <div className="flex justify-center items-center w-full  bg-white rounded-2xl h-[20rem]">
+        <p className="text-sm text-gray-400">
+          You don&apos;t have any employees yet
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full bg-white rounded-2xl">
+    <div className="w-full bg-white rounded-2xl  h-[20rem]">
       <ul className="p-4">
         {employees?.data?.map((employee) => {
           return (

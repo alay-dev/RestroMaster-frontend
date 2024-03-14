@@ -1,4 +1,3 @@
-import { BookTableContext, BookTableProvider } from "@/context/tableBooking";
 import BookTableDialog from "./BookTableDialog";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useInitializeCanvas from "@/hooks/useInitializeCanvas";
@@ -35,20 +34,11 @@ const FloorView = ({
     setCanvas
   );
 
-  console.log("FLOOR RENDERED");
-
   useEffect(() => {
-    if (canvas && allFloors?.length === 0) {
-      // canvas.clear();
-      // canvas.loadFromJSON(InitialTable, () => {
-      //   canvas.renderAll();
-      // });
-
-      console.log("NO FLoors");
-    }
-
-    if (canvas && allFloors?.length) {
+    if (canvas && allFloors?.length && allFloors.length > currentFloor) {
+      console.log("Loading for", canvas, currentFloor, allFloors?.length);
       const canvasJSON = JSON.parse(allFloors[currentFloor].canvas);
+      canvas.clear();
       canvas.loadFromJSON(canvasJSON, () => {
         canvas._objects?.map((object) => {
           object.lockMovementX = true;
@@ -56,21 +46,22 @@ const FloorView = ({
           object.hasControls = false;
           object.hasRotatingPoint = false;
         });
-
         canvas.setBackgroundColor("#F3F4F6", () => canvas.renderAll());
         canvas.on("mouse:down", (e) => {
-          console.log(e, "MOSUE DOWN");
           const target = e.target as TableObject;
           if (target?.id) {
             setSelectedTable(target);
             setTableId(target?.id);
           }
         });
-
         canvas.renderAll();
       });
     }
-  }, [currentFloor, allFloors]);
+
+    () => {
+      setCanvas(null);
+    };
+  }, [currentFloor, allFloors, canvas, setTableId]);
 
   const handleResetSelection = () => {
     canvas?.discardActiveObject();
@@ -116,21 +107,12 @@ const FloorView = ({
           </Tabs>
         </div>
         <div
-          onClick={() => console.log("hello")}
           className="flex  pt-5 w-full overflow-auto relative "
           ref={tableCanvasWrapper}
+          id="canvasWrapper"
         >
-          {/* <div
-            className="w-full overflow-auto z-0"
-            id="canvasWrapper"
-            ref={tableCanvasWrapper}
-          > */}
-          {/* <Button onClick={() => addTable(800, 100)}>Add Table</Button>
-        <Button onClick={() => handleEditTable()}> edit</Button> */}
-
-          <canvas ref={tableCanvas} className="absolute z-20 " />
+          <canvas ref={tableCanvas} id="tableCanvas" />
         </div>
-        {/* </div> */}
       </div>
 
       <BookTableDialog
