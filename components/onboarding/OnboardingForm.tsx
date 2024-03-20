@@ -358,7 +358,7 @@ const OnboardingForm = () => {
           cta: onboarding.cta,
         }).unwrap();
 
-        router.push("/table-view");
+        router.push("/floor-view");
         dispatch(userApi.util.invalidateTags(["me"]));
 
         toast({

@@ -44,7 +44,7 @@ const TableBookings = () => {
                 <div>
                   <p className=" text-sm leading-4">{booking.customer_name}</p>
                   <p className="text-xs text-gray-400">
-                    91 {booking?.phone_no}
+                    +91 {booking?.phone_no}
                   </p>
                 </div>
               </div>

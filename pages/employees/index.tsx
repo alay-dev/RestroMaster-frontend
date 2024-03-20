@@ -15,6 +15,30 @@ export default function Employees() {
   const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
   const employees = useFetchEmployeeQuery(user?.restaurant?.id ?? skipToken);
 
+  if (auth.isInitialized && !employees?.data?.length) {
+    return (
+      <DashboardLayout>
+        <PageTitle title="Orders" />
+        <div className="flex items-center justify-center h-[75vh]">
+          <div className="w-full md:w-3/5 h-[36rem] bg-white rounded-md shadow-sm p-5 flex flex-col items-center justify-center">
+            <img
+              src="/images/dish/noDish.jpg"
+              className="w-[90%] h-[22rem] object-contain"
+              alt="no dish"
+            />
+            <h1 className="text-2xl mb-2">No employee</h1>
+            <p className="text-sm text-gray-400">
+              You dont have any employee yet. Add employee to your restaurant.
+            </p>
+            <Link href="/employees/new-employee">
+              <Button className="mt-10 w-64 rounded-xl">Add employee</Button>
+            </Link>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
       <PageTitle

@@ -3,9 +3,9 @@ import { Dish } from "@/types/dish";
 const DishCard = ({ dish }: DishCardProps) => {
   return (
     <div className="flex-1 flex-shrink-0 p-3 bg-white rounded-xl shadow-sm">
-      <div className="w-full mb-3 overflow-hidden rounded-sm h-56">
+      <div className="w-full mb-3 overflow-hidden rounded-sm ">
         <img
-          className="object-cover object-center transition duration-200 hover:scale-105"
+          className="object-cover object-center transition duration-200 hover:scale-105 aspect-square"
           src={dish?.image?.at(0)}
           alt=""
         />

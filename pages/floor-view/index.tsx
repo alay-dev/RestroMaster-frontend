@@ -8,7 +8,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import TableDrawer from "@/pages/table-view/_components/TableDrawer";
+import TableDrawer from "@/pages/floor-view/_components/TableDrawer";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import InitialLoading from "@/components/initialLoading/InitialLoading";
 import { useAppDispatch, useAppSelector } from "@/config/store";
@@ -119,6 +119,10 @@ const TableView = () => {
   };
 
   useEffect(() => {
+    console.log(currentFloor, "CURRENT LFOOR");
+  }, [currentFloor]);
+
+  useEffect(() => {
     canvas?.on("object:moving", (e) => {
       const table = e.target;
       if (!table?.left || !table?.top) return;
@@ -156,26 +160,34 @@ const TableView = () => {
       let floor;
       if (allFloors && allFloors.length > currentFloor)
         floor = allFloors[currentFloor];
-
-      if (!floor?.canvas) {
-        await addFloor({
-          canvas: canvasString,
-          floor_no: currentFloor,
-          restaurant_id: user?.restaurant?.id,
-        }).unwrap();
-        dispatch(floorApi.util.invalidateTags(["allFloors"]));
-        toast({ title: "Floor added" });
-      } else {
-        await updateFloor({
-          canvas: canvasString,
-          floor_no: currentFloor,
-          restaurant_id: user?.restaurant?.id,
-          floor_id: floor.id,
-        }).unwrap();
-        dispatch(floorApi.util.invalidateTags(["allFloors"]));
+      try {
+        if (!floor?.canvas) {
+          await addFloor({
+            canvas: canvasString,
+            floor_no: currentFloor,
+            restaurant_id: user?.restaurant?.id,
+          }).unwrap();
+          dispatch(floorApi.util.invalidateTags(["allFloors"]));
+          toast({ title: "Floor added" });
+        } else {
+          await updateFloor({
+            canvas: canvasString,
+            floor_no: currentFloor,
+            restaurant_id: user?.restaurant?.id,
+            floor_id: floor.id,
+          }).unwrap();
+          dispatch(floorApi.util.invalidateTags(["allFloors"]));
+          toast({
+            title: "Floor updated",
+            description: "Current floor has been updated.",
+          });
+        }
+      } catch (err) {
         toast({
-          title: "Floor updated",
-          description: "Current floor has been updated.",
+          variant: "destructive",
+          title: "Failed to save floor",
+          description:
+            "Oops something went wrong. While saving floor. Please try again",
         });
       }
     } catch (e) {
@@ -290,7 +302,7 @@ const TableView = () => {
         >
           <TabsList>
             {allFloors?.length === 0 && (
-              <TabsTrigger className="font-normal" value="Ground floor">
+              <TabsTrigger className="font-normal" value="0">
                 Ground Floor
               </TabsTrigger>
             )}

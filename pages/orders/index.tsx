@@ -10,11 +10,15 @@ import { useFetchProfileQuery } from "@/api/users";
 import { useFetchOrdersQuery } from "@/api/order";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useMemo } from "react";
+import { useFetchDishQuery } from "@/api/dish";
 
 const Orders = () => {
   const auth = useAppSelector((state) => state.authentication);
   const user = useFetchProfileQuery(auth.token ?? skipToken);
   const orders = useFetchOrdersQuery(user?.data?.restaurant?.id ?? skipToken);
+  const { data: dishes } = useFetchDishQuery(
+    user?.data?.restaurant?.id ?? skipToken
+  );
 
   const active = useMemo(() => {
     if (!orders.data) return 0;
@@ -37,6 +41,55 @@ const Orders = () => {
     });
     return sum;
   }, [orders.data]);
+
+  if (auth.isInitialized && !dishes?.length) {
+    return (
+      <DashboardLayout>
+        <PageTitle title="Orders" />
+        <div className="flex items-center justify-center h-[75vh]">
+          <div className="w-full md:w-3/5 h-[36rem] bg-white rounded-md shadow-sm p-5 flex flex-col items-center justify-center">
+            <img
+              src="/images/dish/noDish.jpg"
+              className="w-[90%] h-[22rem] object-contain"
+              alt="no dish"
+            />
+            <h1 className="text-2xl mb-2">No Dish</h1>
+            <p className="text-sm text-gray-400">
+              You dont have any dish yet. Add a dish and get your customers
+            </p>
+            <Link href={user?.data?.restaurant ? "/dishes/add" : "/dashboard"}>
+              <Button className="mt-10 w-64 rounded-xl">Add dish</Button>
+            </Link>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (auth.isInitialized && !orders?.data?.length) {
+    return (
+      <DashboardLayout>
+        <PageTitle title="Orders" />
+        <div className="flex items-center justify-center h-[75vh]">
+          <div className="w-full md:w-3/5 h-[36rem] bg-white rounded-md shadow-sm p-5 flex flex-col items-center justify-center">
+            <img
+              src="/images/dish/noDish.jpg"
+              className="w-[90%] h-[22rem] object-contain"
+              alt="no dish"
+            />
+            <h1 className="text-2xl mb-2">No Orders yet</h1>
+            <p className="text-sm text-gray-400">
+              You dont have any order yet. Complete your restaurant setup and
+              get orders
+            </p>
+            <Link href="/orders/new-order">
+              <Button className="mt-10 w-64 rounded-xl">Take order</Button>
+            </Link>
+          </div>
+        </div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>

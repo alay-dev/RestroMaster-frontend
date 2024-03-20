@@ -24,6 +24,12 @@ import { Button } from "../ui/button";
 import { useFetchFloorsQuery } from "@/api/floor";
 import { useFetchDishQuery } from "@/api/dish";
 import CreateRestaurant from "../restaurant/CreateRestaurant";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
@@ -32,7 +38,9 @@ const poppins = Poppins({
 const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();
   const auth = useAppSelector((state) => state.authentication);
-  const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
+  const { data: user, isLoading: profileLoading } = useFetchProfileQuery(
+    auth.token ?? skipToken
+  );
   const { data: allFloors, isLoading: allFloorsLoading } = useFetchFloorsQuery(
     user?.restaurant?.id ?? skipToken
   );
@@ -44,6 +52,10 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
     authenticationApi.util.resetApiState();
     router.push("/");
   };
+
+  if (!auth.isInitialized || profileLoading) {
+    return null;
+  }
 
   return (
     <div className={cn("flex w-full pl-24 ", poppins.className)}>
@@ -90,23 +102,61 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="text-xs  bg-transparent rounded-xl border-blue-500 font-light"
+                  className="text-xs  bg-transparent rounded-xl border-blue-500 font-light bg-blue-100 text-blue-600"
                 >
                   Book table
                 </Button>
               </Link>
-            ) : null}
+            ) : (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button
+                      disabled
+                      size="sm"
+                      variant="outline"
+                      className="text-xs  bg-transparent rounded-xl border-blue-500 font-light "
+                    >
+                      Book table
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-black text-white">
+                    <p className="text-xs">
+                      Complete your floor setup first to book table
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
             {user?.restaurant?.id && dishes?.length ? (
               <Link href={`/orders/new-order`}>
                 <Button
                   size="sm"
                   variant="outline"
-                  className="text-xs  bg-transparent rounded-xl border-blue-500 font-light"
+                  className="text-xs  bg-transparent rounded-xl border-blue-500 font-light  bg-blue-100 text-blue-600"
                 >
                   Take order
                 </Button>
               </Link>
-            ) : null}
+            ) : (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Button
+                      disabled
+                      size="sm"
+                      variant="outline"
+                      className="text-xs  bg-transparent rounded-xl border-blue-500 font-light"
+                    >
+                      Take order
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-black text-white">
+                    <p className="text-xs">Add dish to take orders</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
         </header>
         <div className="min-h-screen p-6 pt-3 bg-gray-100">

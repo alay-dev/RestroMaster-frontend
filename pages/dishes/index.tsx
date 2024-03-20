@@ -54,7 +54,7 @@ const Dishes = () => {
       <DashboardLayout>
         <PageTitle title="Dishes" />
         <div className="flex items-center justify-center h-[75vh]">
-          <div className="w-3/5 h-[36rem] bg-white rounded-md shadow-sm p-5 flex flex-col items-center justify-center">
+          <div className="w-full md:w-3/5 h-[36rem] bg-white rounded-md shadow-sm p-5 flex flex-col items-center justify-center">
             <img
               src="/images/dish/noDish.jpg"
               className="w-[90%] h-[22rem] object-contain"
@@ -69,19 +69,6 @@ const Dishes = () => {
             </Link>
           </div>
         </div>
-        <Sheet
-          open={addDishModal}
-          onOpenChange={() => setAddDishModal(!addDishModal)}
-        >
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Add a dish</SheetTitle>
-              <SheetDescription>
-                <AddDishDrawer setAddDishModal={setAddDishModal} />
-              </SheetDescription>
-            </SheetHeader>
-          </SheetContent>
-        </Sheet>
       </DashboardLayout>
     );
   }
@@ -117,7 +104,7 @@ const Dishes = () => {
           );
         })}
       </div>
-      <div className="grid grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
         {dishes?.map((item) => {
           return <DishCard dish={item} key={item.name} />;
         })}

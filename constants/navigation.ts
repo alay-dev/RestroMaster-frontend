@@ -16,7 +16,7 @@ export const navigation = [
     icon: Home,
   },
   {
-    path: "/table-view",
+    path: "/floor-view",
     icon: BarChair,
   },
   {

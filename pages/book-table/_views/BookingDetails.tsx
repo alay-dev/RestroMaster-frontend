@@ -41,7 +41,7 @@ const BookingDetails = () => {
 
       toast({
         variant: "default",
-        title: "Your table is booked",
+        title: "Your table has been booked",
       });
     } catch (e) {
       const error = e as ApiError;

@@ -116,6 +116,7 @@ const NewOrder = () => {
         title: "Order created",
       });
       setCustomerDetailModal(false);
+      setOrderItems([]);
     } catch (err) {
       console.log(err);
 
