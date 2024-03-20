@@ -30,6 +30,7 @@ const PhoneInput = ({
       <Select
         onValueChange={(value) => setCountryCode(value)}
         defaultValue="91"
+        disabled
       >
         <SelectTrigger className="w-20 border-none outline-none  focus:ring-0 flex-shrink-0">
           <SelectValue />

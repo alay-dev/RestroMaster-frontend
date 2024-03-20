@@ -18,8 +18,6 @@ const Dashboard = () => {
 
   if (!auth.isInitialized) return <InitialLoading />;
 
-  if (!user.isLoading && !user?.data?.restaurant) return <CreateRestaurant />;
-
   return (
     <DashboardLayout>
       <PageTitle title="Dashboard" />

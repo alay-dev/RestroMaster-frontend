@@ -21,6 +21,9 @@ import { useFetchProfileQuery } from "@/api/users";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { navigation } from "@/constants/navigation";
 import { Button } from "../ui/button";
+import { useFetchFloorsQuery } from "@/api/floor";
+import { useFetchDishQuery } from "@/api/dish";
+import CreateRestaurant from "../restaurant/CreateRestaurant";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
@@ -30,6 +33,10 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
   const router = useRouter();
   const auth = useAppSelector((state) => state.authentication);
   const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
+  const { data: allFloors, isLoading: allFloorsLoading } = useFetchFloorsQuery(
+    user?.restaurant?.id ?? skipToken
+  );
+  const { data: dishes } = useFetchDishQuery(user?.restaurant?.id ?? skipToken);
 
   const handleLogout = () => {
     sessionStorage.removeItem(authKey);
@@ -78,27 +85,38 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
             </h2>
           </div>
           <div className="flex items-center gap-4">
-            <Link href={`/book-table/${user?.restaurant?.id}`}>
-              <Button
-                size="sm"
-                variant="outline"
-                className="text-xs  bg-transparent rounded-xl border-blue-500 font-light"
-              >
-                Book table
-              </Button>
-            </Link>
-            <Link href={`/orders/new-order`}>
-              <Button
-                size="sm"
-                variant="outline"
-                className="text-xs  bg-transparent rounded-xl border-blue-500 font-light"
-              >
-                Take order
-              </Button>
-            </Link>
+            {allFloors?.length ? (
+              <Link href={`/book-table/${user?.restaurant?.id}`}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-xs  bg-transparent rounded-xl border-blue-500 font-light"
+                >
+                  Book table
+                </Button>
+              </Link>
+            ) : null}
+            {user?.restaurant?.id && dishes?.length ? (
+              <Link href={`/orders/new-order`}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-xs  bg-transparent rounded-xl border-blue-500 font-light"
+                >
+                  Take order
+                </Button>
+              </Link>
+            ) : null}
           </div>
         </header>
-        <div className="min-h-screen p-6 pt-3 bg-gray-100">{children}</div>
+        <div className="min-h-screen p-6 pt-3 bg-gray-100">
+          {user?.restaurant?.id ||
+          router.pathname === "/dashboard/onboarding" ? (
+            children
+          ) : (
+            <CreateRestaurant />
+          )}
+        </div>
       </div>
     </div>
   );

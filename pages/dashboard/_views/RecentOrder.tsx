@@ -9,7 +9,7 @@ const RecentOrder = () => {
   const user = useFetchProfileQuery(auth.token ?? skipToken);
   const orders = useFetchOrdersQuery(user?.data?.restaurant?.id ?? skipToken);
 
-  if (orders?.data?.length !== 0) {
+  if (orders?.data?.length === 0) {
     return (
       <div className="flex justify-center items-center w-full  bg-white rounded-2xl h-[20rem]">
         <p className="text-sm text-gray-400">

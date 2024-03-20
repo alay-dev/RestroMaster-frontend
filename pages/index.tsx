@@ -270,7 +270,7 @@ export default function Home() {
             </div>
             <Input
               className="bg-gray-100 border-none outline-none focus-visible:ring-0 focus-visible:ring-transparent ring-0"
-              type={passwordVisible ? "text" : "password"}
+              type={"password"}
               placeholder="Confirm password"
               {...register("confirmPassword", {
                 required: true,

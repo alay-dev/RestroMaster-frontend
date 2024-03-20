@@ -32,7 +32,7 @@ const User = () => {
   const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
   const [countryCode, setCountryCode] = useState("");
   const [updateModal, setUpdateModal] = useState(false);
-  const uploadImage = useUploadImage(userImagePath);
+  const { uploadImage, isUploading } = useUploadImage(userImagePath);
 
   const [updateProfile] = useUpdateProfileMutation();
   const [updateProfilePic, { isLoading: updateProfilePicLoading }] =
@@ -133,8 +133,10 @@ const User = () => {
               )}
             </div>
             <Avatar className="w-28 h-28 ring-2 ring-offset-2 ring-gray-200">
-              <AvatarImage src={user?.picture || ""} alt="@shadcn" />
-              {/* <AvatarFallback>{fallbackAvatar}</AvatarFallback> */}
+              <AvatarImage
+                src={user?.picture || "/images/common/default-avatar.png"}
+                alt="@shadcn"
+              />
             </Avatar>
           </div>
           <div>

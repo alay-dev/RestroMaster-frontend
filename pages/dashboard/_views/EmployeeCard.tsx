@@ -8,7 +8,7 @@ const EmployeeCard = () => {
   const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
   const employees = useFetchEmployeeQuery(user?.restaurant?.id ?? skipToken);
 
-  if (employees?.data?.length !== 0) {
+  if (employees?.data?.length === 0) {
     return (
       <div className="flex justify-center items-center w-full  bg-white rounded-2xl h-[20rem]">
         <p className="text-sm text-gray-400">

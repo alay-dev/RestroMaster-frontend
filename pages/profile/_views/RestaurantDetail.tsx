@@ -62,6 +62,13 @@ const RestaurantDetail = () => {
   const handleBasicDetailUpdate: SubmitHandler<BasicDetailInputs> = async (
     data
   ) => {
+    if (
+      data.cta === user?.restaurant?.cta &&
+      data.description === user?.restaurant?.description &&
+      data.name === user?.restaurant.name
+    )
+      return setUpdateBasicDetail(false);
+
     try {
       const res = await updateRestaurant({
         restaurant_id: user?.restaurant?.id || "",
@@ -82,9 +89,16 @@ const RestaurantDetail = () => {
     }
   };
 
-  const handleAddressContactlUpdate: SubmitHandler<
-    ContactDetailInputs
-  > = async (data) => {
+  const handleAddressContactUpdate: SubmitHandler<ContactDetailInputs> = async (
+    data
+  ) => {
+    if (
+      data.address === user?.restaurant?.address &&
+      data.contactNo === user?.restaurant?.phone_no &&
+      data.email === user?.email
+    )
+      return setUpdateAddressContact(false);
+
     try {
       const res = await updateRestaurant({
         restaurant_id: user?.restaurant?.id || "",
@@ -114,11 +128,19 @@ const RestaurantDetail = () => {
         <div className="flex flex-col ">
           <p className="text-gray-500 text-sm mb-3">Restaurant cover image</p>
           <div className="rounded-lg ring-2 ring-offset-2 overflow-hidden mt-3">
-            <img
-              src={user?.restaurant?.cover_pic || ""}
-              alt={user?.restaurant?.name || ""}
-              className="w-56 h-56 object-cover"
-            />
+            {user?.restaurant?.cover_pic ? (
+              <img
+                src={user?.restaurant?.cover_pic || ""}
+                alt={user?.restaurant?.name || ""}
+                className="w-56 h-56 object-cover"
+              />
+            ) : (
+              <div className="h-64 flex items-center justify-center px-4">
+                <p className="text-sm text-gray-400">
+                  Restaurant image is not updated yet.
+                </p>
+              </div>
+            )}
           </div>
           <Button variant="link" className="w-max text-blue-500 mt-2  p-0">
             update
@@ -161,12 +183,19 @@ const RestaurantDetail = () => {
               disabled={!updateBasicDetail}
             />
             {updateBasicDetail ? (
-              <Button className="mt-4" type="submit">
+              <Button
+                className="mt-2 text-blue-500 "
+                type="submit"
+                variant="link"
+              >
                 Save
               </Button>
             ) : (
               <Button
-                onClick={() => setUpdateBasicDetail(true)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setUpdateBasicDetail(true);
+                }}
                 variant="link"
                 className="w-max text-blue-500 mt-2   p-0"
                 type="button"
@@ -181,7 +210,7 @@ const RestaurantDetail = () => {
             Restaurant contact & address
           </p>
           <form
-            onSubmit={addressContactHandleSubmit(handleAddressContactlUpdate)}
+            onSubmit={addressContactHandleSubmit(handleAddressContactUpdate)}
           >
             <label
               htmlFor="restaurant-phone"
@@ -217,15 +246,21 @@ const RestaurantDetail = () => {
               disabled={!updateAddressContact}
             />
             {updateAddressContact ? (
-              <Button className="mt-4" type="submit">
+              <Button
+                className="mt-2 text-blue-500"
+                type="submit"
+                variant="link"
+              >
                 Save
               </Button>
             ) : (
               <Button
-                onClick={() => setUpdateAddressContact(true)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setUpdateAddressContact(true);
+                }}
                 variant="link"
                 className="w-max text-blue-500 mt-2   p-0"
-                type="button"
               >
                 Update
               </Button>

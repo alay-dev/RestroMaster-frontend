@@ -6,6 +6,7 @@ import {
   AltArrowRight as ArrowRight,
   GalleryMinimalistic as GalleryIcon,
   AddCircle as AddIcon,
+  CloseCircle,
 } from "solar-icon-set";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
@@ -33,6 +34,7 @@ import { useToast } from "../ui/use-toast";
 import { useRouter } from "next/router";
 import PriceCard from "./PriceCard";
 import { Plans } from "@/types/onboarding";
+import { Spinner } from "../ui/apinner";
 
 type BasicDetailInputs = {
   name: string;
@@ -55,14 +57,11 @@ const formChangeVariants = {
 
 const OnboardingForm = () => {
   const [currentStep, setCurrentStep] = useState<number>(1);
-  const [countryCode, setCountryCode] = useState("");
 
   const BasicDetailForm = () => {
     const [images, setImages] = useState<string[]>([]);
-    const uploadImage = useUploadImage(restaurantImagesPath);
+    const { uploadImage, isUploading } = useUploadImage(restaurantImagesPath);
     const dispatch = useAppDispatch();
-    const auth = useAppSelector((state) => state.authentication);
-    const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
 
     const {
       watch,
@@ -145,7 +144,8 @@ const OnboardingForm = () => {
             {errors.description && (
               <FormError content="Please provide a description." />
             )}
-            <div className="w-full p-4 rounded-xl border-dashed border-2 border-blue-100 mt-5 bg-blue-50">
+            <div className="w-full p-4 rounded-xl border-dashed border-2 border-blue-100 mt-5 bg-blue-50 flex gap-5">
+              {isUploading && <Spinner />}
               {images.length === 0 && (
                 <div className="flex gap-2 items-center">
                   <GalleryIcon size={25} color="#3b82f6" />
@@ -166,8 +166,9 @@ const OnboardingForm = () => {
                   />
                 </div>
               )}
+
               {images.length !== 0 && (
-                <div className="flex items-center gap-2 flex-wrap mt-3">
+                <div className="flex items-center gap-2 flex-wrap ">
                   {images.map((item, i) => (
                     <img
                       key={i}
@@ -176,21 +177,18 @@ const OnboardingForm = () => {
                       alt=""
                     />
                   ))}
-                  <label className="ml-2 cursor-pointer" htmlFor="coverImage">
-                    <AddIcon
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="ml-2 "
+                    onClick={() => setImages([])}
+                  >
+                    <CloseCircle
                       iconStyle="BoldDuotone"
                       size={30}
                       color="#78909C"
                     />
-                  </label>
-                  <input
-                    id="coverImage"
-                    className="hidden"
-                    type="file"
-                    multiple
-                    accept="image/png, image/webp, image/svg, image/jpg, image/jpeg"
-                    onChange={handleImageUpload}
-                  />
+                  </Button>
                 </div>
               )}
             </div>
@@ -292,7 +290,7 @@ const OnboardingForm = () => {
               Contact no
             </label>
             <PhoneInput
-              setCountryCode={setCountryCode}
+              setCountryCode={() => null}
               register={register("contactNo", { required: true })}
             />
             {errors.contactNo && (
