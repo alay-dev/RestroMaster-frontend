@@ -163,10 +163,10 @@ const NewEmployee = () => {
   return (
     <DashboardLayout>
       <PageTitle backBtnLink="/employees" title="Add Employee" />
-      <div className=" gap-7 my-3 mb-8 p-8 rounded-xl bg-white">
+      <div className=" my-3 mb-8 p-8 rounded-xl bg-white">
         <form onSubmit={handleSubmit(handleAddEmployee)}>
-          <div className=" flex gap-8  w-full">
-            <div className="w-2/5 flex items-center justify-center">
+          <div className=" flex md:flex-row flex-col  gap-4 md:gap-8  w-full">
+            <div className="w-full md:w-2/5 flex items-center justify-center">
               <div className="relative w-max">
                 <div className="absolute top-1 right-1 z-10  w-8 h-8 rounded-full bg-green-600 hover:bg-green-700 transition cursor-pointer text-white flex items-center justify-center border border-white ">
                   <>
@@ -191,10 +191,10 @@ const NewEmployee = () => {
                 </Avatar>
               </div>
             </div>
-            <div className="w-3/5">
+            <div className="md:w-3/5">
               <h4 className="text-lg font-medium mb-5">Basic details</h4>
 
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid  md:grid-cols-2 gap-4 md:gap-8">
                 <Input
                   placeholder="First name"
                   {...register("firstName", { required: true })}
@@ -205,7 +205,7 @@ const NewEmployee = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-8 mt-5">
+              <div className="grid  md:grid-cols-2 gap-4 md:gap-8 mt-5">
                 <PhoneInput
                   setCountryCode={() => null}
                   placeholder="Phone no."
@@ -217,7 +217,7 @@ const NewEmployee = () => {
                   {...register("email", { required: true })}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-8 mt-5">
+              <div className="grid  md:grid-cols-2 gap-4 md:gap-8 mt-5">
                 {/* <DatePicker
                   placeholder="Date of birth"
                   date={dob}
@@ -247,7 +247,9 @@ const NewEmployee = () => {
             </div>
           </div>
           <div className="flex justify-end mt-7">
-            <Button type="submit">Add Employee</Button>
+            <Button type="submit" className="w-max">
+              Add Employee
+            </Button>
           </div>
           <DevTool control={control} />
         </form>

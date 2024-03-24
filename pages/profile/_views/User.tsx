@@ -108,10 +108,10 @@ const User = () => {
       <div className="bg-blue-50  p-4 py-2 border-b border-blue-200 text-blue-500 text-sm">
         <p>Profile</p>
       </div>
-      <div className=" p-8 flex items-center justify-between  shadow-light">
+      <div className="p-5 md:p-8 flex md:flex-row flex-col md:items-center justify-between  shadow-light">
         <div className="flex items-center gap-8">
           <div className="relative">
-            <div className="absolute top-0 right-0 z-10  w-8 h-8 rounded-full bg-green-600 hover:bg-green-700 transition cursor-pointer text-white flex items-center justify-center border border-white ">
+            <div className="absolute -top-1  md:top-0 -right-1 md:right-0 z-10  w-8 h-8 rounded-full bg-green-600 hover:bg-green-700 transition cursor-pointer text-white flex items-center justify-center border border-white ">
               {updateProfilePicLoading ? (
                 <Spinner className="w-5 h-5" />
               ) : (
@@ -132,7 +132,7 @@ const User = () => {
                 </>
               )}
             </div>
-            <Avatar className="w-28 h-28 ring-2 ring-offset-2 ring-gray-200">
+            <Avatar className="md:w-28 md:h-28 w-20 h-20 ring-2 ring-offset-2 ring-gray-200">
               <AvatarImage
                 src={user?.picture || "/images/common/default-avatar.png"}
                 alt="@shadcn"
@@ -152,16 +152,17 @@ const User = () => {
         <Button
           onClick={() => setUpdateModal(true)}
           variant="outline"
-          className=" shadow-sm  gap-4 border border-green-300"
+          className=" shadow-sm  gap-2 border md:mt-0 mt-3 w-max"
         >
           <Pen />
           Edit
         </Button>
         <Dialog open={updateModal} onOpenChange={(val) => setUpdateModal(val)}>
-          <DialogContent className="rounded-lg p-5 outline-none">
-            <h2 className="text-xl font-medium mb-4">
-              Edit your profile details
-            </h2>
+          <DialogContent className="rounded-lg p-5 outline-none flex flex-col gap-0">
+            <h2 className="text-xl font-medium">Profile details</h2>
+            <p className="text-sm mb-5 text-gray-500">
+              Update your profile information to keep it current and accurate.
+            </p>
             <form onSubmit={handleSubmit(updateProfileDetail)}>
               <label className="text-gray-500 text-sm mb-2" htmlFor="name">
                 Name

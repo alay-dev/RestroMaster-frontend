@@ -19,8 +19,7 @@ import { orderApi, useCreateOrderMutation } from "@/api/order";
 import { useToast } from "@/components/ui/use-toast";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import CustomerDetailModal from "./_components/CustomerDetailModal";
-
-const categories = ["All", "Starter", "Main Course", "Side Dish", "Bevereges"];
+import { dishCategories } from "@/constants/dish";
 
 const NewOrder = () => {
   const [customerDetailModal, setCustomerDetailModal] = useState(false);
@@ -130,31 +129,34 @@ const NewOrder = () => {
   return (
     <DashboardLayout>
       <PageTitle title="New order" backBtnLink="/orders" />
-      <div className="flex gap-8 ">
-        <div className="w-4/6">
+      <div className="flex gap-8  ">
+        <div className="w-full md:w-4/6">
           <div className="rounded-lg p-4 py-2 vorder bg-card flex gap-1 items-center mb-5">
-            <RoundedMagnifer size={25} color="#757575" />
+            <RoundedMagnifer size={22} color="#757575" />
             <Input
-              placeholder="Search by name."
-              className="focus-visible:outline-none focus-visible:ring-0  border-0 text-md placeholder:text-gray-400"
+              placeholder="Search by dish name."
+              className="focus-visible:outline-none focus-visible:ring-0  border-0 text-sm placeholder:text-gray-400 "
             />
           </div>
-          <ul className="flex items-center gap-5 flex-wrap mb-10">
-            {categories?.map((category) => {
-              return (
-                <li
-                  onClick={() => setActiveCategory(category as Category)}
-                  key={category}
-                  className={cn(
-                    "text-sm px-4 py-1 rounded-md border border-orange-500 text-black/50 uppercase cursor-pointer transition",
-                    activeCategory === category && "bg-orange-500 text-white"
-                  )}
-                >
-                  {category}
-                </li>
-              );
-            })}
-          </ul>
+          <div className="w-full overflow-auto mb-10">
+            <ul className="flex items-center gap-3 flex-wrap  flex-shrink-0 w-max ">
+              {dishCategories?.map((category) => {
+                return (
+                  <li
+                    onClick={() => setActiveCategory(category as Category)}
+                    key={category}
+                    className={cn(
+                      "flex text-xs cursor-pointer select-none  gap-2 px-6 py-2 bg-white rounded-md shadow-sm text-gray-500 , items-center",
+                      activeCategory === category &&
+                        "bg-orange-400 text-white font-medium"
+                    )}
+                  >
+                    {category}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
           <ScrollArea className=" h-[30rem]">
             <div className="space-y-3 ">
               {dishes?.map((item) => {
@@ -172,8 +174,8 @@ const NewOrder = () => {
             </div>
           </ScrollArea>
         </div>
-        <div className="w-2/6 bg-card border rounded-xl p-5 h-max">
-          <h3 className=" font-medium mb-4 border-b ">Current Order</h3>
+        <div className="w-2/6 bg-card border rounded-xl p-3 h-max hidden md:block">
+          <h3 className="  mb-4 border-b  text-sm">Current Order</h3>
           {orderItems?.length === 0 ? (
             <div className="h-[20rem] flex items-center justify-center">
               <p className="text-sm text-black/50 mb-8">
@@ -194,7 +196,7 @@ const NewOrder = () => {
                       />
                       <div className="flex justify-between items-center gap-1 w-full">
                         <div>
-                          <h4 className="text-black text-sm mb-2">
+                          <h4 className="text-black text-xs mb-2">
                             {item?.name}
                           </h4>
 
@@ -207,7 +209,7 @@ const NewOrder = () => {
                         <div className="cursor-pointer">
                           <CloseCircle
                             iconStyle="Outline"
-                            size={25}
+                            size={23}
                             color="#e6491995"
                             onClick={() => handleRemoveItem(item.id)}
                           />
@@ -220,15 +222,15 @@ const NewOrder = () => {
             </ScrollArea>
           ) : null}
           <div className="bg-gray-100 p-2 rounded-md ">
-            <div className="flex items-center justify-between text-sm mb-1 ">
+            <div className="flex items-center justify-between text-xs mb-1 ">
               <p className="text-gray-600">Subtotal</p>
               <h4 className="">₹ {itemTotal}</h4>
             </div>
-            <div className="flex items-center justify-between text-sm mb-1">
+            <div className="flex items-center justify-between text-xs mb-1">
               <p className="text-gray-600">Discount</p>
               <h4 className="">₹ {formatFloat(discount)}</h4>
             </div>
-            <div className="flex items-center justify-between text-sm ">
+            <div className="flex items-center justify-between text-xs ">
               <p className="text-gray-600">GST (18%)</p>
               <h4 className="">₹ {formatFloat(gst)}</h4>
             </div>
@@ -249,7 +251,7 @@ const NewOrder = () => {
             open={customerDetailModal}
             onOpenChange={() => setCustomerDetailModal(false)}
           >
-            <DialogContent className="max-w-max">
+            <DialogContent className="max-w-max rounded-lg">
               <CustomerDetailModal
                 setCustomerPhone={setCustomerPhone}
                 setCustomerName={setCustomerName}
@@ -259,6 +261,18 @@ const NewOrder = () => {
           </Dialog>
         </div>
       </div>
+      {orderItems?.length !== 0 ? (
+        <div className="md:hidden  shadow-light fixed w-11/12 bottom-4 left-1/2 -translate-x-1/2 bg-orange-400 rounded-md  p-3 text-white flex items-center justify-between">
+          <h4 className="text-sm">{orderItems?.length} item added</h4>
+          <Button
+            size="sm"
+            className="bg-gradient-to-tr from-white to-white text-blue-600"
+            onClick={() => setCustomerDetailModal(true)}
+          >
+            Continue
+          </Button>
+        </div>
+      ) : null}
     </DashboardLayout>
   );
 };

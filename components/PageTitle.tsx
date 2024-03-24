@@ -14,12 +14,12 @@ export const PageTitle = ({ title, actions, backBtnLink }: PageTitleProps) => {
               variant="ghost"
               className="rounded-full hover:bg-gray-200"
             >
-              <BackIcon size={24} />
+              <BackIcon size={20} />
             </Button>
           </Link>
         ) : null}
         <div className="relative w-max">
-          <h1 className=" text-xl font-light w-max">{title}</h1>
+          <h1 className=" text-lg font-light w-max">{title}</h1>
           <div className="w-2/3 h-[3px] bg-blue-400 rounded-lg"></div>
         </div>
       </div>

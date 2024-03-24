@@ -20,13 +20,10 @@ const Dashboard = () => {
   return (
     <DashboardLayout>
       <PageTitle title="Dashboard" />
-      <div className="flex lg:flex-row flex-col gap-12 overflow-hidden mb-14 h-max">
+      <div className="flex lg:flex-row flex-col gap-8 overflow-hidden mb-8 h-max">
         <div className=" w-full lg:w-2/5">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-md font-medium ">Overview</h3>
-            <div className="px-5 py-1 bg-gray-200 cursor-pointer hover:underline rounded-xl">
-              <p className="text-xs text-orange-600">View all</p>
-            </div>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-md  ">Overview</h3>
           </div>
           <div className="flex items-center gap-3 mb-4">
             <div className="flex-1 p-5 pt-6 text-blue-500 bg-white rounded-3xl ">
@@ -61,9 +58,9 @@ const Dashboard = () => {
         </div>
         <div className="flex md:flex-row flex-col w-full  lg:w-3/5 gap-5">
           <div className="flex flex-col md:w-1/2">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-md font-medium ">Bookings</h3>
-              <div className="px-5 py-1 bg-gray-200 cursor-pointer hover:underline rounded-xl">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-md  ">Bookings</h3>
+              <div className=" py-1  cursor-pointer hover:underline ">
                 <p className="text-xs text-orange-600">View all</p>
               </div>
             </div>
@@ -89,12 +86,12 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="flex md:flex-row flex-col gap-6 lg:gap-12 mb-10">
+      <div className="flex md:flex-row flex-col gap-6 lg:gap-8 mb-10">
         <div className="md:w-2/5">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-md font-medium ">Employee</h3>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-md ">Employee</h3>
             <Link href="/employees">
-              <div className="px-5 py-1 bg-gray-200 cursor-pointer hover:underline rounded-xl">
+              <div className=" py-1  cursor-pointer hover:underline ">
                 <p className="text-xs text-orange-600">View all</p>
               </div>
             </Link>
@@ -102,10 +99,10 @@ const Dashboard = () => {
           <EmployeeCard />
         </div>
         <div className="flex flex-col md:w-3/5 ">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-md font-medium ">Recent order</h3>
+          <div className="flex items-center justify-between mb-2">
+            <h3 className="text-md ">Recent order</h3>
             <Link href="/orders">
-              <div className="px-5 py-1 bg-gray-200 cursor-pointer hover:underline rounded-xl">
+              <div className=" py-1  cursor-pointer hover:underline">
                 <p className="text-xs text-orange-600">View all</p>
               </div>
             </Link>

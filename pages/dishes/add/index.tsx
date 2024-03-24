@@ -120,10 +120,13 @@ const AddDish = () => {
     <DashboardLayout>
       <PageTitle backBtnLink="/dishes" title="Add dish" />
 
-      <form onSubmit={handleSubmit(handleAddDish)}>
+      <form
+        onSubmit={handleSubmit(handleAddDish)}
+        className="p-8 rounded-xl bg-white"
+      >
         {/* <DevTool control={control} /> */}
-        <div className="flex   gap-7 my-3 mb-8 p-8 rounded-xl bg-white">
-          <div className=" w-1/2 ">
+        <div className="flex md:flex-row flex-col   gap-7 my-3 mb-8 ">
+          <div className=" md:w-1/2 ">
             <Label className="text-gray-500 " htmlFor="dishName">
               Dish name
             </Label>
@@ -170,11 +173,8 @@ const AddDish = () => {
                 <SelectItem value="desert">Desert</SelectItem>
               </SelectContent>
             </Select>
-            <Button type="submit" className="mt-8 w-56">
-              Save
-            </Button>
           </div>
-          <div className="w-1/2  h-full">
+          <div className="md:w-1/2  h-full">
             <div className="flex gap-2 flex-wrap w-full mb-5 ">
               {images.length !== 0 &&
                 images.map((item, i) => {
@@ -248,6 +248,9 @@ const AddDish = () => {
             </div>
           </div>
         </div>
+        <Button type="submit" className="mt-0 w-56">
+          Save
+        </Button>
       </form>
     </DashboardLayout>
   );

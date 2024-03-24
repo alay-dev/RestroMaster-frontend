@@ -51,6 +51,11 @@ type FetchTableAvailabilityProps = {
   date: Date;
 };
 
+type UpdateRestaurantImageReq = {
+  restaurant_id: string;
+  cover_pic: string;
+};
+
 export const restaurantApi = createApi({
   reducerPath: "restaurantApi",
   baseQuery: fetchBaseQuery({
@@ -93,6 +98,22 @@ export const restaurantApi = createApi({
     >({
       query: (body) => ({
         url: "/update_restaurant",
+        method: "PUT",
+        body,
+      }),
+      transformResponse: (response: ApiSuccess<UpdateRestaurantRes>) => {
+        return response.data;
+      },
+      transformErrorResponse: (response: FetchBaseQueryError) => {
+        return response.data;
+      },
+    }),
+    updateRestaurantImage: builder.mutation<
+      UpdateRestaurantRes,
+      UpdateRestaurantImageReq
+    >({
+      query: (body) => ({
+        url: "/update_restaurant_image",
         method: "PUT",
         body,
       }),
@@ -153,4 +174,5 @@ export const {
   useFetchTableBookingsQuery,
   useFetchRestaurantQuery,
   useFetchTableAvailabilityMutation,
+  useUpdateRestaurantImageMutation,
 } = restaurantApi;

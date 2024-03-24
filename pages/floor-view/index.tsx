@@ -1,6 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { AddSquare, AddCircle } from "solar-icon-set";
+import {
+  AddSquare,
+  AddCircle,
+  File,
+  Diskette,
+  TrashBin2,
+} from "solar-icon-set";
 import {
   Sheet,
   SheetContent,
@@ -295,61 +301,74 @@ const TableView = () => {
     <DashboardLayout>
       <PageTitle title="Floor setup" />
 
-      <div className="flex items-center gap-3  py-2 pt-0 w-full">
-        <Tabs
-          onValueChange={(val) => setCurrentFloor(Number(val))}
-          value={currentFloor?.toString()}
-        >
-          <TabsList>
-            {allFloors?.length === 0 && (
-              <TabsTrigger className="font-normal" value="0">
-                Ground Floor
-              </TabsTrigger>
-            )}
-            {allFloors?.map((floor) => {
-              return (
-                <TabsTrigger
-                  key={floor?.id}
-                  className="font-normal"
-                  value={floor.floor_no?.toString()}
-                >
-                  {getFloorName(floor.floor_no)}
-                </TabsTrigger>
-              );
-            })}
-            {newFloor && allFloors?.length !== 0 && (
-              <TabsTrigger
-                key={allFloors?.length!}
-                className="font-normal"
-                value={allFloors?.length!?.toString()}
-              >
-                {getFloorName(allFloors?.length!)}
-              </TabsTrigger>
-            )}
-          </TabsList>
-        </Tabs>
+      <div className="flex md:flex-row flex-col md:items-center  md:gap-3  py-2 pt-0 w-full">
+        <div className="w-full overflow-auto">
+          <div className="flex items-center w-max flex-shrink-0">
+            <Tabs
+              onValueChange={(val) => setCurrentFloor(Number(val))}
+              value={currentFloor?.toString()}
+            >
+              <TabsList>
+                {allFloors?.length === 0 && (
+                  <TabsTrigger className="font-normal" value="0">
+                    Ground Floor
+                  </TabsTrigger>
+                )}
+                {allFloors?.map((floor) => {
+                  return (
+                    <TabsTrigger
+                      key={floor?.id}
+                      className="font-normal uppercase text-xs"
+                      value={floor.floor_no?.toString()}
+                    >
+                      {getFloorName(floor.floor_no)}
+                    </TabsTrigger>
+                  );
+                })}
+                {newFloor && allFloors?.length !== 0 && (
+                  <TabsTrigger
+                    key={allFloors?.length!}
+                    className="font-normal uppercase text-xs"
+                    value={allFloors?.length!?.toString()}
+                  >
+                    {getFloorName(allFloors?.length!)}
+                  </TabsTrigger>
+                )}
+              </TabsList>
+            </Tabs>
 
-        <AddCircle
-          onClick={handleAddFloor}
-          iconStyle="BoldDuotone"
-          size={30}
-          color="#757575"
-        />
-        <div className="ml-auto flex items-center gap-4">
+            <AddCircle
+              onClick={handleAddFloor}
+              iconStyle="Bold"
+              size={30}
+              color="#757575"
+              className="cursor-pointer"
+            />
+          </div>
+        </div>
+        <div className="flex items-center gap-2  ml-auto ">
           {currentFloor !== 0 ? (
             <Button
-              variant="outline"
-              className="border-red-400 bg-transparent hover:text-red-400"
+              variant="ghost"
+              className="text-red-600 hover:bg-red-100 hover:text-red-600 w-max h-max gap-1 transition-all"
               onClick={() => setDeleteFloorConfirmModal(true)}
             >
+              <TrashBin2 />
               Delete
             </Button>
           ) : null}
-          <Button onClick={handleSaveFloor}>Save</Button>
+          <Button
+            variant="ghost"
+            className="hover:bg-blue-100  text-blue-600 hover:text-blue-600 h-max w-max gap-1 transition-all"
+            onClick={handleSaveFloor}
+          >
+            <Diskette />
+            Save
+          </Button>
         </div>
       </div>
       <div
-        className="relative w-full  overflow-hidden"
+        className="relative w-full  overflow-auto"
         id="canvasWrapper"
         ref={tableCanvasWrapper}
       >

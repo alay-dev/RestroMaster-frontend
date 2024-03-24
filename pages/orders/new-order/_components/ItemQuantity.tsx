@@ -9,12 +9,12 @@ const ItemQuantity = ({
   const formatedQuantity = quantity < 10 ? `0${quantity}` : quantity;
 
   return (
-    <div className="flex gap-2 items-center bg-orange  rounded-lg border text-sm select-none w-max">
+    <div className="flex gap-1 items-center bg-orange  rounded-lg border text-sm select-none w-max">
       <MinusSquare
         className="cursor-pointer"
         iconStyle="Bold"
         color="#FFCC80"
-        size={30}
+        size={25}
         onClick={decreaseHandler}
       />
       <div className="w-6 text-center">{formatedQuantity}</div>
@@ -23,7 +23,7 @@ const ItemQuantity = ({
         onClick={increaseHandler}
         iconStyle="Bold"
         color="#1976D2"
-        size={30}
+        size={25}
       />
     </div>
   );

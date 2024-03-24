@@ -25,6 +25,7 @@ import { useFetchDishQuery } from "@/api/dish";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PageTitle } from "@/components/PageTitle";
+import { dishCategories } from "@/constants/dish";
 
 const DISH_TYPES: {
   title: "All" | "Starters" | "Main courses" | "Desserts" | "Drinks";
@@ -76,35 +77,26 @@ const Dishes = () => {
   return (
     <DashboardLayout>
       <PageTitle title="Dishes" />
-      <div className="flex items-center gap-3 my-3 mt-0 mb-8">
-        <div
-          key={"All"}
-          className={cn(
-            "flex cursor-pointer select-none  gap-2 px-6 py-2 bg-white rounded-md shadow-sm text-gray-500 , items-center",
-            dishType === "All" && "bg-orange-400 text-white font-medium"
-          )}
-          onClick={() => setDishType("All")}
-        >
-          {/* {item.icon} */}
-          <p className="text-xs">All</p>
+      <div className="w-full overflow-auto ">
+        <div className="flex items-center gap-3 my-3 mt-0 mb-5 w-max flex-shrink-0">
+          {dishCategories?.map((item) => {
+            return (
+              <div
+                key={item}
+                className={cn(
+                  "flex cursor-pointer select-none  gap-2 px-6 py-2 bg-white rounded-md shadow-sm text-gray-500 , items-center",
+                  dishType === item && "bg-orange-400 text-white font-medium"
+                )}
+                onClick={() => setDishType(item)}
+              >
+                {/* {item.icon} */}
+                <p className="text-xs">{item}</p>
+              </div>
+            );
+          })}
         </div>
-        {dishTypes?.map((item) => {
-          return (
-            <div
-              key={item}
-              className={cn(
-                "flex cursor-pointer select-none  gap-2 px-6 py-2 bg-white rounded-md shadow-sm text-gray-500 , items-center",
-                dishType === item && "bg-orange-400 text-white font-medium"
-              )}
-              onClick={() => setDishType(item)}
-            >
-              {/* {item.icon} */}
-              <p className="text-xs">{item}</p>
-            </div>
-          );
-        })}
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-12">
         {dishes?.map((item) => {
           return <DishCard dish={item} key={item.name} />;
         })}

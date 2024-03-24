@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useAppSelector } from "@/config/store";
 import { skipToken } from "@reduxjs/toolkit/query";
 import Link from "next/link";
-import { RoundedMagnifer } from "solar-icon-set";
+import { AddSquare, RoundedMagnifer } from "solar-icon-set";
 import EmployeeTable from "./_views/EmployeeTable";
 
 export default function Employees() {
@@ -41,16 +41,9 @@ export default function Employees() {
 
   return (
     <DashboardLayout>
-      <PageTitle
-        title="Employees"
-        actions={
-          <Link href="/employees/new-employee">
-            <Button className="w-max">Add employee</Button>
-          </Link>
-        }
-      />
+      <PageTitle title="Employees" />
       <div className="bg-card rounded-lg p-4 mt-3">
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex md:flex-row flex-col-reverse md:items-center justify-between mb-2">
           <ul className="flex items-center gap-8 text-sm border-b pb-2 text-gray-600 relative">
             <div className="absolute bottom-0 left-0 h-px w-28  bg-blue-600"></div>
             <li className="flex gap-2 items-center ">
@@ -72,7 +65,7 @@ export default function Employees() {
               </div>
             </li> */}
           </ul>
-          <div className=" flex gap-1 items-center border rounded-lg px-2 ">
+          <div className=" flex gap-1 items-center border rounded-lg px-2 md:mb-0 mb-5">
             <RoundedMagnifer size={20} color="#757575" />
             <Input
               placeholder="Search by employee name."
@@ -81,6 +74,11 @@ export default function Employees() {
           </div>
         </div>
         <EmployeeTable data={employees?.data || []} />
+        <Link href="/employees/new-employee">
+          <div className="fixed flex items-center justify-center text-green-500 cursor-pointer bottom-6 right-6 ">
+            <AddSquare iconStyle="Bold" size={60} />
+          </div>
+        </Link>
       </div>
     </DashboardLayout>
   );

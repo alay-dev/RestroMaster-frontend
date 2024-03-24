@@ -1,12 +1,17 @@
-import { useUpdateRestaurantMutation } from "@/api/restaurant";
+import {
+  useUpdateRestaurantImageMutation,
+  useUpdateRestaurantMutation,
+} from "@/api/restaurant";
 import { useFetchProfileQuery, userApi } from "@/api/users";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import { restaurantImagesPath } from "@/config/firebase";
 import { useAppDispatch, useAppSelector } from "@/config/store";
+import useUploadImage from "@/hooks/useUploadImage";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type BasicDetailInputs = {
@@ -28,6 +33,8 @@ const RestaurantDetail = () => {
   const auth = useAppSelector((state) => state.authentication);
   const { data: user } = useFetchProfileQuery(auth.token ?? skipToken);
   const [updateRestaurant] = useUpdateRestaurantMutation();
+  const { uploadImage, isUploading } = useUploadImage(restaurantImagesPath);
+  const [updateRestaurantImage] = useUpdateRestaurantImageMutation();
   const { toast } = useToast();
   const dispatch = useAppDispatch();
 
@@ -119,12 +126,28 @@ const RestaurantDetail = () => {
     }
   };
 
+  const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target?.files;
+    if (!files || !user?.restaurant?.id) return;
+
+    try {
+      const url = await uploadImage(files[0]);
+      const res = await updateRestaurantImage({
+        cover_pic: url,
+        restaurant_id: user?.restaurant?.id,
+      }).unwrap();
+      dispatch(userApi.util.invalidateTags(["me"]));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className=" border-blue-200  bg-card border rounded-xl overflow-hidden mb-10 ">
       <div className="bg-blue-50  p-4 py-2 border-b border-blue-200 text-blue-500 text-sm">
         <p>Restaurant</p>
       </div>
-      <div className=" p-8 flex lg:flex-row flex-col  justify-between  shadow-light gap-12">
+      <div className="p-5 md:p-8 flex lg:flex-row flex-col  justify-between  shadow-light gap-12">
         <div className="flex flex-col ">
           <p className="text-gray-500 text-sm mb-3">Restaurant cover image</p>
           <div className="rounded-lg ring-2 ring-offset-2 overflow-hidden mt-3 w-max">
@@ -142,9 +165,18 @@ const RestaurantDetail = () => {
               </div>
             )}
           </div>
+
           <Button variant="link" className="w-max text-blue-500 mt-2  p-0">
-            update
+            <label htmlFor="restaurantPic">update image</label>
           </Button>
+
+          <input
+            className="hidden"
+            id="restaurantPic"
+            onChange={handleImageUpload}
+            type="file"
+            accept="image/*"
+          />
         </div>
         <div className="flex-1">
           <p className="text-gray-500 text-sm mb-3">Restaurant details</p>
@@ -184,7 +216,7 @@ const RestaurantDetail = () => {
             />
             {updateBasicDetail ? (
               <Button
-                className="mt-2 text-blue-500 "
+                className="mt-2 text-blue-500 w-max"
                 type="submit"
                 variant="link"
               >
@@ -247,7 +279,7 @@ const RestaurantDetail = () => {
             />
             {updateAddressContact ? (
               <Button
-                className="mt-2 text-blue-500"
+                className="mt-2 text-blue-500 w-max"
                 type="submit"
                 variant="link"
               >

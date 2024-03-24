@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useState } from "react";
 import {
   ChefHat,
   Home,
@@ -8,11 +8,12 @@ import {
   DonutBitten as Dishes,
   DonutBitten,
   OvenMittsMinimalistic as OrderIcon,
+  HamburgerMenu,
 } from "solar-icon-set";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { cn } from "@/lib/utils";
-import { Poppins } from "next/font/google";
+import { Poppins, Permanent_Marker } from "next/font/google";
 import { reauthenticateUser } from "@/slices/authentication";
 import { store, useAppSelector } from "@/config/store";
 import { authenticationApi } from "@/api/authentication";
@@ -30,12 +31,20 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
 });
 
+const permanentMarker = Permanent_Marker({
+  weight: ["400"],
+  subsets: ["latin"],
+});
+
 const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const router = useRouter();
   const auth = useAppSelector((state) => state.authentication);
   const { data: user, isLoading: profileLoading } = useFetchProfileQuery(
@@ -58,8 +67,8 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
   }
 
   return (
-    <div className={cn("flex w-full pl-24 ", poppins.className)}>
-      <nav className="fixed top-0 left-0 flex flex-col items-center w-24 h-screen py-5 text-white bg-blue-500">
+    <div className={cn("flex w-full md:pl-24 ", poppins.className)}>
+      <nav className="fixed top-0 left-0 hidden md:flex flex-col items-center w-24 h-screen py-5 text-white bg-blue-500 ">
         <ChefHat iconStyle="BoldDuotone" size={35} />
         <ul className="flex flex-col items-center flex-1 w-full mt-16">
           {navigation?.map((nav) => {
@@ -86,23 +95,73 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
           size={30}
         />
       </nav>
-      <div className="flex-1 bg-gray-100">
+      <div className="flex-1 bg-gray-100 w-full">
         <header className="flex items-center justify-between w-full h-16 px-4 border-b">
-          <div>
-            <h2 className="">
-              <strong className="text-xl text-green-600 font-medium">
-                Welcome
-              </strong>
-              , {user?.name?.split(" ")[0]}
-            </h2>
-          </div>
-          <div className="flex items-center gap-4">
+          <Sheet>
+            <SheetTrigger>
+              <div className="flex md:hidden">
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  onClick={() => setIsNavOpen(true)}
+                >
+                  <HamburgerMenu size={22} />
+                </Button>
+              </div>
+            </SheetTrigger>
+            <SheetContent side="left" className="h-full">
+              <h1
+                className={cn(
+                  "text-3xl font-light text-blue-600",
+                  permanentMarker.className
+                )}
+              >
+                <span>Restro</span>
+                <span className="text-2xl text-black/60"> Master</span>
+              </h1>
+              <nav className="mt-16 h-full ">
+                <ul>
+                  {navigation?.map((nav) => {
+                    return (
+                      <Link key={nav.path} href={nav.path}>
+                        <li
+                          className={cn(
+                            "flex items-center  w-full h-10 gap-3 px-2",
+                            router.pathname.includes(nav.path) &&
+                              " rounded-lg bg-gray-50  "
+                          )}
+                        >
+                          <nav.icon
+                            iconStyle="BoldDuotone"
+                            size={23}
+                            color="#1565C0"
+                          />
+
+                          <p
+                            className={cn(
+                              "text-sm text-gray-500",
+                              router.pathname.includes(nav.path) &&
+                                "font-medium text-blue-600"
+                            )}
+                          >
+                            {nav.name}
+                          </p>
+                        </li>
+                      </Link>
+                    );
+                  })}
+                </ul>
+                <Button className="mt-10 w-full">Log out</Button>
+              </nav>
+            </SheetContent>
+          </Sheet>
+          <div className="md:flex hidden items-center gap-4 ">
             {allFloors?.length ? (
               <Link href={`/book-table/${user?.restaurant?.id}`}>
                 <Button
                   size="sm"
                   variant="outline"
-                  className="text-xs  bg-transparent rounded-xl border-blue-500 font-light bg-blue-100 text-blue-600"
+                  className="text-xs  bg-transparent  border-blue-500 font-light  text-blue-600"
                 >
                   Book table
                 </Button>
@@ -115,7 +174,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                       disabled
                       size="sm"
                       variant="outline"
-                      className="text-xs  bg-transparent rounded-xl border-blue-500 font-light "
+                      className="text-xs  bg-transparent  border-blue-500 font-light "
                     >
                       Book table
                     </Button>
@@ -133,7 +192,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="text-xs  bg-transparent rounded-xl border-blue-500 font-light  bg-blue-100 text-blue-600"
+                  className="text-xs  bg-transparent  border-blue-500 font-light   text-blue-600"
                 >
                   Take order
                 </Button>
@@ -146,7 +205,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                       disabled
                       size="sm"
                       variant="outline"
-                      className="text-xs  bg-transparent rounded-xl border-blue-500 font-light"
+                      className="text-xs  bg-transparent  border-blue-500 font-light"
                     >
                       Take order
                     </Button>
@@ -157,6 +216,12 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                 </Tooltip>
               </TooltipProvider>
             )}
+          </div>
+          <div className="md:hidden block">
+            <Avatar>
+              <AvatarImage src={user?.picture || ""} />
+              <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
+            </Avatar>
           </div>
         </header>
         <div className="min-h-screen p-6 pt-3 bg-gray-100">

@@ -21,22 +21,20 @@ import { format } from "date-fns";
 
 const EmployeeTable = ({ data = [] }: { data: Employee[] }) => {
   const columnHelper = createColumnHelper<Employee>();
-  const { toast } = useToast();
-  const dispatch = useAppDispatch();
 
   const columns = [
     columnHelper.accessor((row) => row.created_at, {
       id: "created_at",
       cell: (info) => (
         <span className="text-gray-500">
-          {format(info.getValue(), "dd MMM,yyyy")}
+          {format(info.getValue(), "dd MMM, yyyy")}
         </span>
       ),
-      header: () => <span>Created at</span>,
+      header: () => <p className="min-w-[6rem]">Created at</p>,
     }),
     columnHelper.accessor("id", {
       cell: (info) => info.getValue(),
-      header: () => <p className="text-center">Employee ID</p>,
+      header: () => <p className="text-center min-w-[10rem]">Employee ID</p>,
     }),
 
     columnHelper.accessor("first_name", {
@@ -61,16 +59,12 @@ const EmployeeTable = ({ data = [] }: { data: Employee[] }) => {
       cell: (info) => <p>{info.getValue()}</p>,
     }),
     columnHelper.accessor("date_of_birth", {
-      header: () => <p className="text-center">Date of birth</p>,
+      header: () => <p className="text-center min-w-[6rem]">Date of birth</p>,
       cell: (info) => (
         <div className="w-full flex justify-center">
-          {format(info.getValue(), "dd MMM,yyyy")}
+          {format(info.getValue(), "dd MMM, yyyy")}
         </div>
       ),
-    }),
-    columnHelper.accessor("id", {
-      header: "",
-      cell: (info) => <div className="w-full flex justify-center"></div>,
     }),
   ];
 

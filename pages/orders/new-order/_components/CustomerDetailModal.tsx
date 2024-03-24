@@ -13,7 +13,7 @@ const CustomerDetailModal = ({
       <Label className="mb-1">Customer name</Label>
       <Input
         placeholder="Customer name"
-        className="focus-visible:ring-0 mb-3"
+        className=" mb-3"
         onChange={(e) => setCustomerName(e.target.value)}
       />
 

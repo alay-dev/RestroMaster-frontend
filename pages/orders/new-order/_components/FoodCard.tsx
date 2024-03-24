@@ -27,7 +27,7 @@ const FoodCard = ({
         alt=""
         className="w-28 aspect-square rounded-md"
       />
-      <div className="flex gap-16 items-center justify-between w-full">
+      <div className="flex gap-5 md:gap-16 items-center justify-between w-full">
         <div className="h-full flex-1">
           <h3 className="mb-2">{food?.name}</h3>
           <p className="text-xs text-gray-400 line-clamp-2 ">

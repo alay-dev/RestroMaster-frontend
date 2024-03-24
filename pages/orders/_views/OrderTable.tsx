@@ -49,18 +49,18 @@ const OrderTable = ({ data = [] }: { data: Order[] }) => {
       id: "created_at",
       cell: (info) => (
         <span className="text-gray-500">
-          {format(info.getValue(), "dd MMM,yyyy")}
+          {format(info.getValue(), "dd MMM, yyyy")}
         </span>
       ),
-      header: () => <span>Created at</span>,
+      header: () => <p className="min-w-[6rem]">Created at</p>,
     }),
     columnHelper.accessor("id", {
       cell: (info) => info.getValue(),
-      header: () => <p className="text-center">Order ID</p>,
+      header: () => <p className="text-center min-w-[10rem]">Order ID</p>,
     }),
 
     columnHelper.accessor("customer_name", {
-      header: () => "Customer",
+      header: () => <p className="min-w-[10rem]">Customer</p>,
       cell: ({ row }) => (
         <div className="flex gap-3 items-start">
           <Avatar>
@@ -73,13 +73,13 @@ const OrderTable = ({ data = [] }: { data: Order[] }) => {
           </Avatar>
           <div className="flex flex-col items-start">
             <p>{row?.original?.customer_name}</p>
-            <p className="text-gray-400">{row?.original?.customer_phone} </p>
+            <p className="text-gray-400 ">{row?.original?.customer_phone} </p>
           </div>
         </div>
       ),
     }),
     columnHelper.accessor("order_total", {
-      header: () => <p className="text-center">Order Total</p>,
+      header: () => <p className="text-center min-w-[5rem]">Order Total</p>,
       cell: (info) => <p>₹ {info.getValue()}</p>,
     }),
     columnHelper.accessor("paid", {
