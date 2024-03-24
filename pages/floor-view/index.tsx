@@ -295,7 +295,7 @@ const TableView = () => {
     <DashboardLayout>
       <PageTitle title="Floor setup" />
 
-      <div className="flex items-center gap-3  py-2 pt-0 ">
+      <div className="flex items-center gap-3  py-2 pt-0 w-full">
         <Tabs
           onValueChange={(val) => setCurrentFloor(Number(val))}
           value={currentFloor?.toString()}
@@ -349,7 +349,7 @@ const TableView = () => {
         </div>
       </div>
       <div
-        className="relative w-[80rem] h-[40rem] mx-auto"
+        className="relative w-full  overflow-hidden"
         id="canvasWrapper"
         ref={tableCanvasWrapper}
       >

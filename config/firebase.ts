@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDPkq0ApnL5d0_hf3n5Yy_oKn_q7dDzooE",
-  authDomain: "restromanger.firebaseapp.com",
-  projectId: "restromanger",
-  storageBucket: "restromanger.appspot.com",
-  messagingSenderId: "345773741279",
-  appId: "1:345773741279:web:ff7d9ce023b99000dc856a",
+  apiKey: "AIzaSyD2e1bWG1IjAOPg_K_HQeZlQSSv_33n_Ow",
+  authDomain: "restromaster.firebaseapp.com",
+  projectId: "restromaster",
+  storageBucket: "restromaster.appspot.com",
+  messagingSenderId: "742602802841",
+  appId: "1:742602802841:web:4f6f5700bee07ef87c5a08",
 };
 
 export const app = initializeApp(firebaseConfig);

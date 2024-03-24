@@ -124,10 +124,10 @@ const RestaurantDetail = () => {
       <div className="bg-blue-50  p-4 py-2 border-b border-blue-200 text-blue-500 text-sm">
         <p>Restaurant</p>
       </div>
-      <div className=" p-8 flex  justify-between  shadow-light gap-12">
+      <div className=" p-8 flex lg:flex-row flex-col  justify-between  shadow-light gap-12">
         <div className="flex flex-col ">
           <p className="text-gray-500 text-sm mb-3">Restaurant cover image</p>
-          <div className="rounded-lg ring-2 ring-offset-2 overflow-hidden mt-3">
+          <div className="rounded-lg ring-2 ring-offset-2 overflow-hidden mt-3 w-max">
             {user?.restaurant?.cover_pic ? (
               <img
                 src={user?.restaurant?.cover_pic || ""}

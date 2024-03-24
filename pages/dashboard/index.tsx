@@ -14,15 +14,14 @@ import Link from "next/link";
 
 const Dashboard = () => {
   const auth = useAppSelector((state) => state.authentication);
-  const user = useFetchProfileQuery(auth.token ?? skipToken);
 
   if (!auth.isInitialized) return <InitialLoading />;
 
   return (
     <DashboardLayout>
       <PageTitle title="Dashboard" />
-      <div className="flex gap-12 overflow-hidden mb-14 h-max">
-        <div className="w-2/5">
+      <div className="flex lg:flex-row flex-col gap-12 overflow-hidden mb-14 h-max">
+        <div className=" w-full lg:w-2/5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-md font-medium ">Overview</h3>
             <div className="px-5 py-1 bg-gray-200 cursor-pointer hover:underline rounded-xl">
@@ -60,8 +59,8 @@ const Dashboard = () => {
           </div>
           <StatChartCard />
         </div>
-        <div className="flex w-3/5 gap-5">
-          <div className="flex flex-col w-1/2">
+        <div className="flex md:flex-row flex-col w-full  lg:w-3/5 gap-5">
+          <div className="flex flex-col md:w-1/2">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-md font-medium ">Bookings</h3>
               <div className="px-5 py-1 bg-gray-200 cursor-pointer hover:underline rounded-xl">
@@ -70,9 +69,9 @@ const Dashboard = () => {
             </div>
             <TableBookings />
           </div>
-          <div className="relative flex items-center justify-start w-1/2">
+          <div className="relative flex items-center justify-start md:w-1/2">
             <img
-              className="w-[90%]"
+              className="w-[90%] max-w-sm"
               src="/images/dashboard/tryPremium.svg"
               alt="Try premium"
             />
@@ -90,8 +89,8 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="flex gap-12 mb-10">
-        <div className="w-2/5">
+      <div className="flex md:flex-row flex-col gap-6 lg:gap-12 mb-10">
+        <div className="md:w-2/5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-md font-medium ">Employee</h3>
             <Link href="/employees">
@@ -102,7 +101,7 @@ const Dashboard = () => {
           </div>
           <EmployeeCard />
         </div>
-        <div className="flex flex-col w-3/5 ">
+        <div className="flex flex-col md:w-3/5 ">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-md font-medium ">Recent order</h3>
             <Link href="/orders">

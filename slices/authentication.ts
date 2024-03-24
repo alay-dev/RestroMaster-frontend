@@ -7,12 +7,14 @@ export type AuthenticationState = {
   user: User | null;
   isInitialized: boolean;
   token: null | string;
+  hasGsiLoaded: boolean;
 };
 
 const initialState: AuthenticationState = {
   user: null,
   isInitialized: false,
   token: null,
+  hasGsiLoaded: false,
 };
 
 export const authenticationSlice = createSlice({
@@ -25,6 +27,9 @@ export const authenticationSlice = createSlice({
     setAuthToken: (state, action) => {
       state.token = action.payload;
     },
+    setGsiLoaded: (state, action) => {
+      state.hasGsiLoaded = action.payload;
+    },
     reauthenticateUser: (state) => {
       sessionStorage.removeItem(authKey);
       return { ...initialState, isInitialized: true };
@@ -34,7 +39,14 @@ export const authenticationSlice = createSlice({
     builder.addMatcher(
       authenticationApi.endpoints.loginWithEmailAndPassword.matchFulfilled,
       (state, action) => {
-        console.log(action.payload, "STORE");
+        sessionStorage.setItem(authKey, action.payload.token);
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+      }
+    );
+    builder.addMatcher(
+      authenticationApi.endpoints.loginWithGoogle.matchFulfilled,
+      (state, action) => {
         sessionStorage.setItem(authKey, action.payload.token);
         state.user = action.payload.user;
         state.token = action.payload.token;
@@ -43,5 +55,9 @@ export const authenticationSlice = createSlice({
   },
 });
 
-export const { authenticateUser, reauthenticateUser, setAuthToken } =
-  authenticationSlice.actions;
+export const {
+  authenticateUser,
+  reauthenticateUser,
+  setAuthToken,
+  setGsiLoaded,
+} = authenticationSlice.actions;

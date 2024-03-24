@@ -51,6 +51,23 @@ export const authenticationApi = createApi({
         return response.data;
       },
     }),
+    loginWithGoogle: builder.mutation<LoginWithEmailAndPasswordRes, string>({
+      query: (token) => ({
+        url: "/login_with_google",
+        method: "POST",
+        body: {
+          token: token,
+        },
+      }),
+      transformResponse: (
+        response: ApiSuccess<LoginWithEmailAndPasswordRes>
+      ) => {
+        return response.data;
+      },
+      transformErrorResponse: (response: FetchBaseQueryError) => {
+        return response.data;
+      },
+    }),
     signup: builder.mutation<SignupRes, SignupProps>({
       query: (body) => ({
         url: "/signup",
@@ -64,8 +81,23 @@ export const authenticationApi = createApi({
         return response.data;
       },
     }),
+    forgotPassword: builder.mutation<SignupRes, string>({
+      query: (email) => ({
+        url: `/forgot_password/${email}`,
+      }),
+      transformResponse: (response: ApiSuccess<SignupRes>) => {
+        return response.data;
+      },
+      transformErrorResponse: (response: FetchBaseQueryError) => {
+        return response.data;
+      },
+    }),
   }),
 });
 
-export const { useLoginWithEmailAndPasswordMutation, useSignupMutation } =
-  authenticationApi;
+export const {
+  useLoginWithEmailAndPasswordMutation,
+  useSignupMutation,
+  useLoginWithGoogleMutation,
+  useForgotPasswordMutation,
+} = authenticationApi;
