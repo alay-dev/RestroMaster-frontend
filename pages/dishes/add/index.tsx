@@ -48,7 +48,7 @@ const AddDish = () => {
   const dispatch = useDispatch();
 
   const [images, setImages] = useState<string[]>([]);
-  const uploadImage = useUploadImage(dishImagesPath);
+  const { uploadImage, isUploading } = useUploadImage(dishImagesPath);
 
   const [addDish, { isLoading }] = useAddDishMutation();
   const auth = useAppSelector((state) => state.authentication);

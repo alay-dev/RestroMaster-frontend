@@ -16,7 +16,7 @@ type SignupInputs = {
   confirmPassword: string;
 };
 
-export const SignupForm = ({
+const SignupForm = ({
   setFormType,
 }: {
   setFormType: (val: "login" | "signup") => void;
@@ -151,3 +151,5 @@ export const SignupForm = ({
     </div>
   );
 };
+
+export default SignupForm;

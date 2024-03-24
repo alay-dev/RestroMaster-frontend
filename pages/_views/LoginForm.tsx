@@ -22,7 +22,7 @@ type LoginInputs = {
   password: string;
 };
 
-export const LoginForm = ({
+const LoginForm = ({
   setFormType,
 }: {
   setFormType: (data: "login" | "signup") => void;
@@ -200,3 +200,5 @@ export const LoginForm = ({
     </div>
   );
 };
+
+export default LoginForm;

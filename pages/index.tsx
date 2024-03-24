@@ -4,8 +4,8 @@ import InitialLoading from "@/components/initialLoading/InitialLoading";
 import { Permanent_Marker } from "next/font/google";
 import { cn } from "@/lib/utils";
 import GoogleOauthProvider from "./_components/GoogleOauthProvider";
-import { LoginForm } from "./_views/LoginForm";
-import { SignupForm } from "./_views/SignupForm";
+import LoginForm from "./_views/LoginForm";
+import SignupForm from "./_views/SignupForm";
 
 const permanentMarker = Permanent_Marker({
   weight: ["400"],

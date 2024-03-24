@@ -113,7 +113,7 @@ const NewEmployee = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [photo, setPhoto] = useState("");
-  const uploadImage = useUploadImage(employeeImagesPath);
+  const { uploadImage, isUploading } = useUploadImage(employeeImagesPath);
   const [addEmployee] = useAddEmployeeMutation();
 
   const auth = useAppSelector((state) => state.authentication);
