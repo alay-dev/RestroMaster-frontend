@@ -122,7 +122,7 @@ const AddDish = () => {
 
       <form
         onSubmit={handleSubmit(handleAddDish)}
-        className="p-8 rounded-xl bg-white"
+        className="p-4 md:p-8 rounded-xl bg-white"
       >
         {/* <DevTool control={control} /> */}
         <div className="flex md:flex-row flex-col   gap-7 my-3 mb-8 ">

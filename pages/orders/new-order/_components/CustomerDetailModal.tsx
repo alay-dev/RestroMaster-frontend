@@ -9,7 +9,7 @@ const CustomerDetailModal = ({
   onConfirm,
 }: CustomerDetailProps) => {
   return (
-    <div className="w-[30rem] rounded-lg ">
+    <div className="md:w-[30rem] rounded-lg ">
       <Label className="mb-1">Customer name</Label>
       <Input
         placeholder="Customer name"

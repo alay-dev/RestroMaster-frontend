@@ -138,7 +138,7 @@ const NewOrder = () => {
               className="focus-visible:outline-none focus-visible:ring-0  border-0 text-sm placeholder:text-gray-400 "
             />
           </div>
-          <div className="w-full overflow-auto mb-10">
+          <div className="w-full overflow-auto mb-5 md:mb-10">
             <ul className="flex items-center gap-3 flex-wrap  flex-shrink-0 w-max ">
               {dishCategories?.map((category) => {
                 return (

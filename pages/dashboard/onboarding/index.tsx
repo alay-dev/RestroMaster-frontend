@@ -1,13 +1,13 @@
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import OnboardingForm from "@/components/onboarding/OnboardingForm";
-import Preview from "@/components/onboarding/Preview";
+import OnboardingForm from "@/pages/dashboard/onboarding/_views/OnboardingForm";
+import Preview from "@/pages/dashboard/onboarding/_views/Preview";
 import { useRef } from "react";
 
 const Onboarding = () => {
   return (
     <DashboardLayout>
-      <div className="flex gap-10 items-center mt-5">
-        <div className="w-1/2 flex  justify-center">
+      <div className="flex lg:flex-row flex-col gap-10 items-center mt-5">
+        <div className=" w-1/2 hidden md:flex  justify-center">
           <Preview />
         </div>
         <OnboardingForm />

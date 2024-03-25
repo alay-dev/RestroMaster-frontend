@@ -151,7 +151,9 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                     );
                   })}
                 </ul>
-                <Button className="mt-10 w-full">Log out</Button>
+                <Button onClick={handleLogout} className="mt-10 w-full">
+                  Log out
+                </Button>
               </nav>
             </SheetContent>
           </Sheet>
@@ -224,7 +226,7 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
             </Avatar>
           </div>
         </header>
-        <div className="min-h-screen p-6 pt-3 bg-gray-100">
+        <div className="min-h-screen p-3 md:p-6 pt-3 bg-gray-100">
           {user?.restaurant?.id ||
           router.pathname === "/dashboard/onboarding" ? (
             children

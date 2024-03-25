@@ -18,7 +18,7 @@ const TableBookings = () => {
 
   if (tableBookings?.data?.length === 0) {
     return (
-      <div className="flex justify-center items-center w-full  bg-white rounded-2xl h-full">
+      <div className="flex justify-center items-center w-full  bg-white rounded-2xl h-[20rem]">
         <p className="text-sm text-gray-400">
           You don&apos;t have any bookings yet
         </p>

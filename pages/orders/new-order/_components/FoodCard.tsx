@@ -21,7 +21,7 @@ const FoodCard = ({
     : null;
 
   return (
-    <div className="w-full bg-card border p-4 rounded-xl flex gap-6 hover:shadow-light transition">
+    <div className="w-full bg-card border p-2 md:p-4 rounded-xl flex gap-3 md:gap-6 hover:shadow-light transition">
       <img
         src={food?.image?.at(0)}
         alt=""
@@ -29,7 +29,7 @@ const FoodCard = ({
       />
       <div className="flex gap-5 md:gap-16 items-center justify-between w-full">
         <div className="h-full flex-1">
-          <h3 className="mb-2">{food?.name}</h3>
+          <h3 className="mb-1 md:mb-2">{food?.name}</h3>
           <p className="text-xs text-gray-400 line-clamp-2 ">
             {food?.description}
           </p>
