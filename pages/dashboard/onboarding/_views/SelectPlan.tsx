@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/config/store";
 import { skipToken } from "@reduxjs/toolkit/query";
 import { useRouter } from "next/router";
 import { useContext } from "react";
-import { OnboardingContext } from "../_context/onboardingContext";
+import { OnboardingContext } from "../../../../context/onboardingContext";
 import { ApiError } from "@/types/api";
 import { AnimatePresence, motion } from "framer-motion";
 import { formChangeVariants } from "./OnboardingForm";

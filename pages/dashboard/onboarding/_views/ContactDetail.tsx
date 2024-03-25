@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useContext } from "react";
-import { OnboardingContext } from "../_context/onboardingContext";
+import { OnboardingContext } from "../../../../context/onboardingContext";
 import { formChangeVariants } from "./OnboardingForm";
 import { Textarea } from "@/components/ui/textarea";
 import FormError from "@/components/formError/FormError";

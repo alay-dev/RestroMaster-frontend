@@ -2,7 +2,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Plans } from "@/types/onboarding";
 import BasicDetailForm from "./BasicDetailForm";
-import { OnboardingContext } from "../_context/onboardingContext";
+import { OnboardingContext } from "../../../../context/onboardingContext";
 import ContactForm from "./ContactDetail";
 import SelectPlan from "./SelectPlan";
 

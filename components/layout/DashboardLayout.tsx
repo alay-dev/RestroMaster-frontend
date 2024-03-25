@@ -1,14 +1,10 @@
 import React, { FC, ReactNode, useState } from "react";
 import {
   ChefHat,
-  Home,
   BarChair,
-  Settings,
   Logout,
-  DonutBitten as Dishes,
-  DonutBitten,
-  OvenMittsMinimalistic as OrderIcon,
   HamburgerMenu,
+  OvenMittsMinimalistic as OrderIcon,
 } from "solar-icon-set";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -163,8 +159,9 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="text-xs  bg-transparent  border-blue-500 font-light  text-blue-600"
+                  className="text-xs  bg-transparent  border-blue-500 font-light  text-blue-600 gap-2"
                 >
+                  <BarChair />
                   Book table
                 </Button>
               </Link>
@@ -176,8 +173,9 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                       disabled
                       size="sm"
                       variant="outline"
-                      className="text-xs  bg-transparent  border-blue-500 font-light "
+                      className="text-xs  bg-transparent  border-blue-500 font-light gap-2"
                     >
+                      <BarChair />
                       Book table
                     </Button>
                   </TooltipTrigger>
@@ -194,8 +192,9 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                 <Button
                   size="sm"
                   variant="outline"
-                  className="text-xs  bg-transparent  border-blue-500 font-light   text-blue-600"
+                  className="text-xs  bg-transparent  border-blue-500 font-light   text-blue-600 gap-2"
                 >
+                  <OrderIcon />
                   Take order
                 </Button>
               </Link>
@@ -207,8 +206,9 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({ children }) => {
                       disabled
                       size="sm"
                       variant="outline"
-                      className="text-xs  bg-transparent  border-blue-500 font-light"
+                      className="text-xs  bg-transparent  border-blue-500 font-light gap-2"
                     >
+                      <OrderIcon />
                       Take order
                     </Button>
                   </TooltipTrigger>

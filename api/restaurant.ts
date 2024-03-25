@@ -43,6 +43,7 @@ type BookTableReq = {
   date: Date;
   time: string;
   note: string;
+  no_of_guests: number;
 };
 
 type FetchTableAvailabilityProps = {

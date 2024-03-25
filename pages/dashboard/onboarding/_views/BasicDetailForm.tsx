@@ -14,7 +14,7 @@ import {
 } from "solar-icon-set";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { OnboardingContext } from "../_context/onboardingContext";
+import { OnboardingContext } from "../../../../context/onboardingContext";
 import { formChangeVariants } from "./OnboardingForm";
 
 const BasicDetailForm = () => {

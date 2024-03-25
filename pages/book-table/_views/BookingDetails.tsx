@@ -24,7 +24,8 @@ const BookingDetails = () => {
     if (
       !bookTableContext?.customerName ||
       !bookTableContext?.date ||
-      !bookTableContext?.time
+      !bookTableContext?.time ||
+      !bookTableContext?.guestCount
     ) {
       return;
     }
@@ -37,6 +38,7 @@ const BookingDetails = () => {
         restaurant_id: restaurantId,
         table_id: bookTableContext?.tableId,
         time: bookTableContext?.time,
+        no_of_guests: bookTableContext.guestCount,
       }).unwrap();
 
       toast({

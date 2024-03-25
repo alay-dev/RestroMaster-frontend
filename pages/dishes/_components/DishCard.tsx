@@ -6,7 +6,7 @@ const DishCard = ({ dish }: DishCardProps) => {
       <div className="w-full mb-3 overflow-hidden rounded-sm ">
         <img
           className="object-cover object-center transition duration-200 hover:scale-105 h-44 w-full"
-          src={dish?.image?.at(0)}
+          src={dish?.image?.at(0) || "/images/dish/dishPlaceholder.png"}
           alt=""
         />
       </div>

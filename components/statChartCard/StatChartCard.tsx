@@ -111,7 +111,7 @@ const StatChartCard = () => {
 
   return (
     <div className="flex w-full gap-3 p-4 bg-white rounded-2xl">
-      <div className="flex items-center gap-4 text-blue-500">
+      <div className="flex items-center gap-4 text-blue-500 flex-shrink-0">
         <Sale size={30} />
         <div>
           <span>
@@ -119,13 +119,14 @@ const StatChartCard = () => {
           </span>
           <p className="text-xs text-gray-400">Total sales</p>
         </div>
+      </div>
+      <div className="flex-1">
         {chartData && chartOptions && (
           <Chart
             options={chartOptions}
             series={chartData}
             type="area"
             height={100}
-            width="100%"
             style={{ marginBottom: "-1rem" }}
           />
         )}

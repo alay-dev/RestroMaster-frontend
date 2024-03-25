@@ -19,6 +19,7 @@ export interface TableBooking {
   date: Date;
   time: string;
   note: string | null;
+  no_of_guests: number;
 }
 
 export interface TableAvailability {

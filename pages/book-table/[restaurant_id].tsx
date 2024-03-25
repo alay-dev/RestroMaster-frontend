@@ -20,7 +20,7 @@ const BookTable = () => {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [time, setTime] = useState("");
   const [tableId, setTableId] = useState("");
-  const [guestCount, setGuestCount] = useState<null | number>(null);
+  const [guestCount, setGuestCount] = useState<number>(1);
   const [phoneNo, setPhoneNo] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [note, setNote] = useState("");

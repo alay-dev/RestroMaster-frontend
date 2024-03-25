@@ -9,7 +9,7 @@ export type BookTableContext = {
   time: string;
   setTime: DispatchState<string>;
   guestCount: number | null;
-  setGuestCount: DispatchState<number | null>;
+  setGuestCount: DispatchState<number>;
   note: string;
   setNote: DispatchState<string>;
   phoneNo: string;

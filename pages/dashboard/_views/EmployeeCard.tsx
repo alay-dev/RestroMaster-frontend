@@ -2,6 +2,7 @@ import { useFetchEmployeeQuery } from "@/api/employee";
 import { useFetchProfileQuery } from "@/api/users";
 import { useAppSelector } from "@/config/store";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { CallChatRounded } from "solar-icon-set";
 
 const EmployeeCard = () => {
   const auth = useAppSelector((state) => state.authentication);
@@ -20,12 +21,12 @@ const EmployeeCard = () => {
 
   return (
     <div className="w-full bg-white rounded-2xl  h-[20rem]">
-      <ul className="p-4">
+      <ul className="p-4 ">
         {employees?.data?.map((employee) => {
           return (
             <li
               key={employee.id}
-              className="flex items-center justify-between py-3 "
+              className="flex items-center justify-between p-2 rounded-md border hover:bg-gray-50 hover:shadow-sm transition-all"
             >
               <div className="flex items-center gap-3 ">
                 <img
@@ -40,9 +41,9 @@ const EmployeeCard = () => {
                   </p>
                 </div>
               </div>
-              <p className="text-sm text-gray-400">
-                <strong className="text-black font-medium">35 hr</strong>/week
-              </p>
+              <div className="border-l w-10 flex items-center justify-center">
+                <CallChatRounded iconStyle="Bold" color="#EF6C00" size={25} />
+              </div>
             </li>
           );
         })}
